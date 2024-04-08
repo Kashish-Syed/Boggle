@@ -45,24 +45,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dawson\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Dawson\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
+      "projectUniqueName": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\Boggle.csproj",
       "projectName": "Boggle",
-      "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
+      "projectPath": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\Boggle.csproj",
       "packagesPath": "C:\\Users\\Dawson\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\obj\\",
+      "outputPath": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\Dawson\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
