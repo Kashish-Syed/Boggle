@@ -1,0 +1,170 @@
+Index: obj/Debug/net8.0/Boggle.GeneratedMSBuildEditorConfig.editorconfig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>is_global = true\r\nbuild_property.TargetFramework = net8.0\r\nbuild_property.TargetPlatformMinVersion = \r\nbuild_property.UsingMicrosoftNETSdkWeb = \r\nbuild_property.ProjectTypeGuids = \r\nbuild_property.InvariantGlobalization = \r\nbuild_property.PlatformNeutralAssembly = \r\nbuild_property.EnforceExtendedAnalyzerRules = \r\nbuild_property._SupportedPlatformList = Linux,macOS,Windows\r\nbuild_property.RootNamespace = Boggle\r\nbuild_property.ProjectDir = C:\\Users\\Dawson\\source\\repos\\Boggle\\\r\nbuild_property.EnableComHosting = \r\nbuild_property.EnableGeneratedComInterfaceComImportInterop = \r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/Debug/net8.0/Boggle.GeneratedMSBuildEditorConfig.editorconfig b/obj/Debug/net8.0/Boggle.GeneratedMSBuildEditorConfig.editorconfig
+--- a/obj/Debug/net8.0/Boggle.GeneratedMSBuildEditorConfig.editorconfig	
++++ b/obj/Debug/net8.0/Boggle.GeneratedMSBuildEditorConfig.editorconfig	
+@@ -8,6 +8,6 @@
+ build_property.EnforceExtendedAnalyzerRules = 
+ build_property._SupportedPlatformList = Linux,macOS,Windows
+ build_property.RootNamespace = Boggle
+-build_property.ProjectDir = C:\Users\Dawson\source\repos\Boggle\
++build_property.ProjectDir = C:\Users\Loc\RiderProjects\Boggle\
+ build_property.EnableComHosting = 
+ build_property.EnableGeneratedComInterfaceComImportInterop = 
+Index: obj/Boggle.csproj.nuget.dgspec.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"format\": 1,\r\n  \"restore\": {\r\n    \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\": {}\r\n  },\r\n  \"projects\": {\r\n    \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\": {\r\n      \"version\": \"1.0.0\",\r\n      \"restore\": {\r\n        \"projectUniqueName\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\",\r\n        \"projectName\": \"Boggle\",\r\n        \"projectPath\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\",\r\n        \"packagesPath\": \"C:\\\\Users\\\\Dawson\\\\.nuget\\\\packages\\\\\",\r\n        \"outputPath\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\obj\\\\\",\r\n        \"projectStyle\": \"PackageReference\",\r\n        \"fallbackFolders\": [\r\n          \"C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\Shared\\\\NuGetPackages\"\r\n        ],\r\n        \"configFilePaths\": [\r\n          \"C:\\\\Users\\\\Dawson\\\\AppData\\\\Roaming\\\\NuGet\\\\NuGet.Config\",\r\n          \"C:\\\\Program Files (x86)\\\\NuGet\\\\Config\\\\Microsoft.VisualStudio.FallbackLocation.config\",\r\n          \"C:\\\\Program Files (x86)\\\\NuGet\\\\Config\\\\Microsoft.VisualStudio.Offline.config\"\r\n        ],\r\n        \"originalTargetFrameworks\": [\r\n          \"net8.0\"\r\n        ],\r\n        \"sources\": {\r\n          \"C:\\\\Program Files (x86)\\\\Microsoft SDKs\\\\NuGetPackages\\\\\": {},\r\n          \"https://api.nuget.org/v3/index.json\": {}\r\n        },\r\n        \"frameworks\": {\r\n          \"net8.0\": {\r\n            \"targetAlias\": \"net8.0\",\r\n            \"projectReferences\": {}\r\n          }\r\n        },\r\n        \"warningProperties\": {\r\n          \"warnAsError\": [\r\n            \"NU1605\"\r\n          ]\r\n        },\r\n        \"restoreAuditProperties\": {\r\n          \"enableAudit\": \"true\",\r\n          \"auditLevel\": \"low\",\r\n          \"auditMode\": \"direct\"\r\n        }\r\n      },\r\n      \"frameworks\": {\r\n        \"net8.0\": {\r\n          \"targetAlias\": \"net8.0\",\r\n          \"imports\": [\r\n            \"net461\",\r\n            \"net462\",\r\n            \"net47\",\r\n            \"net471\",\r\n            \"net472\",\r\n            \"net48\",\r\n            \"net481\"\r\n          ],\r\n          \"assetTargetFallback\": true,\r\n          \"warn\": true,\r\n          \"frameworkReferences\": {\r\n            \"Microsoft.NETCore.App\": {\r\n              \"privateAssets\": \"all\"\r\n            }\r\n          },\r\n          \"runtimeIdentifierGraphPath\": \"C:\\\\Program Files\\\\dotnet\\\\sdk\\\\8.0.202/PortableRuntimeIdentifierGraph.json\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/Boggle.csproj.nuget.dgspec.json b/obj/Boggle.csproj.nuget.dgspec.json
+--- a/obj/Boggle.csproj.nuget.dgspec.json	
++++ b/obj/Boggle.csproj.nuget.dgspec.json	
+@@ -1,24 +1,20 @@
+ {
+   "format": 1,
+   "restore": {
+-    "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj": {}
++    "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj": {}
+   },
+   "projects": {
+-    "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj": {
++    "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj": {
+       "version": "1.0.0",
+       "restore": {
+-        "projectUniqueName": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
++        "projectUniqueName": "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj",
+         "projectName": "Boggle",
+-        "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
+-        "packagesPath": "C:\\Users\\Dawson\\.nuget\\packages\\",
+-        "outputPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\obj\\",
++        "projectPath": "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj",
++        "packagesPath": "C:\\Users\\Loc\\.nuget\\packages\\",
++        "outputPath": "C:\\Users\\Loc\\RiderProjects\\Boggle\\obj\\",
+         "projectStyle": "PackageReference",
+-        "fallbackFolders": [
+-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+-        ],
+         "configFilePaths": [
+-          "C:\\Users\\Dawson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
++          "C:\\Users\\Loc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+         ],
+         "originalTargetFrameworks": [
+@@ -38,11 +34,6 @@
+           "warnAsError": [
+             "NU1605"
+           ]
+-        },
+-        "restoreAuditProperties": {
+-          "enableAudit": "true",
+-          "auditLevel": "low",
+-          "auditMode": "direct"
+         }
+       },
+       "frameworks": {
+@@ -64,7 +55,7 @@
+               "privateAssets": "all"
+             }
+           },
+-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
++          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+         }
+       }
+     }
+Index: obj/Boggle.csproj.nuget.g.props
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n<Project ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n  <PropertyGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <RestoreSuccess Condition=\" '$(RestoreSuccess)' == '' \">True</RestoreSuccess>\r\n    <RestoreTool Condition=\" '$(RestoreTool)' == '' \">NuGet</RestoreTool>\r\n    <ProjectAssetsFile Condition=\" '$(ProjectAssetsFile)' == '' \">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>\r\n    <NuGetPackageRoot Condition=\" '$(NuGetPackageRoot)' == '' \">$(UserProfile)\\.nuget\\packages\\</NuGetPackageRoot>\r\n    <NuGetPackageFolders Condition=\" '$(NuGetPackageFolders)' == '' \">C:\\Users\\Dawson\\.nuget\\packages\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages</NuGetPackageFolders>\r\n    <NuGetProjectStyle Condition=\" '$(NuGetProjectStyle)' == '' \">PackageReference</NuGetProjectStyle>\r\n    <NuGetToolVersion Condition=\" '$(NuGetToolVersion)' == '' \">6.9.2</NuGetToolVersion>\r\n  </PropertyGroup>\r\n  <ItemGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <SourceRoot Include=\"C:\\Users\\Dawson\\.nuget\\packages\\\" />\r\n    <SourceRoot Include=\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages\\\" />\r\n  </ItemGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/Boggle.csproj.nuget.g.props b/obj/Boggle.csproj.nuget.g.props
+--- a/obj/Boggle.csproj.nuget.g.props	
++++ b/obj/Boggle.csproj.nuget.g.props	
+@@ -5,12 +5,11 @@
+     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Dawson\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
++    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Loc\.nuget\packages\</NuGetPackageFolders>
+     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.9.2</NuGetToolVersion>
++    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.9.1</NuGetToolVersion>
+   </PropertyGroup>
+   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+-    <SourceRoot Include="C:\Users\Dawson\.nuget\packages\" />
+-    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
++    <SourceRoot Include="C:\Users\Loc\.nuget\packages\" />
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+Index: obj/project.assets.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"version\": 3,\r\n  \"targets\": {\r\n    \"net8.0\": {}\r\n  },\r\n  \"libraries\": {},\r\n  \"projectFileDependencyGroups\": {\r\n    \"net8.0\": []\r\n  },\r\n  \"packageFolders\": {\r\n    \"C:\\\\Users\\\\Dawson\\\\.nuget\\\\packages\\\\\": {},\r\n    \"C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\Shared\\\\NuGetPackages\": {}\r\n  },\r\n  \"project\": {\r\n    \"version\": \"1.0.0\",\r\n    \"restore\": {\r\n      \"projectUniqueName\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\",\r\n      \"projectName\": \"Boggle\",\r\n      \"projectPath\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\Boggle.csproj\",\r\n      \"packagesPath\": \"C:\\\\Users\\\\Dawson\\\\.nuget\\\\packages\\\\\",\r\n      \"outputPath\": \"C:\\\\Users\\\\Dawson\\\\source\\\\repos\\\\Boggle\\\\obj\\\\\",\r\n      \"projectStyle\": \"PackageReference\",\r\n      \"fallbackFolders\": [\r\n        \"C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\Shared\\\\NuGetPackages\"\r\n      ],\r\n      \"configFilePaths\": [\r\n        \"C:\\\\Users\\\\Dawson\\\\AppData\\\\Roaming\\\\NuGet\\\\NuGet.Config\",\r\n        \"C:\\\\Program Files (x86)\\\\NuGet\\\\Config\\\\Microsoft.VisualStudio.FallbackLocation.config\",\r\n        \"C:\\\\Program Files (x86)\\\\NuGet\\\\Config\\\\Microsoft.VisualStudio.Offline.config\"\r\n      ],\r\n      \"originalTargetFrameworks\": [\r\n        \"net8.0\"\r\n      ],\r\n      \"sources\": {\r\n        \"C:\\\\Program Files (x86)\\\\Microsoft SDKs\\\\NuGetPackages\\\\\": {},\r\n        \"https://api.nuget.org/v3/index.json\": {}\r\n      },\r\n      \"frameworks\": {\r\n        \"net8.0\": {\r\n          \"targetAlias\": \"net8.0\",\r\n          \"projectReferences\": {}\r\n        }\r\n      },\r\n      \"warningProperties\": {\r\n        \"warnAsError\": [\r\n          \"NU1605\"\r\n        ]\r\n      },\r\n      \"restoreAuditProperties\": {\r\n        \"enableAudit\": \"true\",\r\n        \"auditLevel\": \"low\",\r\n        \"auditMode\": \"direct\"\r\n      }\r\n    },\r\n    \"frameworks\": {\r\n      \"net8.0\": {\r\n        \"targetAlias\": \"net8.0\",\r\n        \"imports\": [\r\n          \"net461\",\r\n          \"net462\",\r\n          \"net47\",\r\n          \"net471\",\r\n          \"net472\",\r\n          \"net48\",\r\n          \"net481\"\r\n        ],\r\n        \"assetTargetFallback\": true,\r\n        \"warn\": true,\r\n        \"frameworkReferences\": {\r\n          \"Microsoft.NETCore.App\": {\r\n            \"privateAssets\": \"all\"\r\n          }\r\n        },\r\n        \"runtimeIdentifierGraphPath\": \"C:\\\\Program Files\\\\dotnet\\\\sdk\\\\8.0.202/PortableRuntimeIdentifierGraph.json\"\r\n      }\r\n    }\r\n  }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/project.assets.json b/obj/project.assets.json
+--- a/obj/project.assets.json	
++++ b/obj/project.assets.json	
+@@ -8,24 +8,19 @@
+     "net8.0": []
+   },
+   "packageFolders": {
+-    "C:\\Users\\Dawson\\.nuget\\packages\\": {},
+-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
++    "C:\\Users\\Loc\\.nuget\\packages\\": {}
+   },
+   "project": {
+     "version": "1.0.0",
+     "restore": {
+-      "projectUniqueName": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
++      "projectUniqueName": "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj",
+       "projectName": "Boggle",
+-      "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
+-      "packagesPath": "C:\\Users\\Dawson\\.nuget\\packages\\",
+-      "outputPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\obj\\",
++      "projectPath": "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj",
++      "packagesPath": "C:\\Users\\Loc\\.nuget\\packages\\",
++      "outputPath": "C:\\Users\\Loc\\RiderProjects\\Boggle\\obj\\",
+       "projectStyle": "PackageReference",
+-      "fallbackFolders": [
+-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+-      ],
+       "configFilePaths": [
+-        "C:\\Users\\Dawson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
++        "C:\\Users\\Loc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+       ],
+       "originalTargetFrameworks": [
+@@ -45,11 +40,6 @@
+         "warnAsError": [
+           "NU1605"
+         ]
+-      },
+-      "restoreAuditProperties": {
+-        "enableAudit": "true",
+-        "auditLevel": "low",
+-        "auditMode": "direct"
+       }
+     },
+     "frameworks": {
+@@ -71,7 +61,7 @@
+             "privateAssets": "all"
+           }
+         },
+-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
++        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+       }
+     }
+   }
