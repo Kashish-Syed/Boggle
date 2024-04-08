@@ -1,0 +1,12 @@
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\bin\Debug\net8.0\BoggleManagers.deps.json
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\bin\Debug\net8.0\BoggleManagers.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\bin\Debug\net8.0\BoggleManagers.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.AssemblyInfoInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.AssemblyInfo.cs
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.csproj.CoreCompileInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.sourcelink.json
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\refint\BoggleManagers.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\BoggleManagers.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleManagers\obj\Debug\net8.0\ref\BoggleManagers.dll

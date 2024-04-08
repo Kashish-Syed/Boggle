@@ -1,0 +1,12 @@
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\bin\Debug\net8.0\BoggleAccessors.deps.json
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\bin\Debug\net8.0\BoggleAccessors.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\bin\Debug\net8.0\BoggleAccessors.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.AssemblyInfoInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.AssemblyInfo.cs
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.csproj.CoreCompileInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.sourcelink.json
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\refint\BoggleAccessors.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\BoggleAccessors.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleAccessors\obj\Debug\net8.0\ref\BoggleAccessors.dll

@@ -50,11 +50,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\Boggle.csproj",
+      "projectUniqueName": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
       "projectName": "Boggle",
-      "projectPath": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\Boggle.csproj",
+      "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
       "packagesPath": "C:\\Users\\Dawson\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dawson\\Source\\Repos\\Boggle\\obj\\",
+      "outputPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dawson\\AppData\\Roaming\\NuGet\\NuGet.Config",

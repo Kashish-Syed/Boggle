@@ -1,0 +1,12 @@
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\BoggleContracts.deps.json
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\BoggleContracts.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\BoggleContracts.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.AssemblyInfoInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.AssemblyInfo.cs
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.csproj.CoreCompileInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.sourcelink.json
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\refint\BoggleContracts.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\ref\BoggleContracts.dll

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BoggleTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dbe4ba35965636f9c345a1b937ace3c57ed4b20c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4e181018f0d4867cb96905c151fc8fa436c5115")]
 [assembly: System.Reflection.AssemblyProductAttribute("BoggleTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BoggleTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

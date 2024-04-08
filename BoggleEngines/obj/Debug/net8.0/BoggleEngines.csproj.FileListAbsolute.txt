@@ -1,0 +1,5 @@
+C:\Users\Dawson\source\repos\Boggle\BoggleEngines\obj\Debug\net8.0\BoggleEngines.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawson\source\repos\Boggle\BoggleEngines\obj\Debug\net8.0\BoggleEngines.AssemblyInfoInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleEngines\obj\Debug\net8.0\BoggleEngines.AssemblyInfo.cs
+C:\Users\Dawson\source\repos\Boggle\BoggleEngines\obj\Debug\net8.0\BoggleEngines.csproj.CoreCompileInputs.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleEngines\obj\Debug\net8.0\BoggleEngines.sourcelink.json

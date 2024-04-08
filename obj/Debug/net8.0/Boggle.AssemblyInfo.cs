@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Boggle")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1b06ceccbb6b8326cce192431d926ef335f6a00")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4e181018f0d4867cb96905c151fc8fa436c5115")]
 [assembly: System.Reflection.AssemblyProductAttribute("Boggle")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Boggle")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
