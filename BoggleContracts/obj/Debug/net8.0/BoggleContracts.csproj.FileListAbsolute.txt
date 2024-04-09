@@ -10,3 +10,10 @@ C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContr
 C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\refint\BoggleContracts.dll
 C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.pdb
 C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\ref\BoggleContracts.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\obj\Debug\net8.0\BoggleContracts.csproj.AssemblyReference.cache
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\NUnit3.TestAdapter.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\NUnit3.TestAdapter.pdb
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\nunit.engine.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\nunit.engine.api.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\nunit.engine.core.dll
+C:\Users\Dawson\source\repos\Boggle\BoggleContracts\bin\Debug\net8.0\testcentric.engine.metadata.dll

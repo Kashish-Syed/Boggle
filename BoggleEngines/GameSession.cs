@@ -1,4 +1,4 @@
-namespace Boggle;
+namespace BoggleEngines;
 
 public class GameSession : IGameSession
 {
