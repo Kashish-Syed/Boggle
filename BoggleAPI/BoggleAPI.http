@@ -1,0 +1,6 @@
+@BoggleAPI_HostAddress = http://localhost:5189
+
+GET {{BoggleAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
