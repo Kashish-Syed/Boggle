@@ -8,18 +8,9 @@ namespace Boggle;
 
 internal interface IGameSession
 {
-    int GetScore()
-    {
-        
-    }
+    int GetScore();
 
-    int GetWinner()
-    {
-        
-    }
+    int GetWinner();
 
-    int StartGameSession()
-    {
-        
-    }
+    int StartGameSession();
 }
