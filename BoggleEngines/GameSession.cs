@@ -1,6 +1,6 @@
 namespace Boggle;
 
-public class GameSession
+public class GameSession : IGameSession
 {
     private double startTime;
     private double endTime;
