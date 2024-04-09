@@ -1,4 +1,6 @@
-namespace Boggle;
+using BoggleContracts;
+
+namespace BoggleEngines;
 
 public class Word : IWord
 {
@@ -8,12 +10,12 @@ public class Word : IWord
 
     public Word()
     {
-        word = '';
+        word = "";
         wordLength = 0;
         points = 0;
     }
 
-    private int GetPoints(string word)
+    public int GetPoints(string word)
     {
         int wordLength = word.Length;
         int points = 0;
@@ -21,7 +23,7 @@ public class Word : IWord
         if (wordLength <= 2)
         {
             points = 0;
-            Console.Writeline("Invalid word");
+            Console.WriteLine("Invalid word");
         }
         
         if (wordLength == 3 || wordLength == 4)
@@ -35,11 +37,13 @@ public class Word : IWord
             points = 3;
         } else if (wordLength == 7)
         {
-            points = 5
+            points = 5;
         }
         else
         {
-            points = 11
+            points = 11;
         }
+
+        return points;
     }
 }

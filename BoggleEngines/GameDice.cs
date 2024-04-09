@@ -13,6 +13,7 @@ namespace BoggleEngines
         };
 
         private static readonly Random rng = new Random();
+
         public char GetRandomCharFromDie(int die)
         {
             if (die < 0 || die >= Dice.Length)

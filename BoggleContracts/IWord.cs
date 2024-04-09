@@ -1,10 +1,10 @@
-namespace Boggle;
+namespace BoggleContracts;
 
-internal interface IWord
+public interface IWord
 {
     
     /**
      * getting the points associated with the word based on its length
      */
-    private int GetPoints(string word);
+    int GetPoints(string word);
 }

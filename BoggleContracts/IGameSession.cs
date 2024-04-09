@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoggleContracts;
 
-internal interface IGameSession
+public interface IGameSession
 {
     int GetScore();
 
