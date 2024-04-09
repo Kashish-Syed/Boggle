@@ -3,23 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boggle", "Boggle.csproj", "{6A587CC4-3EDB-4B3D-B028-032B5B20372B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C444041-F8EB-4830-9EAB-59361107B1A4}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleContracts", "BoggleContracts\BoggleContracts.csproj", "{81E99080-460D-4FFC-80FE-C353990DC168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleContracts", "BoggleContracts\BoggleContracts.csproj", "{81E99080-460D-4FFC-80FE-C353990DC168}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleAccessors", "BoggleAccessors\BoggleAccessors.csproj", "{360E8AEE-0D7E-44AE-9F4C-D3BE777C6604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleAccessors", "BoggleAccessors\BoggleAccessors.csproj", "{360E8AEE-0D7E-44AE-9F4C-D3BE777C6604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleEngines", "BoggleEngines\BoggleEngines.csproj", "{570729A5-D237-457A-9787-8AC20C74AFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleEngines", "BoggleEngines\BoggleEngines.csproj", "{570729A5-D237-457A-9787-8AC20C74AFE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleManagers", "BoggleManagers\BoggleManagers.csproj", "{7470E94B-C965-42DD-945D-A403BC2A33C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleManagers", "BoggleManagers\BoggleManagers.csproj", "{7470E94B-C965-42DD-945D-A403BC2A33C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleUnitTests", "BoggleUnitTests\BoggleUnitTests.csproj", "{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleUnitTests", "BoggleUnitTests\BoggleUnitTests.csproj", "{16D64848-0E34-48CA-AE1F-D74AA609A044}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6A587CC4-3EDB-4B3D-B028-032B5B20372B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A587CC4-3EDB-4B3D-B028-032B5B20372B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A587CC4-3EDB-4B3D-B028-032B5B20372B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A587CC4-3EDB-4B3D-B028-032B5B20372B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81E99080-460D-4FFC-80FE-C353990DC168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81E99080-460D-4FFC-80FE-C353990DC168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81E99080-460D-4FFC-80FE-C353990DC168}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +41,10 @@ Global
 		{7470E94B-C965-42DD-945D-A403BC2A33C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7470E94B-C965-42DD-945D-A403BC2A33C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7470E94B-C965-42DD-945D-A403BC2A33C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16D64848-0E34-48CA-AE1F-D74AA609A044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D64848-0E34-48CA-AE1F-D74AA609A044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D64848-0E34-48CA-AE1F-D74AA609A044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D64848-0E34-48CA-AE1F-D74AA609A044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,7 +54,7 @@ Global
 		{360E8AEE-0D7E-44AE-9F4C-D3BE777C6604} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 		{570729A5-D237-457A-9787-8AC20C74AFE2} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 		{7470E94B-C965-42DD-945D-A403BC2A33C5} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
-		{3B8DEB60-5A23-4202-AA48-DE5D6CF9ECF3} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
+		{16D64848-0E34-48CA-AE1F-D74AA609A044} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F88E27A-19D6-4889-9D8B-0EEAC988699D}

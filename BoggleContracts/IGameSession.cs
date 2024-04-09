@@ -4,22 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boggle;
+namespace BoggleContracts;
 
 internal interface IGameSession
 {
-    int GetScore()
-    {
-        
-    }
+    int GetScore();
 
-    int GetWinner()
-    {
-        
-    }
+    int GetWinner();
 
-    int StartGameSession()
-    {
-        
-    }
+    int StartGameSession();
 }

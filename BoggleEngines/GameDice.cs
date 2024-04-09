@@ -1,4 +1,6 @@
-﻿namespace Boggle
+﻿using BoggleContracts;
+
+namespace BoggleEngines
 {
     public class GameDice : IGameDice
     {

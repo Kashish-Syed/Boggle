@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Jit8fqR0H/drE1Jt261BUShtMM6l5ItyuLhA0fBfLxz6y/GlyvoCms4ipOK8PyXbdImqKOrOyw5JBSElod/jag==",
+  "dgSpecHash": "SThpFh80R4NrbQTNuctm4fNDPr3N6ywZSkai0fHioyug0KpBLBYDQoqze+gJ7qwspTCNJZgBAFmBKmu7XW+ZcA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Loc\\RiderProjects\\Boggle\\Boggle.csproj",
+  "projectFilePath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Loc\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512"
+    "C:\\Users\\Dawson\\.nuget\\packages\\nunit\\4.1.0\\nunit.4.1.0.nupkg.sha512",
+    "C:\\Users\\Dawson\\.nuget\\packages\\nunit.analyzers\\4.1.0\\nunit.analyzers.4.1.0.nupkg.sha512",
+    "C:\\Users\\Dawson\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -4,72 +4,6 @@
     "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleUnitTests\\BoggleUnitTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
-        "projectName": "Boggle",
-        "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj",
-        "packagesPath": "C:\\Users\\Dawson\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\Dawson\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "dependencies": {
-            "NUnit3TestAdapter": {
-              "target": "Package",
-              "version": "[4.5.0, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleAccessors\\BoggleAccessors.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -93,7 +27,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleContracts\\BoggleContracts.csproj": {
+                "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleContracts\\BoggleContracts.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -110,6 +48,22 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -170,6 +124,22 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -213,7 +183,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleContracts\\BoggleContracts.csproj": {
+                "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleContracts\\BoggleContracts.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -230,6 +204,22 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -273,7 +263,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleAccessors\\BoggleAccessors.csproj": {
+                "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleAccessors\\BoggleAccessors.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -290,6 +284,22 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -334,9 +344,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj": {
-                "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\Boggle.csproj"
-              },
               "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleAccessors\\BoggleAccessors.csproj": {
                 "projectPath": "C:\\Users\\Dawson\\source\\repos\\Boggle\\BoggleAccessors\\BoggleAccessors.csproj"
               },
@@ -367,13 +374,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
             "NUnit": {
               "target": "Package",
-              "version": "[3.14.0, )"
+              "version": "[4.1.0, )"
             },
-            "NUnit.Analyzers": {
+            "NUnit.ConsoleRunner": {
               "target": "Package",
-              "version": "[3.9.0, )"
+              "version": "[3.17.0, )"
             },
             "NUnit3TestAdapter": {
               "target": "Package",

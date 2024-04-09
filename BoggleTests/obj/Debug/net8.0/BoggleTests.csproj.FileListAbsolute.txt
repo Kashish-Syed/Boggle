@@ -1,7 +1,0 @@
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\bin\Debug\net8.0\CoverletSourceRootsMapping_BoggleTests
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.csproj.AssemblyReference.cache
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.AssemblyInfoInputs.cache
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.AssemblyInfo.cs
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.csproj.CoreCompileInputs.cache
-C:\Users\Dawson\source\repos\Boggle\BoggleTests\obj\Debug\net8.0\BoggleTests.sourcelink.json
