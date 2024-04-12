@@ -1,0 +1,23 @@
+name: 'Run App Boggle'
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.202'
+
+      - name: Restore dependencies
+        run: dotnet restore Boggle.sln
+
+      - name: Build the project
+        run: dotnet build Boggle.sln --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test Boggle.sln --configuration Release --no-build --verbosity normal
