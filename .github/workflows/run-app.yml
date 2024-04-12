@@ -20,4 +20,4 @@ jobs:
         run: dotnet build Boggle.sln --configuration Release --no-restore
 
       - name: Run tests (only BoggleUnitTests)
-        run: dotnet test BoggleUnitTests/BoggleUnitTests.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test src/BoggleUnitTests/BoggleUnitTests.csproj --configuration Release --no-build --verbosity normal
