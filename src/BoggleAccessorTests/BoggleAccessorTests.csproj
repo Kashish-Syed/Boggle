@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\BoggleAccessors\BoggleAccessors.csproj" />
-    <ProjectReference Include="..\src\BoggleContracts\BoggleContracts.csproj" />
+    <ProjectReference Include="..\BoggleAccessors\BoggleAccessors.csproj" />
+    <ProjectReference Include="..\BoggleContracts\BoggleContracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

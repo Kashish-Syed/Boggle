@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleManagers", "src\Boggl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleUnitTests", "src\BoggleUnitTests\BoggleUnitTests.csproj", "{16D64848-0E34-48CA-AE1F-D74AA609A044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleAccessorTests", "BoggleAccessorTests\BoggleAccessorTests.csproj", "{A2427BE4-C960-43F8-B8AE-1A18875D8E51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleAccessorTests", "src\BoggleAccessorTests\BoggleAccessorTests.csproj", "{A2427BE4-C960-43F8-B8AE-1A18875D8E51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
