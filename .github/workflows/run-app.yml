@@ -1,0 +1,21 @@
+name: 'Run App Boggle'
+
+on: [push, pull_request]
+
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.301'
+      - uses: nuget/setup-nuget@v1
+      - name: Nuget Restore
+        run: nuget restore Boggle.sln
+      - name: Install dependencies
+        run: dotnet restore Boggle.sln
+      - name: Build
+        run: msbuild /p:Configuration=Release Boggle.sln
+      - name: Run Unit Tests
+        run: mono ./packages/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./src/BoggleUnitTests/BoggleUnitTests.csproj
