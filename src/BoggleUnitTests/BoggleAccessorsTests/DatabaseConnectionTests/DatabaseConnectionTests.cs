@@ -1,18 +1,10 @@
-using BoggleAccessors;
-using NUnit.Framework;
+using System.Data.SqlClient;
 
 namespace BoggleUnitTests.BoggleAccessorsTests.DatabaseConnectionTests
 {
     internal class DatabaseConnectionTests
     {
-        private string connectionString; // Connection string for test database
-
-        [SetUp]
-        public void Setup()
-        {
-            // Set up connection string for test database
-            connectionString = "Server=NUGWIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Boggle;Integrated Security=True";
-        }
+        private string connectionString =  "Server=NUGWIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Boggle;Integrated Security=True";
 
         [Test]
         public void TestDatabaseConnection()
@@ -22,7 +14,7 @@ namespace BoggleUnitTests.BoggleAccessorsTests.DatabaseConnectionTests
                 try
                 {
                     connection.Open();
-                    Assert.AreEqual(ConnectionState.Open, connection.State);
+                    Assert.That(connection.State, Is.EqualTo(System.Data.ConnectionState.Open));
                 }
                 catch (Exception e)
                 {

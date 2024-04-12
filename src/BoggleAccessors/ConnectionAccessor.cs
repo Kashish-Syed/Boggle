@@ -1,56 +1,26 @@
-using System;
 using System.Data.SqlClient;
 
-public class ConnectionAccessor : ISQLConnection
+namespace BoggleAccessors
 {
-    private string connectionString;
-    private SqlConnection connection;
-
-    public SQLConnection()
+    internal class ConnectionAccessor
     {
-        connectionString = "Server=NUGWIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Boggle;Integrated Security=True";
-        connection = new SqlConnection(connectionString);
-    }
+        public void TestDatabaseConnection()
+        {
+            SqlConnection sqlConn = null;
+            SqlDataReader sqlDr = null;
 
-    public void Connect()
-    {
-        try
-        {
-            connection.Open();
-            Console.WriteLine("Connected to SQL Server");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error connection to SQL server: " + e.Message);
-        }
-    }
-
-    public DataTable ExecuteQuery(string query)
-    {
-        DataTable dataTable = new DataTable();
-        try
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(dataTable);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error executing query: " + e.Message);
-        }
-        return dataTable;
-    }
-
-    public void Close()
-    {
-        try
-        {
-            connection.Close();
-            Console.WriteLine("Connection to SQL Server closed");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error closing connection: " + e.Message);
+            try
+            {
+                // Open a connection to SQL Server
+                sqlConn = new SqlConnection("Server=NUGWIN-LAPTOP\\SQLEXPRESS;Initial Catalog=Boggle;Integrated Security=True");
+                sqlConn.Open();
+                Console.WriteLine("Connection successful!");
+                sqlConn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Connection unsuccessful!" + e.Message);
+            }
         }
     }
 }
