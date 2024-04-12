@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Boggle</title>
+    <link rel="stylesheet" type="text/css" href="../src/assets/css/index.css" />
+  </head>
+  <body.light-mode>
+      <div id="boggle-container" class="light-mode">
+          <h1>Boggle Game</h1>
+          <div id="board">
+              <div class="cell">A</div>
+              <div class="cell">B</div>
+              <div class="cell">C</div>
+              <div class="cell">D</div>
+              <div class="cell">E</div>
+              <div class="cell">F</div>
+              <div class="cell">G</div>
+              <div class="cell">H</div>
+              <div class="cell">I</div>
+              <div class="cell">J</div>
+              <div class="cell">K</div>
+              <div class="cell">L</div>
+              <div class="cell">M</div>
+              <div class="cell">N</div>
+              <div class="cell">O</div>
+              <div class="cell">P</div>
+          </div>
+          <button id="start-button">Start Game</button>
+          <button id="reset-button">Reset</button>
+          <div id="timer">00:00</div>
+          <div id="word-list">
+              <h2>Words Found</h2>
+              <ul id="words-found"></ul>
+          </div>
+          <div id="change-color">
+              <button id="color-scheme-switch">Switch Color Scheme</button>
+              <script>
+                  const colorSchemeSwitch = document.getElementById('color-scheme-switch');
+                  const body = document.body;
+                  const boggleContainer = document.getElementById('boggle-container');
+
+                  colorSchemeSwitch.addEventListener('click', function () {
+                      if (body.classList.contains('light-mode')) {
+                          body.classList.remove('light-mode');
+                          body.classList.add('dark-mode');
+                          boggleContainer.classList.remove('light-mode');
+                          boggleContainer.classList.add('dark-mode');
+                      } else {
+                          body.classList.remove('dark-mode');
+                          body.classList.add('light-mode');
+                          boggleContainer.classList.remove('dark-mode');
+                          boggleContainer.classList.add('light-mode');
+                      }
+                  });
+              </script>
+          </div>
+      </div>
+  </body.light-mode>
+</html>
