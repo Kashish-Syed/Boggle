@@ -1,3 +1,4 @@
+using BoggleContracts;
 using BoggleEngines;
 
 namespace BoggleUnitTests.BoggleEnginesTests.GameDiceTests
