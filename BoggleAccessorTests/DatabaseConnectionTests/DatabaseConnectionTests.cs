@@ -1,6 +1,6 @@
 using System.Data.SqlClient;
 
-namespace BoggleUnitTests.BoggleAccessorsTests.DatabaseConnectionTests
+namespace BoggleAccessorTests.DatabaseConnectionTests
 {
     internal class DatabaseConnectionTests
     {
