@@ -9,15 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleContracts", "BoggleContracts\BoggleContracts.csproj", "{81E99080-460D-4FFC-80FE-C353990DC168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleContracts", "src\BoggleContracts\BoggleContracts.csproj", "{81E99080-460D-4FFC-80FE-C353990DC168}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleAccessors", "BoggleAccessors\BoggleAccessors.csproj", "{360E8AEE-0D7E-44AE-9F4C-D3BE777C6604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleAccessors", "src\BoggleAccessors\BoggleAccessors.csproj", "{360E8AEE-0D7E-44AE-9F4C-D3BE777C6604}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleEngines", "BoggleEngines\BoggleEngines.csproj", "{570729A5-D237-457A-9787-8AC20C74AFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleEngines", "src\BoggleEngines\BoggleEngines.csproj", "{570729A5-D237-457A-9787-8AC20C74AFE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleManagers", "BoggleManagers\BoggleManagers.csproj", "{7470E94B-C965-42DD-945D-A403BC2A33C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleManagers", "src\BoggleManagers\BoggleManagers.csproj", "{7470E94B-C965-42DD-945D-A403BC2A33C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleUnitTests", "BoggleUnitTests\BoggleUnitTests.csproj", "{16D64848-0E34-48CA-AE1F-D74AA609A044}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoggleUnitTests", "src\BoggleUnitTests\BoggleUnitTests.csproj", "{16D64848-0E34-48CA-AE1F-D74AA609A044}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
