@@ -34,8 +34,12 @@ function App() {
 
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
+      <div className="header">
+        <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+        <h2>Boggle</h2>
+        <button id="login">Login</button>
+      </div>
       <div id="boggle-container">
-        <h1>Boggle</h1>
         <div id="board">
           {letters.map((letter, index) => (
             <div key={index} className="cell">{letter}</div>
@@ -48,9 +52,17 @@ function App() {
         <div id="timer">00:00</div>
         <div id="word-list">
           <h2>Words Found</h2>
-          <ul id="words-found"></ul>
+          <ul id="words-found">
+            <li>Words</li>
+            <li>Go</li>
+            <li>Here</li>
+          </ul>
         </div>
-        <button id="color-scheme-switch" onClick={toggleTheme}>Switch Color Scheme</button>
+      </div>
+      <div className="footer">
+        <a href='https://github.com/Kashish-Syed/Boggle' className="github-link">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1200px-Octicons-mark-github.svg.png" alt="GitHub" style={{ height: '25px', marginRight: '5px', verticalAlign: 'middle' }} />
+        </a>
       </div>
     </div>
   );
