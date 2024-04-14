@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './styles/App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [darkMode, setDarkMode] = useState(false);
+  const [letters, setLetters] = useState([]);
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+  }, [darkMode]);
+
+  useEffect(() => {
+    resetLetters();
+  }, []);
+
+  const resetLetters = async () => {
+    try {
+      const response = await fetch('http://localhost:5189/api/Boggle/shuffle');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      setLetters(data);
+    } catch (error) {
+      console.error('Failed to fetch letters: ', error);
+    }
+  };
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+  }, [darkMode]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
+      <div id="boggle-container">
+        <h1>Boggle</h1>
+        <div id="board">
+          {letters.map((letter, index) => (
+            <div key={index} className="cell">{letter}</div>
+          ))}
+        </div>
+        <div className="button-container"> 
+          <button id="start-button">Start Game</button>
+          <button id="reset-button" onClick={resetLetters}>Reset</button>
+        </div>
+        <div id="timer">00:00</div>
+        <div id="word-list">
+          <h2>Words Found</h2>
+          <ul id="words-found"></ul>
+        </div>
+        <button id="color-scheme-switch" onClick={toggleTheme}>Switch Color Scheme</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
