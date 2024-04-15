@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import './styles/App.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [letters, setLetters] = useState([]);
+  const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
+  const specificDivRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
@@ -19,6 +22,8 @@ function App() {
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       setLetters(data);
+      setClickedCells(new Array(data.length).fill(false));
+      specificDivRefs.current = new Array(data.length).fill(null).map(() => useRef<HTMLDivElement>(null));
     } catch (error) {
       console.error('Failed to fetch letters: ', error);
     }
@@ -26,6 +31,14 @@ function App() {
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+  };
+
+  const handleClick = (index: number) => {
+    setClickedCells(prevState => {
+      const newState = [...prevState];
+      newState[index] = !prevState[index];
+      return newState;
+    });
   };
 
   useEffect(() => {
@@ -42,7 +55,7 @@ function App() {
       <div id="boggle-container">
         <div id="board">
           {letters.map((letter, index) => (
-            <div key={index} className="cell">{letter}</div>
+            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} ref={specificDivRefs.current[index]} onClick={() => handleClick(index)}>{letter}</div>
           ))}
         </div>
         <div className="button-container"> 
