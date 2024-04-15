@@ -76,7 +76,7 @@ body button:hover {
   transform: 0.1s;
 }
 
-body .cell {
+body .cell#one {
   width: 75px;
   height: 75px;
   line-height: 75px;
@@ -87,6 +87,20 @@ body .cell {
   transition: background-color 0.2s;
   box-sizing: border-box;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+body .cell#two {
+  width: 75px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  background-color: yellow;
 }
 
 body .cell:hover {
