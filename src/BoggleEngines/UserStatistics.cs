@@ -7,12 +7,14 @@ public class UserStatistics : IUserStatistics
     private int score;
     private Word word;
 
+    /// <inheritdoc />
     public int AverageScorePerGame(int totalScore)
     {
         // totalScore/totalGamesPlayed
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public int GetHighestScore(int currentScore)
     {
         // store the score of the player in a game in highestScore (first game for now)
@@ -28,11 +30,13 @@ public class UserStatistics : IUserStatistics
         return highestScore;
     }
 
+    /// <inheritdoc />
     public string LongestWordPlayed(string word)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public int TotalGamesPlayed()
     {
         throw new NotImplementedException();

@@ -10,17 +10,20 @@ public class GameSession : IGameSession
     private int score;
     private string winner;
 
-    int IGameSession.GetScore()
+    /// <inheritdoc />
+    public int GetScore()
     {
         throw new NotImplementedException();
     }
 
-    int IGameSession.GetWinner()
+    /// <inheritdoc />
+    public int GetWinner()
     {
         throw new NotImplementedException();
     }
 
-    int IGameSession.StartGameSession()
+    /// <inheritdoc />
+    public int StartGameSession()
     {
         throw new NotImplementedException();
     }

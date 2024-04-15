@@ -8,9 +8,21 @@ namespace BoggleContracts;
 
 public interface IGameSession
 {
-    int GetScore();
+    /// <summary>
+    /// A function to get the user's score.
+    /// </summary>
+    /// <returns></returns>
+    public int GetScore();
 
-    int GetWinner();
+    /// <summary>
+    /// Get the winner of the game based on the highest score
+    /// </summary>
+    /// <returns>Winning player</returns>
+    public int GetWinner();
 
-    int StartGameSession();
+    /// <summary>
+    /// Start a new game session
+    /// </summary>
+    /// <returns>1 if successfully started the session and 0 otherwise</returns>
+    public int StartGameSession();
 }

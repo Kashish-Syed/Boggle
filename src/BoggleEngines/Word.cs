@@ -21,6 +21,7 @@ public class Word : IWord
         points = 0;
     }
 
+    /// <inheritdoc />
     public int GetPoints(string word)
     {
         int wordLength = word.Length;
@@ -56,6 +57,7 @@ public class Word : IWord
         return points;
     }
 
+    /// <inheritdoc />
     public bool IsWord(string word)
     {
         int n = dictionary.Length;
@@ -69,6 +71,7 @@ public class Word : IWord
         return false;
     }
 
+    /// <inheritdoc />
     public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
     {
         visited[i, j] = true; //setting true for first instance
@@ -92,6 +95,7 @@ public class Word : IWord
 
     }
 
+    /// <inheritdoc />
     public void FindWords(char[,] boggle)
     {
         bool[,] visited = new bool[M, N]; //3x3 matrix 
