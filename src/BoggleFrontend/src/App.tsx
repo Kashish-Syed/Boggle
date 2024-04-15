@@ -45,12 +45,16 @@ function App() {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
   }, [darkMode]);
 
+  const handleLoginClick = () => {
+    window.location.href = 'http://localhost:5173/login';
+  };
+
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <div className="header">
         <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
         <h2>Boggle</h2>
-        <button id="login">Login</button>
+        <button id="login" onClick={handleLoginClick}>Login</button>
       </div>
       <div id="boggle-container">
         <div id="board">
