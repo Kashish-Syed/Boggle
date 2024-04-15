@@ -1,56 +1,40 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './styles/App.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [letters, setLetters] = useState([]);
-  const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
-  const specificDivRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
   }, [darkMode]);
-
   useEffect(() => {
     resetLetters();
   }, []);
-
   const resetLetters = async () => {
     try {
       const response = await fetch('http://localhost:5189/api/Boggle/shuffle');
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       setLetters(data);
-      setClickedCells(new Array(data.length).fill(false));
-      specificDivRefs.current = new Array(data.length).fill(null).map(() => useRef<HTMLDivElement>(null));
     } catch (error) {
       console.error('Failed to fetch letters: ', error);
     }
   };
-
   const toggleTheme = () => {
     setDarkMode(!darkMode);
-  };
-
-  const handleClick = (index: number) => {
-    setClickedCells(prevState => {
-      const newState = [...prevState];
-      newState[index] = !prevState[index];
-      return newState;
-    });
   };
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
   }, [darkMode]);
-
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <div id="boggle-container">
         <h1>Boggle</h1>
         <div id="board">
           {letters.map((letter, index) => (
-            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} ref={specificDivRefs.current[index]} onClick={() => handleClick(index)}>{letter}</div>
+            <div key={index} className="cell">{letter}</div>
           ))}
         </div>
         <div className="button-container"> 
@@ -67,5 +51,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

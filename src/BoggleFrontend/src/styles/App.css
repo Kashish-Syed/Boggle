@@ -5,19 +5,16 @@ html, body {
   font-family: 'Arial', sans-serif;
   transition: background-color 0.2s, color 0.2s;
 }
-
 body.light-mode {
   background-color: rgb(59, 59, 234);
   color: #333333;
   justify-content: center;
 }
-
 body.dark-mode {
   background-color: rgb(24, 24, 119);
   color: white;
   justify-content: center;
 }
-
 body #boggle-container {
   max-width: 600px;
   width: 100%;
@@ -29,15 +26,12 @@ body #boggle-container {
   flex-direction: column;
   align-items: center;
 }
-
 body.light-mode #boggle-container {
   background-color: white;
 }
-
 body.dark-mode #boggle-container {
   background-color: rgb(53, 53, 53);
 }
-
 body #board {
   padding-left: 20px;
   padding-right: 20px;
@@ -47,7 +41,6 @@ body #board {
   justify-content: center;
   margin-bottom: 20px;
 }
-
 body button {
   padding: 10px 15px;
   margin: 5px;
@@ -58,17 +51,14 @@ body button {
   border-radius: 5px;
   cursor: pointer;
 }
-
 body.light-mode button {
   background-color: rgb(225, 224, 224);
   color: black;
 }
-
 body.dark-mode button {
   background-color: rgb(107, 107, 107);
   color: white;
 }
-
 body button:hover {
   background-color: lightgray;
   transform: scale(1.02);
@@ -76,7 +66,7 @@ body button:hover {
   transform: 0.1s;
 }
 
-body .cell#one {
+body .cell {
   width: 75px;
   height: 75px;
   line-height: 75px;
@@ -87,20 +77,6 @@ body .cell#one {
   transition: background-color 0.2s;
   box-sizing: border-box;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-}
-
-body .cell#two {
-  width: 75px;
-  height: 75px;
-  line-height: 75px;
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.2s;
-  box-sizing: border-box;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-  background-color: yellow;
 }
 
 body .cell:hover {
@@ -108,12 +84,10 @@ body .cell:hover {
   transition: 0.2s;
   transform: 0.2s;
 }
-
 body.light-mode .cell {
   background-color: rgb(225, 224, 224);
   color: black;
 }
-
 body.dark-mode .cell {
   background-color: rgb(107, 107, 107);
   color: white;
