@@ -11,7 +11,7 @@ html, body {
   align-items: center;
   justify-content: center;
   font-family: 'Arial', sans-serif;
-  transition: background-color 0.2s, color 0.2s;
+  transition: 0.2s;
 }
 
 h1 {
