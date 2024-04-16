@@ -1,4 +1,10 @@
+using System.Security;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
 using BoggleContracts;
+using System.Linq.Expressions;
 
 namespace BoggleEngines;
 
@@ -57,67 +63,95 @@ public class Word : IWord
         return points;
     }
 
-    /// <inheritdoc />
-    public bool IsWord(string word)
+    /**
+    need to check if the word is present in the json file or not
+    */
+    public void IsValidWord(string word)
     {
-        int n = dictionary.Length;
-        for (int i = 0; i < n; i++)
+
+
+        // Reading from the json file
+        string jsonText = File.ReadAllText("resources/words.json");
+
+        List<string> words = JsonConvert.DeserializeObject<List<string>>(jsonText);
+
+        Console.WriteLine("Enter a word: ");
+        string input = Console.ReadLine();
+
+        if (words.Contains(input))
         {
-            if (word.Equals(dictionary[i]))
-            {
-                return true;
-            }
+            Console.WriteLine("found");
         }
-        return false;
+        else
+        {
+            Console.WriteLine("not present");
+        }
+
+
+        // int n = dictionary.Length;
+        // for (int i = 0; i < n; i++)
+        // {
+        //     if (word.Equals(dictionary[i]))
+        //     {
+        //         return true;
+        //     }
+        // }
     }
 
-    /// <inheritdoc />
-    public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
-    {
-        visited[i, j] = true; //setting true for first instance
-        word = word + boggle[i, j]; // appending current character to the word
 
-        // if the word is present in the dictionary then print it
-        var isWord = IsWord(word);
-        if (isWord)
-            Console.WriteLine(word);
-
-        // Traverse the cells of boggle[i, j]
-        for (int row = i - 1; row <= i + 1 && row < M; row++)
-            for (int col = j - 1; col <= j + 1 && col < N; col++)
-                if (row >= 0 && col >= 0 && !visited[row, col])
-                    FindWordsUntil(boggle, visited, row, col, word);
-
-        //Erase the current character from the word
-        //mark the visited og current cell as false
-        word = "" + word[word.Length - 1];
-        visited[i, j] = false;
-
-    }
-
-    /// <inheritdoc />
-    public void FindWords(char[,] boggle)
-    {
-        bool[,] visited = new bool[M, N]; //3x3 matrix 
-
-        //initializing a current string
-        string str = "";
-
-        //consider every character and look for all words starting with this character
-        for (int i = 0; i < M; i++)
-            for (int j = 0; j < N; j++)
-                FindWordsUntil(boggle, visited, i, j, str);
-
-    }
-
-    // public void Main(String[] args)
+    // public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
     // {
-    //     char[,] boggle = { { 'G', 'I', 'Z' },
-    //                        { 'U', 'E', 'K' },
-    //                        { 'Q', 'S', 'E' } };
+    //     visited[i, j] = true; //setting true for first instance
+    //     word = word + boggle[i, j]; // appending current character to the word
+    /*
+    do not need these because finding words is frontend's and players' work.
+    */
 
-    //     Console.WriteLine("Following words of " +
-    //                       "dictionary are present");
-    //     FindWords(boggle);
+    // public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
+    // {
+    //     visited[i, j] = true; //setting true for first instance
+    //     word = word + boggle[i, j]; // appending current character to the word
+
+    //     // if the word is present in the dictionary then print it
+    //     var isWord = IsWord(word);
+    //     if (isWord)
+    //         Console.WriteLine(word);
+
+    //     // Traverse the cells of boggle[i, j]
+    //     for (int row = i - 1; row <= i + 1 && row < M; row++)
+    //         for (int col = j - 1; col <= j + 1 && col < N; col++)
+    //             if (row >= 0 && col >= 0 && !visited[row, col])
+    //                 FindWordsUntil(boggle, visited, row, col, word);
+
+    //     //Erase the current character from the word
+    //     //mark the visited og current cell as false
+    //     word = "" + word[word.Length - 1];
+    //     visited[i, j] = false;
+
+    //     public void FindWords(char[,] boggle)
+    //     {
+    //         bool[,] visited = new bool[M, N]; //3x3 matrix 
+    // =======
+    //     // }
+    // >>>>>>> Stashed changes
+
+    // public void FindWords(char[,] boggle)
+    // {
+    //     bool[,] visited = new bool[M, N]; //3x3 matrix 
+
+    //     //initializing a current string
+    //     string str = "";
+
+    //     //consider every character and look for all words starting with this character
+    //     for (int i = 0; i < M; i++)
+    //         for (int j = 0; j < N; j++)
+    //             FindWordsUntil(boggle, visited, i, j, str);
+
     // }
+
+    // static void Main(String[] args)
+    // {
+    //     IsValidWord("vain");
+    // }
+
 }
