@@ -14,6 +14,8 @@ public class Word : IWord
     private int wordLength;
     private int points;
 
+    private List<string> jsonWords;
+
     private static readonly string[] dictionary = { "GEEKS", "FOR", "QUIZ", "GUQ", "EE" };
 
     // trying 3x3 matrix before starting with 4x4
@@ -27,7 +29,6 @@ public class Word : IWord
         points = 0;
     }
 
-    /// <inheritdoc />
     public int GetPoints(string word)
     {
         int wordLength = word.Length;
@@ -66,92 +67,27 @@ public class Word : IWord
     /**
     need to check if the word is present in the json file or not
     */
-    public void IsValidWord(string word)
+    public bool IsValidWord(string word)
     {
 
 
         // Reading from the json file
-        string jsonText = File.ReadAllText("resources/words.json");
+        string jsonText = System.IO.File.ReadAllText(@"resources/words.json");
 
-        List<string> words = JsonConvert.DeserializeObject<List<string>>(jsonText);
+        Word? words = JsonConvert.DeserializeObject<Word>(jsonText);
+        string serialized = JsonConvert.SerializeObject(words);
 
         Console.WriteLine("Enter a word: ");
-        string input = Console.ReadLine();
+        string? input = Console.ReadLine();
 
-        if (words.Contains(input))
+        if (words?.Equals(input) == true)
         {
-            Console.WriteLine("found");
+            return true;
         }
         else
         {
-            Console.WriteLine("not present");
+            return false;
         }
-
-
-        // int n = dictionary.Length;
-        // for (int i = 0; i < n; i++)
-        // {
-        //     if (word.Equals(dictionary[i]))
-        //     {
-        //         return true;
-        //     }
-        // }
     }
-
-
-    // public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
-    // {
-    //     visited[i, j] = true; //setting true for first instance
-    //     word = word + boggle[i, j]; // appending current character to the word
-    /*
-    do not need these because finding words is frontend's and players' work.
-    */
-
-    // public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word)
-    // {
-    //     visited[i, j] = true; //setting true for first instance
-    //     word = word + boggle[i, j]; // appending current character to the word
-
-    //     // if the word is present in the dictionary then print it
-    //     var isWord = IsWord(word);
-    //     if (isWord)
-    //         Console.WriteLine(word);
-
-    //     // Traverse the cells of boggle[i, j]
-    //     for (int row = i - 1; row <= i + 1 && row < M; row++)
-    //         for (int col = j - 1; col <= j + 1 && col < N; col++)
-    //             if (row >= 0 && col >= 0 && !visited[row, col])
-    //                 FindWordsUntil(boggle, visited, row, col, word);
-
-    //     //Erase the current character from the word
-    //     //mark the visited og current cell as false
-    //     word = "" + word[word.Length - 1];
-    //     visited[i, j] = false;
-
-    //     public void FindWords(char[,] boggle)
-    //     {
-    //         bool[,] visited = new bool[M, N]; //3x3 matrix 
-    // =======
-    //     // }
-    // >>>>>>> Stashed changes
-
-    // public void FindWords(char[,] boggle)
-    // {
-    //     bool[,] visited = new bool[M, N]; //3x3 matrix 
-
-    //     //initializing a current string
-    //     string str = "";
-
-    //     //consider every character and look for all words starting with this character
-    //     for (int i = 0; i < M; i++)
-    //         for (int j = 0; j < N; j++)
-    //             FindWordsUntil(boggle, visited, i, j, str);
-
-    // }
-
-    // static void Main(String[] args)
-    // {
-    //     IsValidWord("vain");
-    // }
 
 }

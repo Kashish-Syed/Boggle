@@ -24,5 +24,6 @@ public interface IGameSession
     /// Start a new game session
     /// </summary>
     /// <returns>1 if successfully started the session and 0 otherwise</returns>
+
     public int StartGameSession();
 }
