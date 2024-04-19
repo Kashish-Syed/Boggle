@@ -1,12 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import './styles/Login.css';
 
 function Login() {
     const [darkMode, setDarkMode] = useState(false);
-    const [letters, setLetters] = useState([]);
-    const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
-    const specificDivRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');

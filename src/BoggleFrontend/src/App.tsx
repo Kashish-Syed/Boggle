@@ -1,16 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './styles/App.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [letters, setLetters] = useState([]);
   const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
+  const [clickedLetters, setClickedLetters] = useState<string>(""); 
+  const [clickedIndices, setClickedIndices] = useState<number[]>([]);
+  const [completedWords, setCompletedWords] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const specificDivRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
   }, [darkMode]);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
 
   useEffect(() => {
     resetLetters();
@@ -24,26 +31,54 @@ function App() {
       setLetters(data);
       setClickedCells(new Array(data.length).fill(false));
       specificDivRefs.current = new Array(data.length).fill(null).map(() => useRef<HTMLDivElement>(null));
+      setClickedLetters("");
+      setCompletedWords([]);
+      setErrorMessage("");
     } catch (error) {
       console.error('Failed to fetch letters: ', error);
     }
   };
+  
 
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-  };
 
-  const handleClick = (index: number) => {
+
+  const handleClick = (letter: string, index: number) => {
+    console.log("Clicked letter:", letter);
+    if (clickedIndices.includes(index)) {
+      const word = clickedLetters;
+      if (completedWords.includes(word)) {
+        setErrorMessage(`The word "${word}" has already been found!`);
+        setClickedLetters("");
+        setClickedIndices([]);
+        setClickedCells(new Array(letters.length).fill(false));
+        setClickedCells(prevState => {
+          const newState = [...prevState];
+          newState[index] = !prevState[index];
+          return newState;
+        });
+      } else {
+        console.log("Confirmed word:", word);
+        setCompletedWords(prevCompletedWords => [...prevCompletedWords, word]);
+        setClickedLetters("");
+        setClickedIndices([]);
+        setClickedCells(new Array(letters.length).fill(false));
+        setErrorMessage("");
+        setClickedCells(prevState => {
+          const newState = [...prevState];
+          newState[index] = !prevState[index];
+          return newState;
+        });
+      }
+    } else {
+      setClickedLetters(prevLetters => prevLetters + letter);
+      setClickedIndices(prevClickedIndices => [...prevClickedIndices, index]);
+    }
     setClickedCells(prevState => {
       const newState = [...prevState];
       newState[index] = !prevState[index];
       return newState;
     });
-  };
-
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-  }, [darkMode]);
+  };  
 
   const handleLoginClick = () => {
     window.location.href = 'http://localhost:5173/login';
@@ -57,9 +92,10 @@ function App() {
         <button id="login" onClick={handleLoginClick}>Login</button>
       </div>
       <div id="boggle-container">
+        <div id="word-curr"><h2>Current word: {clickedLetters}</h2></div>
         <div id="board">
           {letters.map((letter, index) => (
-            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} ref={specificDivRefs.current[index]} onClick={() => handleClick(index)}>{letter}</div>
+            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} ref={specificDivRefs.current[index]} onClick={() => handleClick(letter, index)}>{letter}</div>
           ))}
         </div>
         <div className="button-container"> 
@@ -70,10 +106,11 @@ function App() {
         <div id="word-list">
           <h2>Words Found</h2>
           <ul id="words-found">
-            <li>Words</li>
-            <li>Go</li>
-            <li>Here</li>
+            {completedWords.map((word, index) => (
+              <li key={index}>{word}</li>
+            ))}
           </ul>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
       </div>
       <div className="footer">
