@@ -9,7 +9,6 @@ function App() {
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const [completedWords, setCompletedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const specificDivRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
@@ -30,55 +29,67 @@ function App() {
       const data = await response.json();
       setLetters(data);
       setClickedCells(new Array(data.length).fill(false));
-      specificDivRefs.current = new Array(data.length).fill(null).map(() => useRef<HTMLDivElement>(null));
       setClickedLetters("");
       setCompletedWords([]);
       setErrorMessage("");
+      setClickedIndices([]);
     } catch (error) {
       console.error('Failed to fetch letters: ', error);
     }
   };
-  
-
-
 
   const handleClick = (letter: string, index: number) => {
     console.log("Clicked letter:", letter);
     if (clickedIndices.includes(index)) {
       const word = clickedLetters;
       if (completedWords.includes(word)) {
+        // Word found already
         setErrorMessage(`The word "${word}" has already been found!`);
-        setClickedLetters("");
-        setClickedIndices([]);
-        setClickedCells(new Array(letters.length).fill(false));
-        setClickedCells(prevState => {
-          const newState = [...prevState];
-          newState[index] = !prevState[index];
-          return newState;
-        });
       } else {
+        // Confirm a new word
         console.log("Confirmed word:", word);
         setCompletedWords(prevCompletedWords => [...prevCompletedWords, word]);
-        setClickedLetters("");
-        setClickedIndices([]);
-        setClickedCells(new Array(letters.length).fill(false));
         setErrorMessage("");
+      }
+      setClickedLetters("");
+      setClickedIndices([]);
+      setClickedCells(new Array(letters.length).fill(false));
+    } else {
+      // Make sure letter clicked is adjacent or diagonal
+      if (clickedIndices.length > 0) {
+        const [prevRowIndex, prevColIndex] = [Math.floor(clickedIndices[clickedIndices.length - 1] / 4), clickedIndices[clickedIndices.length - 1] % 4];
+        const [currRowIndex, currColIndex] = [Math.floor(index / 4), index % 4];
+
+        const rowDifference = Math.abs(currRowIndex - prevRowIndex);
+        const colDifference = Math.abs(currColIndex - prevColIndex);
+
+        if ((rowDifference <= 1 && colDifference <= 1) || (rowDifference === 1 && colDifference === 1)) {
+          // Letters are adjacent or diagonal
+          setClickedLetters(prevLetters => prevLetters + letter);
+          setClickedIndices(prevClickedIndices => [...prevClickedIndices, index]);
+          setClickedCells(prevState => {
+            const newState = [...prevState];
+            newState[index] = !prevState[index];
+            return newState;
+          });
+          setErrorMessage("");
+        } else {
+          // Letters are not adjacent or diagonal
+          setErrorMessage("Select a letter that is adjacent or diagonal to the previously clicked letter.");
+        }
+      } else {
+        // First clicked letter
+        setClickedLetters(prevLetters => prevLetters + letter);
+        setClickedIndices(prevClickedIndices => [...prevClickedIndices, index]);
         setClickedCells(prevState => {
           const newState = [...prevState];
           newState[index] = !prevState[index];
           return newState;
         });
       }
-    } else {
-      setClickedLetters(prevLetters => prevLetters + letter);
-      setClickedIndices(prevClickedIndices => [...prevClickedIndices, index]);
     }
-    setClickedCells(prevState => {
-      const newState = [...prevState];
-      newState[index] = !prevState[index];
-      return newState;
-    });
-  };  
+  };
+
 
   const handleLoginClick = () => {
     window.location.href = 'http://localhost:5173/login';
@@ -95,7 +106,7 @@ function App() {
         <div id="word-curr"><h2>Current word: {clickedLetters}</h2></div>
         <div id="board">
           {letters.map((letter, index) => (
-            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} ref={specificDivRefs.current[index]} onClick={() => handleClick(letter, index)}>{letter}</div>
+            <div key={index} className="cell" id={clickedCells[index] ? 'two' : 'one'} onClick={() => handleClick(letter, index)}>{letter}</div>
           ))}
         </div>
         <div className="button-container"> 
@@ -110,7 +121,7 @@ function App() {
               <li key={index}>{word}</li>
             ))}
           </ul>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <h3 className="error-message">{errorMessage}</h3>}
         </div>
       </div>
       <div className="footer">

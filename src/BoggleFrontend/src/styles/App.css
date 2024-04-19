@@ -189,3 +189,10 @@ a.github-link {
   text-decoration: none;
   color: inherit;
 }
+
+.error-message {
+  max-width: 300px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
