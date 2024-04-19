@@ -132,9 +132,16 @@ button:hover {
   background-color: yellow;
 }
 
-.cell:hover {
+.cell#one:hover {
+  animation: colorChange 1.5s forwards;
   transform: scale(1.03);
-  transition: 0.2s;
+  transition: 0.3s;
+}
+
+@keyframes colorChange {
+  0% { background-color: lightgrey; }
+  50% { background-color: yellow; } 
+  100% { background-color: lightgrey; } 
 }
 
 body.light-mode .cell {
