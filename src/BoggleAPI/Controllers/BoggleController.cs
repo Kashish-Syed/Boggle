@@ -9,7 +9,7 @@ namespace BoggleAPI.Controllers
     {
         private readonly GameDice game = new GameDice();
 
-        private readonly Word testWord = new Word();
+        private readonly Word Word = new Word();
 
         public BoggleController()
         {
@@ -31,11 +31,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("isValidWord")]
-        public ActionResult<bool> CheckValidWord([FromBody]string word)
+        public ActionResult<bool> CheckValidWord([FromBody] string word)
         {
             try
             {
-                return Ok(testWord.IsValidWord(word));
+                return Ok(Word.IsInputMatch(word));
             }
             catch (Exception ex)
             {

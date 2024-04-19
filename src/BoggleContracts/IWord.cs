@@ -14,12 +14,9 @@ public interface IWord
     */
     public int GetPoints(string word);
 
-    /*
+     /*
         check if the word is present in the json file or the database
     */
-    public bool IsValidWord(string word);
+    public bool IsInputMatch(string userInput);
 
-    // public void FindWordsUntil(char[,] boggle, bool[,] visited, int i, int j, string word);
-
-    // public void FindWords(char[,] boggle);
 }

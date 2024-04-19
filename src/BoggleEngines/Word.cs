@@ -10,23 +10,13 @@ namespace BoggleEngines;
 
 public class Word : IWord
 {
-    private string word;
-    private int wordLength;
-    private int points;
 
-    private List<string> jsonWords;
-
-    private static readonly string[] dictionary = { "GEEKS", "FOR", "QUIZ", "GUQ", "EE" };
-
-    // trying 3x3 matrix before starting with 4x4
-    static readonly int M = 3, N = 3;
-
+    public List<string> Value { get; set; }
 
     public Word()
     {
-        word = "";
-        wordLength = 0;
-        points = 0;
+        // Initialize the list of words from the JSON file
+        Value = ReadWordsFromJson("words.json");
     }
 
     public int GetPoints(string word)
@@ -64,30 +54,34 @@ public class Word : IWord
         return points;
     }
 
-    /**
-    need to check if the word is present in the json file or not
+
+    /*
+    method to read words from a json file
     */
-    public bool IsValidWord(string word)
+    private List<string> ReadWordsFromJson(string filePath)
     {
 
-
-        // Reading from the json file
-        string jsonText = System.IO.File.ReadAllText(@"resources/words.json");
-
-        Word? words = JsonConvert.DeserializeObject<Word>(jsonText);
-        string serialized = JsonConvert.SerializeObject(words);
-
-        Console.WriteLine("Enter a word: ");
-        string? input = Console.ReadLine();
-
-        if (words?.Equals(input) == true)
+        try
         {
-            return true;
+            using (StreamReader r = new StreamReader(filePath))
+            {
+                string json = r.ReadToEnd();
+                var wordList = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+                return wordList["words"];
+            }
         }
-        else
+        catch (Exception ex)
         {
-            return false;
+            // Handle any errors reading the JSON file
+            Console.WriteLine("Error reading JSON file: " + ex.Message);
+            return new List<string>();
         }
+    }
+
+    // Method to check if input matches any word in the list
+    public bool IsInputMatch(string userInput)
+    {
+        return Value.Contains(userInput);
     }
 
 }
