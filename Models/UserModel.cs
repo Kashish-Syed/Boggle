@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,19 @@ namespace Models
         /// <summary>
         /// User Guid
         /// </summary>
+        [JsonProperty("id")]
         public Guid? Id { get; set; }
 
         /// <summary>
         /// The user's username
         /// </summary>
+        [JsonProperty("username")]
         public string? UserName { get; set; }
 
         /// <summary>
         /// The list of words the user entered
         /// </summary>
+        [JsonProperty("words")]
         public List<string>? Words { get; set; }
     }
 }
