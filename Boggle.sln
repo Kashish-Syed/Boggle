@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleUnitTests", "src\Bogg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoggleAccessorTests", "src\BoggleAccessorTests\BoggleAccessorTests.csproj", "{A2427BE4-C960-43F8-B8AE-1A18875D8E51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{CD27CE73-7204-4B78-9318-2BF66F2B8135}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{A2427BE4-C960-43F8-B8AE-1A18875D8E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2427BE4-C960-43F8-B8AE-1A18875D8E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2427BE4-C960-43F8-B8AE-1A18875D8E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD27CE73-7204-4B78-9318-2BF66F2B8135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD27CE73-7204-4B78-9318-2BF66F2B8135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD27CE73-7204-4B78-9318-2BF66F2B8135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD27CE73-7204-4B78-9318-2BF66F2B8135}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{7470E94B-C965-42DD-945D-A403BC2A33C5} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 		{16D64848-0E34-48CA-AE1F-D74AA609A044} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 		{A2427BE4-C960-43F8-B8AE-1A18875D8E51} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
+		{CD27CE73-7204-4B78-9318-2BF66F2B8135} = {5C444041-F8EB-4830-9EAB-59361107B1A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F88E27A-19D6-4889-9D8B-0EEAC988699D}

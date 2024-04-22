@@ -23,6 +23,7 @@ builder.Services.AddCors(options =>
 // Dependency Injections into Boggle Controller
 builder.Services.AddSingleton<IGameDice, GameDice>();
 builder.Services.AddSingleton<IWord, Word>();
+builder.Services.AddSingleton<IGameSession, GameSession>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

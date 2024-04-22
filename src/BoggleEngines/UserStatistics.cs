@@ -1,4 +1,5 @@
 using BoggleContracts;
+using System.Diagnostics.Tracing;
 
 namespace BoggleEngines;
 
@@ -31,6 +32,17 @@ public class UserStatistics : IUserStatistics
     /// <inheritdoc />
     public string LongestWordPlayed(string word)
     {
+        // Expected Input
+        //{
+        //    "username": "abcd"
+        //    "game_sessions": 
+        //    [
+        //       "session_1": {
+        //            "words": ["abc", "cijwi"]
+        //       }
+        //    ]
+        //}
+        // or are we fetching from database?
         throw new NotImplementedException();
     }
 

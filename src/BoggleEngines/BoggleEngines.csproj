@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Models\Models.csproj" />
     <ProjectReference Include="..\BoggleContracts\BoggleContracts.csproj" />
   </ItemGroup>
 

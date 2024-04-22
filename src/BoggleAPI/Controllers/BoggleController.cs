@@ -10,11 +10,13 @@ namespace BoggleAPI.Controllers
     {
         private readonly IGameDice _game;
         private readonly IWord _word;
+        private readonly IGameSession _session;
 
-        public BoggleController(IGameDice game, IWord word)
+        public BoggleController(IGameDice game, IWord word, IGameSession session)
         {
             _game = game;
             _word = word;
+            _session = session;
         }
 
         [HttpGet("shuffle")]
@@ -37,6 +39,32 @@ namespace BoggleAPI.Controllers
             try
             {
                 return Ok(_word.IsInputMatch(word));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpPost("getScore")]
+        public ActionResult<int> GetUserScore([FromBody] string userJson)
+        {
+            try
+            {
+                return Ok(_session.GetScore(userJson));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpPost("getWinner")]
+        public ActionResult<Guid> GetGameWinner([FromBody] string usersJson)
+        {
+            try
+            {
+                return Ok(_session.GetWinner(usersJson));
             }
             catch (Exception ex)
             {
