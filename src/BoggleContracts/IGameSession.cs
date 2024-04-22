@@ -12,13 +12,13 @@ public interface IGameSession
     /// A function to get the user's score.
     /// </summary>
     /// <returns></returns>
-    public int GetScore();
+    public int GetScore(string userWordJson);
 
     /// <summary>
     /// Get the winner of the game based on the highest score
     /// </summary>
     /// <returns>Winning player</returns>
-    public int GetWinner();
+    public Guid? GetWinner(string allPlayersJson);
 
     /// <summary>
     /// Start a new game session
