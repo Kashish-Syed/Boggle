@@ -1,3 +1,6 @@
+using BoggleEngines;
+using BoggleContracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -16,6 +19,10 @@ builder.Services.AddCors(options =>
         }
     );
 });
+
+// Dependency Injections into Boggle Controller
+builder.Services.AddSingleton<IGameDice, GameDice>();
+builder.Services.AddSingleton<IWord, Word>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using BoggleContracts;
 using BoggleEngines;
 
 namespace BoggleAPI.Controllers
@@ -7,13 +8,13 @@ namespace BoggleAPI.Controllers
     [Route("api/[controller]")]
     public class BoggleController : ControllerBase
     {
-        private readonly GameDice game = new GameDice();
+        private readonly IGameDice _game;
+        private readonly IWord _word;
 
-        private readonly Word Word = new Word();
-
-        public BoggleController()
+        public BoggleController(IGameDice game, IWord word)
         {
-
+            _game = game;
+            _word = word;
         }
 
         [HttpGet("shuffle")]
@@ -21,7 +22,7 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                char[] result = game.ShuffleAllDice();
+                char[] result = _game.ShuffleAllDice();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -35,7 +36,7 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                return Ok(Word.IsInputMatch(word));
+                return Ok(_word.IsInputMatch(word));
             }
             catch (Exception ex)
             {
