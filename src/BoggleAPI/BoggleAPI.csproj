@@ -11,7 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoggleEngines\BoggleEngines.csproj" />
+	<ProjectReference Include="..\BoggleContracts\BoggleContracts.csproj" />
   </ItemGroup>
+
+   <ItemGroup>
+	 <ProjectReference Include="..\BoggleEngines\BoggleEngines.csproj" />
+   </ItemGroup>
 
 </Project>

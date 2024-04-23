@@ -14,6 +14,7 @@ namespace BoggleEngines
 
         private static readonly Random rng = new Random();
 
+        /// <inheritdoc />
         public char GetRandomCharFromDie(int die)
         {
             if (die < 0 || die >= Dice.Length)
@@ -26,6 +27,7 @@ namespace BoggleEngines
             return selectedDie[rng.Next(6)];
         }
 
+        /// <inheritdoc />
         public char[] ShuffleAllDice()
         {
             int[] randomIndices = new int[Dice.Length];

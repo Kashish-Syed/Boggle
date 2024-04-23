@@ -101,6 +101,6 @@ _NCrunch_*
 
 # Ignore .NET Core SDK style projects generated cache/options.
 **/obj/
-**/bin/
+# **/bin/
 
 # End of list

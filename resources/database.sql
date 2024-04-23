@@ -1,6 +1,6 @@
-drop table if exists Player;
-drop table if exists Game;
 drop table if exists Board;
+drop table if exists Game;
+drop table if exists Player;
 drop table if exists Word;
 drop table if exists Score;
 
@@ -26,23 +26,7 @@ CREATE TABLE Board (
     BoardID INT PRIMARY KEY IDENTITY,
     GameID INT NOT NULL,
     FOREIGN KEY (GameID) REFERENCES Game(GameID),
-    -- Assuming a 4x4 Board
-    Letter1 VARCHAR(1) NOT NULL,
-    Letter2 VARCHAR(1) NOT NULL,
-    Letter3 VARCHAR(1) NOT NULL,
-    Letter4 VARCHAR(1) NOT NULL,
-    Letter5 VARCHAR(1) NOT NULL,
-    Letter6 VARCHAR(1) NOT NULL,
-    Letter7 VARCHAR(1) NOT NULL,
-    Letter8 VARCHAR(1) NOT NULL,
-    Letter9 VARCHAR(1) NOT NULL,
-    Letter10 VARCHAR(1) NOT NULL,
-    Letter11 VARCHAR(1) NOT NULL,
-    Letter12 VARCHAR(1) NOT NULL,
-    Letter13 VARCHAR(1) NOT NULL,
-    Letter14 VARCHAR(1) NOT NULL,
-    Letter15 VARCHAR(1) NOT NULL,
-    Letter16 VARCHAR(1) NOT NULL
+    Letters VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE Word (
@@ -62,28 +46,23 @@ CREATE TABLE Score (
     Score INT NOT NULL
 );
 
--- Insert test data into Player table
 INSERT INTO Player (FirstName, LastName, Username, Email, Password)
 VALUES ('John', 'Doe', 'johndoe', 'john@example.com', 'hashed_password1'),
        ('Jane', 'Smith', 'janesmith', 'jane@example.com', 'hashed_password2');
 
--- Insert test data into Game table
 INSERT INTO Game (PlayerID, StartTime, EndTime, GameDuration)
 VALUES (1, '2024-04-10 18:00:00', '2024-04-10 18:15:00', '00:15:00'),
        (2, '2024-04-11 10:30:00', NULL, NULL);
 
--- Insert test data into Board table
-INSERT INTO Board (GameID, Letter1, Letter2, Letter3, Letter4, Letter5, Letter6, Letter7, Letter8, Letter9, Letter10, Letter11, Letter12, Letter13, Letter14, Letter15, Letter16)
-VALUES (1, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'),
-       (2, 'T', 'E', 'S', 'T', 'T', 'E', 'S', 'T', 'T', 'E', 'S', 'T', 'T', 'E', 'S', 'T');
+INSERT INTO Board (GameID, Letters)
+VALUES (1, 'TESTTESTTESTTEST'),
+       (2, 'TESTTESTTESTTEST');
 
--- Insert test data into Word table
 INSERT INTO Word (GameID, WordText, WordLength)
 VALUES (1, 'CAT', 3),
        (1, 'DOG', 3),
        (2, 'TEST', 4);
 
--- Insert test data into Score table
 INSERT INTO Score (GameID, PlayerID, Score)
 VALUES (1, 1, 50),
        (1, 2, 40),
