@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/Login.css';
 
 function Login() {
@@ -8,8 +9,10 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const navigate = useNavigate();
+
     const handleGameClick = () => {
-        window.location.href = 'http://localhost:5173';
+        navigate('/');
     };    
   
     const handleLogin = () => {

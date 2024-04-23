@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/App.css';
 
 function App() {
@@ -9,6 +10,8 @@ function App() {
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const [completedWords, setCompletedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
@@ -92,7 +95,7 @@ function App() {
 
 
   const handleLoginClick = () => {
-    window.location.href = 'http://localhost:5173/login';
+    navigate('/login');
   };
 
   return (
