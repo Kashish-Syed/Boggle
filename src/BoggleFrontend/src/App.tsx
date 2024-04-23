@@ -1,25 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/App.css';
+import { useDarkMode } from './DarkModeContext';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
   const [letters, setLetters] = useState([]);
   const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
   const [clickedLetters, setClickedLetters] = useState<string>(""); 
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const [completedWords, setCompletedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { darkMode, toggleTheme } = useDarkMode();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-  }, [darkMode]);
-
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-  };
 
   useEffect(() => {
     resetLetters();

@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDarkMode } from './DarkModeContext';
 import './styles/Login.css';
 
 function Login() {
-    const [darkMode, setDarkMode] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { darkMode, toggleTheme } = useDarkMode();
 
     const navigate = useNavigate();
 
@@ -17,23 +18,17 @@ function Login() {
   
     const handleLogin = () => {
       if (username === 'admin' && password === 'password') {
-        console.log('Login successful!');
+        navigate('/');
       } else {
         setError('Invalid username or password');
       }
     };
 
-    useEffect(() => {
-      document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-    }, [darkMode]);
-
-    const toggleTheme = () => {
-      setDarkMode(!darkMode);
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+          handleLogin();
+      }
     };
-  
-    useEffect(() => {
-      document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-    }, [darkMode]);
   
     return (
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
@@ -45,16 +40,20 @@ function Login() {
         <div className="login-container">
             <h2>Login</h2>
             <input
+                className='username'
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={handleKeyPress}
             />
             <input
+              className='password'
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyPress}
             />
             <button onClick={handleLogin}>Login</button>
             {error && <div className="error-message">{error}</div>}
