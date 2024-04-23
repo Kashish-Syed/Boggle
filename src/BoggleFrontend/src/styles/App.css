@@ -17,12 +17,10 @@ html, body {
 h1 {
   font-size: 3.2em;
 }
-
 body.light-mode {
   background-color: rgb(33, 33, 255);
   color: #333333;
 }
-
 body.dark-mode {
   background-color: rgb(25, 25, 143);
   color: white;
@@ -36,11 +34,9 @@ body.dark-mode {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
   margin: auto;
 }
-
 body.light-mode #boggle-container {
   background-color: white;
 }
-
 body.dark-mode #boggle-container {
   background-color: rgb(53, 53, 53);
 }
@@ -92,12 +88,10 @@ button {
   background-color: lightgray;
   color: black;
 }
-
 body.light-mode button {
   background-color: lightgray;
   color: black;
 }
-
 body.dark-mode button {
   background-color: gray;
   color: white;
@@ -143,12 +137,10 @@ button:hover {
   50% { background-color: yellow; } 
   100% { background-color: lightgrey; } 
 }
-
 body.light-mode .cell {
   background-color: rgb(225, 224, 224);
   color: black;
 }
-
 body.dark-mode .cell {
   background-color: rgb(107, 107, 107);
   color: white;

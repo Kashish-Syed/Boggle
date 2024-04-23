@@ -17,7 +17,6 @@ function App() {
   useEffect(() => {
     resetLetters();
   }, []);
-
   const resetLetters = async () => {
     try {
       const response = await fetch('http://localhost:5189/api/Boggle/shuffle');
@@ -128,5 +127,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
