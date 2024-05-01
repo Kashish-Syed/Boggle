@@ -3,6 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import './styles/App.css';
 import { useDarkMode } from './DarkModeContext';
 
+function formatTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
+
 function App() {
   const [letters, setLetters] = useState([]);
   const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
@@ -10,6 +18,9 @@ function App() {
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const [completedWords, setCompletedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [gameMode, setGameMode] = useState<string>("timed");
+  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
   const { darkMode, toggleTheme } = useDarkMode();
 
   const navigate = useNavigate();
@@ -17,6 +28,20 @@ function App() {
   useEffect(() => {
     resetLetters();
   }, []);
+
+  useEffect(() => {
+    let timer;
+    if (gameStarted && remainingTime > 0) {
+      timer = setInterval(() => {
+        setRemainingTime(prevTime => prevTime - 1);
+      }, 1000);
+    } else if (remainingTime <= 0) {
+      setErrorMessage("Time's up! You can no longer submit words.");
+    }
+    return () => clearInterval(timer);
+  }, [gameStarted, remainingTime]);
+  
+
   const resetLetters = async () => {
     try {
       const response = await fetch('http://localhost:5189/api/Boggle/shuffle');
@@ -28,12 +53,18 @@ function App() {
       setCompletedWords([]);
       setErrorMessage("");
       setClickedIndices([]);
+      setRemainingTime(180);
+      setGameStarted(false);
     } catch (error) {
       console.error('Failed to fetch letters: ', error);
     }
   };
 
   const handleClick = (letter: string, index: number) => {
+    if (gameMode === "timed" && !gameStarted || remainingTime <= 0) {
+      return;
+    }
+
     console.log("Clicked letter:", letter);
     if (clickedIndices.includes(index)) {
       const word = clickedLetters;
@@ -89,6 +120,16 @@ function App() {
   const handleLoginClick = () => {
     navigate('/login');
   };
+  
+  const toggleGameMode = () => {
+  resetLetters();
+  setGameMode(prevMode => prevMode === "timed" ? "untimed" : "timed");
+  };
+
+
+  const handleStartGame = () => { 
+    setGameStarted(true);
+  };
 
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
@@ -105,10 +146,11 @@ function App() {
           ))}
         </div>
         <div className="button-container"> 
-          <button id="start-button">Start Game</button>
+          <button id="gamemode-button" onClick={toggleGameMode}>{gameMode === "timed" ? "Timed" : "Untimed"}</button>
+          {gameMode === "timed" && <button id="start-button" onClick={handleStartGame}>Start Game</button>}
           <button id="reset-button" onClick={resetLetters}>Reset</button>
         </div>
-        <div id="timer">00:00</div>
+        {gameMode === "timed" && <div id="timer">{formatTime(remainingTime)}</div>}
         <div id="word-list">
           <h2>Words Found</h2>
           <ul id="words-found">
