@@ -69,17 +69,19 @@ function App() {
     if (clickedIndices.includes(index)) {
       const word = clickedLetters;
       const isValid = await validateInput(word);
-      if (completedWords.includes(word)) {
-        // Word found already
-        setErrorMessage(`The word "${word}" has already been found!`);
-      } else {
-        // Confirm a new word
-        console.log("Confirmed word:", word);
-        setCompletedWords((prevCompletedWords) => [
-          ...prevCompletedWords,
-          word,
-        ]);
-        setErrorMessage("");
+      if (isValid) {
+        if (completedWords.includes(word)) {
+          // Word found already
+          setErrorMessage(`The word "${word}" has already been found!`);
+        } else {
+          // Confirm a new word
+          console.log("Confirmed word:", word);
+          setCompletedWords((prevCompletedWords) => [
+            ...prevCompletedWords,
+            word,
+          ]);
+          setErrorMessage("");
+        }
       }
       setClickedLetters("");
       setClickedIndices([]);
