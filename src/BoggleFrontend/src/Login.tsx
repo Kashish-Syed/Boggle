@@ -18,7 +18,7 @@ function Login() {
   
     const handleLogin = () => {
       if (username === 'admin' && password === 'password') {
-        navigate('/');
+        navigate('/profile');
       } else {
         setError('Invalid username or password');
       }
