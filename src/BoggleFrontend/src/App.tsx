@@ -69,6 +69,7 @@ function App() {
     if (clickedIndices.includes(index)) {
       const word = clickedLetters;
       const isValid = await validateInput(word);
+      console.log(isValid);
       if (isValid) {
         if (completedWords.includes(word)) {
           // Word found already
@@ -178,7 +179,7 @@ function App() {
         </div>
         <div className="button-container">
           <button id="gamemode-button" onClick={toggleGameMode}>
-            {gameMode === "timed" ? "Timed" : "Untimed"}
+            {gameMode === "timed" ? "Untimed" : "Timed"}
           </button>
           {gameMode === "timed" && (
             <button id="start-button" onClick={handleStartGame}>
