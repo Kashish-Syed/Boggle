@@ -72,3 +72,52 @@ INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('ABC123', 1, 5);
 INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('ABC123', 2, 20);
 INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('XYZ789', 2, 10); 
 INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('XYZ789', 3, 8);
+
+
+
+
+INSERT INTO Player (Username, Password) VALUES ('admin', 'password');
+
+INSERT INTO Game (GameCode, Board) VALUES ('GAME1', 'ABCDEFGHIJKLMNOP');
+INSERT INTO Game (GameCode, Board) VALUES ('GAME2', 'QRSTUVWXYZABCDEF');
+INSERT INTO Game (GameCode, Board) VALUES ('GAME3', 'GHIJKLMNOPQRSTUV');
+INSERT INTO Game (GameCode, Board) VALUES ('GAME4', 'WXYZABCDEFGHIJK');
+INSERT INTO Game (GameCode, Board) VALUES ('GAME5', 'LMNOPQRSTUVWXYZ');
+
+INSERT INTO Word (Word, Points) VALUES ('apple', 2);
+INSERT INTO Word (Word, Points) VALUES ('banana', 2);
+INSERT INTO Word (Word, Points) VALUES ('cherry', 2);
+INSERT INTO Word (Word, Points) VALUES ('date', 2);
+INSERT INTO Word (Word, Points) VALUES ('elderberry', 2);
+INSERT INTO Word (Word, Points) VALUES ('fig', 2);
+INSERT INTO Word (Word, Points) VALUES ('grape', 2);
+INSERT INTO Word (Word, Points) VALUES ('honeydew', 2);
+INSERT INTO Word (Word, Points) VALUES ('kiwi', 2);
+INSERT INTO Word (Word, Points) VALUES ('lemon', 2);
+INSERT INTO Word (Word, Points) VALUES ('mango', 2);
+INSERT INTO Word (Word, Points) VALUES ('nectarine', 2);
+INSERT INTO Word (Word, Points) VALUES ('orange', 2);
+INSERT INTO Word (Word, Points) VALUES ('papaya', 2);
+INSERT INTO Word (Word, Points) VALUES ('quince', 2);
+
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME1', 4, 7);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME1', 4, 8);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME1', 4, 9);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME2', 4, 10);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME2', 4, 11);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME2', 4, 12);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME3', 4, 13);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME3', 4, 14);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME3', 4, 15);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME4', 4, 16);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME4', 4, 17);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME4', 4, 18);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME5', 4, 19);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME5', 4, 20);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('GAME5', 4, 21);
+
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('GAME1', 4, 6); 
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('GAME2', 4, 6);
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('GAME3', 4, 6);
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('GAME4', 4, 6);
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('GAME5', 4, 6);
