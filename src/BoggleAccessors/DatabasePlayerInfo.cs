@@ -33,6 +33,31 @@ namespace BoggleAccessors
             }
         }
 
+        public string GetUsername(int userId)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", _connection))
+                {
+                    command.Parameters.AddWithValue("@PlayerID", userId);
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return result.ToString();
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("No user found with the specified ID.");
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException("Error retrieving username from the database.", ex);
+            }
+        }
+
+
         public void RemovePlayer(string username, string password)
         {
             int userId = Authenticate(username, password);

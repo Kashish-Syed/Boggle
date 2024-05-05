@@ -16,6 +16,12 @@ public interface IDatabasePlayerInfo
     public void AddPlayer(string username, string password);
 
     /// <summary>
+    /// Adds a user to the database
+    /// </summary>
+    /// <returns></returns>
+    public string GetUsername(int userId);
+
+    /// <summary>
     /// Removes a user from the database
     /// </summary>
     /// <returns></returns>

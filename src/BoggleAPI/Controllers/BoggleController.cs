@@ -148,6 +148,33 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        [HttpPost("player/getUsername")]
+        public ActionResult GetUsername([FromBody] int userId)
+        {
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid UserId"); 
+            }
+
+            try
+            {
+                string username = _playerInfo.GetUsername(userId);
+                if (string.IsNullOrEmpty(username))
+                {
+                    return NotFound("No user found");
+                }
+                else
+                {
+                    return Ok(username);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
 
         [HttpDelete("player/{username}/delete")] 
         public ActionResult DeletePlayer(string username, [FromBody] string password)

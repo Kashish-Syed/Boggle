@@ -32,6 +32,7 @@ function Login() {
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem('userId', data.userId);
+          localStorage.setItem('username', username);
           navigate('/profile');
         } else if (response.status === 404) {
           setError('Invalid username or password');
