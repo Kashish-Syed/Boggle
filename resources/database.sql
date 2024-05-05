@@ -1,69 +1,74 @@
-drop table if exists Board;
-drop table if exists Game;
-drop table if exists Player;
-drop table if exists Word;
-drop table if exists Score;
+DROP TABLE IF EXISTS GamePlayer;
+DROP TABLE IF EXISTS GameWord;
+DROP TABLE IF EXISTS Word;
+DROP TABLE IF EXISTS Game;
+DROP TABLE IF EXISTS Player;
 
 CREATE TABLE Player (
     PlayerID INT NOT NULL PRIMARY KEY IDENTITY,
-    FirstName VARCHAR(255) NOT NULL,
-    LastName VARCHAR(255) NOT NULL,
-    Username VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
+    Username VARCHAR(255) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL
 );
+go
 
 CREATE TABLE Game (
-    GameID INT NOT NULL PRIMARY KEY IDENTITY,
-    PlayerID INT NOT NULL,
-    FOREIGN KEY (PlayerID) REFERENCES Player(PlayerID),
-    StartTime DATETIME NOT NULL DEFAULT GETDATE(),
-    EndTime DATETIME,
-    GameDuration TIME
+    GameCode VARCHAR(6) NOT NULL PRIMARY KEY,
+    Board VARCHAR(16) NOT NULL,
+    CONSTRAINT CHK_GameCode_Alphanumeric CHECK (GameCode NOT LIKE '%[^0-9A-Za-z]%')
 );
-
-CREATE TABLE Board (
-    BoardID INT PRIMARY KEY IDENTITY,
-    GameID INT NOT NULL,
-    FOREIGN KEY (GameID) REFERENCES Game(GameID),
-    Letters VARCHAR(16) NOT NULL
-);
+go
 
 CREATE TABLE Word (
-    WordID INT PRIMARY KEY IDENTITY,
-    GameID INT NOT NULL,
-    FOREIGN KEY (GameID) REFERENCES Game(GameID),
-    WordText VARCHAR(50),
-    WordLength INT NOT NULL
+    WordID INT NOT NULL PRIMARY KEY IDENTITY,
+    Word varchar(25) NOT NULL,
+    Points INT NOT NULL, 
+    CONSTRAINT CHK_Word_Alpha CHECK (Word NOT LIKE '%[^A-Za-z]%')
 );
+go
 
-CREATE TABLE Score (
-    ScoreID INT PRIMARY KEY IDENTITY,
-    GameID INT NOT NULL,
-    FOREIGN KEY (GameID) REFERENCES Game(GameID),
+CREATE TABLE GameWord (
+    GameWordID INT NOT NULL PRIMARY KEY IDENTITY,
+    GameCode VARCHAR(6) NOT NULL,
     PlayerID INT NOT NULL,
-    FOREIGN KEY (PlayerID) REFERENCES Player(PlayerID),
-    Score INT NOT NULL
+    WordID INT NOT NULL,
+    FOREIGN KEY (GameCode) REFERENCES Game(GameCode),
+    FOREIGN KEY (WordID) REFERENCES Word(WordID),
+    FOREIGN KEY (PlayerID) REFERENCES Player(PlayerID)
 );
+go
 
-INSERT INTO Player (FirstName, LastName, Username, Email, Password)
-VALUES ('John', 'Doe', 'johndoe', 'john@example.com', 'hashed_password1'),
-       ('Jane', 'Smith', 'janesmith', 'jane@example.com', 'hashed_password2');
+CREATE TABLE GamePlayer (
+    GamePlayerID INT NOT NULL PRIMARY KEY IDENTITY,
+    GameCode VARCHAR(6) NOT NULL,
+    PlayerID INT NOT NULL,
+    TotalScore INT NOT NULL,
+    FOREIGN KEY (GameCode) REFERENCES Game(GameCode),
+    FOREIGN KEY (PlayerID) REFERENCES Player(PlayerID)
+);
+go
 
-INSERT INTO Game (PlayerID, StartTime, EndTime, GameDuration)
-VALUES (1, '2024-04-10 18:00:00', '2024-04-10 18:15:00', '00:15:00'),
-       (2, '2024-04-11 10:30:00', NULL, NULL);
+INSERT INTO Player (Username, Password) VALUES ('Alice123', 'password1');
+INSERT INTO Player (Username, Password) VALUES ('Bob234', 'password2');
+INSERT INTO Player (Username, Password) VALUES ('Charlie345', 'password3');
 
-INSERT INTO Board (GameID, Letters)
-VALUES (1, 'TESTTESTTESTTEST'),
-       (2, 'TESTTESTTESTTEST');
+INSERT INTO Game (GameCode, Board) VALUES ('ABC123', 'ABCDEFGHIJKLMNO');
+INSERT INTO Game (GameCode, Board) VALUES ('XYZ789', 'PQRSTUVWXYZABC');
 
-INSERT INTO Word (GameID, WordText, WordLength)
-VALUES (1, 'CAT', 3),
-       (1, 'DOG', 3),
-       (2, 'TEST', 4);
+INSERT INTO Word (Word, Points) VALUES ('hello', 2);
+INSERT INTO Word (Word, Points) VALUES ('world', 2);
+INSERT INTO Word (Word, Points) VALUES ('candy', 2);
+INSERT INTO Word (Word, Points) VALUES ('silly', 2);
+INSERT INTO Word (Word, Points) VALUES ('quick', 2);
+INSERT INTO Word (Word, Points) VALUES ('brown', 2);
 
-INSERT INTO Score (GameID, PlayerID, Score)
-VALUES (1, 1, 50),
-       (1, 2, 40),
-       (2, 1, 60);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('ABC123', 1, 1);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('ABC123', 2, 2);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('ABC123', 2, 3);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('ABC123', 2, 4);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('XYZ789', 2, 5);
+INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES ('XYZ789', 3, 6);
+
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('ABC123', 1, 5); 
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('ABC123', 2, 20);
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('XYZ789', 2, 10); 
+INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('XYZ789', 3, 8);

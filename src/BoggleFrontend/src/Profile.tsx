@@ -7,6 +7,7 @@ import './styles/Profile.css';
 function Profile(){
   const { darkMode, toggleTheme } = useDarkMode();
   const [gameLength, setGameLength] = useState('');
+  const [userId] = useState(localStorage.getItem('userId'));
 
   const navigate = useNavigate();
 
@@ -14,11 +15,20 @@ function Profile(){
     
   };
 
+  const handleLogout = () => {
+    if (userId) {
+      localStorage.removeItem('userId');
+      navigate('/login')
+    }
+  };
+
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <div className="header">
-        <h2>Profile Settings</h2>
-      </div>
+          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+          <h2>Boggle</h2>
+          <button id="game" onClick={() => navigate('/')}>Game</button>
+        </div>
       <div className="information-container">
         <h1>Username</h1>
         <h2>Stats</h2>
@@ -37,7 +47,7 @@ function Profile(){
                 onKeyDown={handleKeyPress}
           />
         </span>
-        <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+        <button id="logout" onClick={handleLogout}>Logout</button>
       </div>
       <div className="footer">
           <a href='https://github.com/Kashish-Syed/Boggle' className="github-link">

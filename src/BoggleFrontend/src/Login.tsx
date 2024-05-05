@@ -12,15 +12,33 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const handleGameClick = () => {
-        navigate('/');
-    };    
-  
-    const handleLogin = () => {
-      if (username === 'admin' && password === 'password') {
+    useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        console.log('User already logged in, user ID:', userId);
         navigate('/profile');
-      } else {
-        setError('Invalid username or password');
+      }
+    }, [navigate]);
+
+    const handleLogin = async () => {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(password)
+      };
+    
+      try {
+        const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/authenticate`, requestOptions);
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('userId', data.userId);
+          navigate('/profile');
+        } else if (response.status === 404) {
+          setError('Invalid username or password');
+        }
+      } catch (error) {
+        console.error('Login failed:', error);
+        setError('Login failed. Please try again.');
       }
     };
 
@@ -35,7 +53,7 @@ function Login() {
         <div className="header">
           <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
           <h2>Boggle</h2>
-          <button id="game" onClick={handleGameClick}>Game</button>
+          <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
         <div className="login-container">
             <h2>Login</h2>
@@ -48,7 +66,7 @@ function Login() {
                 onKeyDown={handleKeyPress}
             />
             <input
-              className='password'
+                className='password'
                 type="password"
                 placeholder="Password"
                 value={password}

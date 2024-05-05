@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BoggleContracts\BoggleContracts.csproj" />
+    <ProjectReference Include="..\BoggleEngines\BoggleEngines.csproj" />
   </ItemGroup>
 
   <ItemGroup>

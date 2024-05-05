@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/App.css";
 import { useDarkMode } from "./DarkModeContext";
@@ -23,6 +23,7 @@ function App() {
   const [remainingTime, setRemainingTime] = useState<number>(180);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const { darkMode, toggleTheme } = useDarkMode();
+  const [userId] = useState(localStorage.getItem('userId'));
 
   const navigate = useNavigate();
 
@@ -137,8 +138,12 @@ function App() {
     }
   };
 
-  const handleLoginClick = () => {
-    navigate("/login");
+  const handleLogin = () => {
+    if (userId) {
+      navigate('/profile');
+    } else {
+      navigate('/login');
+    }
   };
 
   const toggleGameMode = () => {
@@ -157,8 +162,8 @@ function App() {
           {darkMode ? "Light" : "Dark"}
         </button>
         <h2>Boggle</h2>
-        <button id="login" onClick={handleLoginClick}>
-          Login
+        <button id="login" onClick={handleLogin}>
+          {userId ? 'Profile' : 'Login'}
         </button>
       </div>
       <div id="boggle-container">
