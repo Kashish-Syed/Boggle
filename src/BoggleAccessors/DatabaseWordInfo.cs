@@ -18,40 +18,55 @@ namespace BoggleAccessors
         }
 
         public void AddWordsToDatabase(string filepath)
+{
+    try
+    {
+        using (StreamReader sr = new StreamReader(filepath))
         {
-            try
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                using (StreamReader sr = new StreamReader(filepath))
+                line = line.Trim();
+                if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
+                    int points = CalculatePoints(line);
+                    if (points > 0)
                     {
-                        line = line.Trim();
-                        if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
+                        try
                         {
-                            int points = CalculatePoints(line);
-                            if (points > 0)
+                            using (SqlCommand command = new SqlCommand("INSERT INTO Word (Word, Points) VALUES (@Word, @Points)", _connection))
                             {
-                                using (SqlCommand command = new SqlCommand("INSERT INTO Word (Word, Points) VALUES (@Word, @Points)", _connection))
-                                {
-                                    command.Parameters.AddWithValue("@Word", line.ToLower());
-                                    command.Parameters.AddWithValue("@Points", points);
-                                    command.ExecuteNonQuery();
-                                }
+                                command.Parameters.AddWithValue("@Word", line.ToLower());
+                                command.Parameters.AddWithValue("@Points", points);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                        catch (SqlException ex)
+                        {
+                            if (ex.Number == 2627) // 2627 is the SQL error code for a duplicate primary key value, need so the program doesn't crash on repeat words
+                            {
+                                Console.WriteLine("Duplicate word skipped: " + line);
                             }
                             else
                             {
-                                Console.WriteLine("Invalid word: " + line);
+                                throw;
                             }
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid word: " + line);
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"Failed to add words to the database: {ex.Message}", ex);
-            }
         }
+    }
+    catch (Exception ex)
+    {
+        throw new InvalidOperationException($"Failed to add words to the database: {ex.Message}", ex);
+    }
+}
+
 
         private int CalculatePoints(string word)
         {

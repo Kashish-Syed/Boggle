@@ -63,9 +63,44 @@ namespace BoggleAccessors
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 var boardString = command.ExecuteScalar() as string;
-                return boardString?.ToCharArray();
+                return boardString.ToCharArray();
             }
         }
+
+        public void AddPlayer(string gameCode, string username)
+        {
+            using (SqlCommand command = new SqlCommand(
+                @"DECLARE @PlayerID INT
+                SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username
+                IF @PlayerID IS NOT NULL
+                BEGIN
+                    INSERT INTO GamePlayer (GameCode, PlayerID) VALUES (@GameCode, @PlayerID)
+                END", _connection))
+            {
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                command.Parameters.AddWithValue("@Username", username);
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+        }
+
+
+        public string GetWinner(string gameCode) 
+        {
+            using (SqlCommand command = new SqlCommand(
+                @"SELECT TOP 1 p.Username
+                FROM GamePlayer gp
+                JOIN Player p ON gp.PlayerID = p.PlayerID
+                WHERE gp.GameCode = @GameCode
+                ORDER BY gp.TotalScore DESC", _connection))
+            {
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                var winner = command.ExecuteScalar() as string;
+                return winner;
+            }
+        }
+
 
         private string GenerateGameCode()
         {

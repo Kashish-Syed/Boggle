@@ -53,7 +53,21 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        [HttpGet("game/{gameCode}/board")]
+        [HttpPost("game/createGame")]
+        public ActionResult<string> CreateGame()
+        {
+            try
+            {
+                string gameCode = _gameInfo.CreateGame();
+                return Ok(gameCode);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("game/{gameCode}/getBoard")]
         public ActionResult<char[]> GetBoard(string gameCode)
         {
             try
@@ -67,13 +81,13 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        [HttpPost("game/create")]
-        public ActionResult<string> CreateGame()
+        [HttpGet("game/{gameCode}/getWinner")]
+        public ActionResult<string> GetWinner(string gameCode)
         {
             try
             {
-                string gameCode = _gameInfo.CreateGame();
-                return Ok(gameCode);
+                string winner = _gameInfo.GetWinner(gameCode);
+                return Ok(winner);
             }
             catch (Exception ex)
             {
@@ -98,7 +112,7 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        [HttpGet("game/{gameCode}/player/{username}/words")]
+        [HttpGet("game/{gameCode}/getWordsPlayed/{username}")]
         public IActionResult GetWordsPlayed(string gameCode, string username)
         {
             try
@@ -113,7 +127,21 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        [HttpPost("player/add/{username}")]
+        [HttpPost("game/{gameCode}/addPlayerToGame/{username}")]
+        public IActionResult AddPlayerToGame(string gameCode, string username)
+        {
+            try
+            {
+                _playerInfo.AddPlayer(gameCode, username);
+                return Ok("Player added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpPost("player/{username}/add")]
         public ActionResult AddPlayer(string username,[FromBody] string password)
         {
             try

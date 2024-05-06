@@ -23,5 +23,15 @@ namespace BoggleContracts
         /// Returns the gameboard as a char array
         /// </summary>
         char[] GetBoard(string gameCode);
+
+        /// <summary>
+        /// Adds a player to the game
+        /// </summary>
+        void AddPlayer(string gameCode, string username);
+
+        /// <summary>
+        /// Returns the player with the most points
+        /// </summary>
+        string GetWinner(string gameCode);
     }
 }

@@ -45,9 +45,20 @@ function App() {
 
   const resetLetters = async () => {
     try {
-      const response = await fetch("http://localhost:5189/api/Boggle/shuffle");
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
+      const createResponse = await fetch("http://localhost:5189/api/Boggle/game/createGame", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!createResponse.ok) throw new Error("Failed to create new game");
+      const gameCode = await createResponse.text();
+      console.log("GameCode: " + gameCode);
+  
+      const boardResponse = await fetch(`http://localhost:5189/api/Boggle/game/${gameCode}/getBoard`);
+      if (!boardResponse.ok) throw new Error("Failed to fetch game board");
+      const data = await boardResponse.json(); 
+  
       setLetters(data);
       setClickedCells(new Array(data.length).fill(false));
       setClickedLetters("");
@@ -60,6 +71,8 @@ function App() {
       console.error("Failed to fetch letters: ", error);
     }
   };
+  
+  
 
   const handleClick = async (letter: string, index: number) => {
     if ((gameMode === "timed" && !gameStarted) || remainingTime <= 0) {
