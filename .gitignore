@@ -4,6 +4,8 @@
 [Ll]og/
 [Ll]ogs/
 
+.DS_Store
+
 # Ignore the files and directories related to NuGet Packages
 *.nupkg
 **/[Pp]ackages/*
