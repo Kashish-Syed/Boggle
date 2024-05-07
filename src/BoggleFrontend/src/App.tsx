@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/App.css";
 import { useDarkMode } from "./DarkModeContext";
-import validateInput from "./Component";
 
 function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
@@ -13,14 +12,15 @@ function formatTime(seconds: number): string {
 }
 
 function App() {
-  const [letters, setLetters] = useState([]);
+  const placeholderLetters = Array(16).fill("X"); // Assuming a 4x4 board
+  const [letters, setLetters] = useState(placeholderLetters);
   const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
   const [clickedLetters, setClickedLetters] = useState<string>("");
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const [completedWords, setCompletedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [gameMode, setGameMode] = useState<string>("timed");
-  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [remainingTime, setRemainingTime] = useState<number>(60);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const { darkMode, toggleTheme } = useDarkMode();
   const [userId] = useState(localStorage.getItem('userId'));
@@ -28,22 +28,28 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    resetLetters();
-  }, []);
+    if (gameStarted || gameMode !== "timed") {
+      resetLetters();
+    }
+  }, [gameStarted, gameMode]);
 
   useEffect(() => {
     let timer;
-    if (gameStarted && remainingTime > 0) {
+    if (gameStarted && gameMode === "timed" && remainingTime > 0) {
       timer = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (remainingTime <= 0) {
+    } else if (remainingTime <= 0 && gameMode === "timed") {
       setErrorMessage("Time's up! You can no longer submit words.");
+      setGameStarted(false);
     }
+  
     return () => clearInterval(timer);
-  }, [gameStarted, remainingTime]);
+  }, [gameStarted, remainingTime, gameMode]);
 
   const resetLetters = async () => {
+    if (!gameStarted && gameMode === "timed") return;
+    
     try {
       const createResponse = await fetch("http://localhost:5189/api/Boggle/game/createGame", {
         method: 'POST',
@@ -65,8 +71,7 @@ function App() {
       setCompletedWords([]);
       setErrorMessage("");
       setClickedIndices([]);
-      setRemainingTime(180);
-      setGameStarted(false);
+      setRemainingTime(60);
     } catch (error) {
       console.error("Failed to fetch letters: ", error);
     }
@@ -79,77 +84,70 @@ function App() {
       return;
     }
 
-    console.log("Clicked letter:", letter);
     if (clickedIndices.includes(index)) {
       const word = clickedLetters;
-      const isValid = await validateInput(word);
-      console.log(isValid);
-      if (isValid) {
-        if (completedWords.includes(word)) {
-          // Word found already
-          setErrorMessage(`The word "${word}" has already been found!`);
-        } else {
-          // Confirm a new word
-          console.log("Confirmed word:", word);
-          setCompletedWords((prevCompletedWords) => [
-            ...prevCompletedWords,
-            word,
-          ]);
-          setErrorMessage("");
+      // API call to validate the word
+      try {
+        const response = await fetch('http://localhost:5189/api/Boggle/isValidWord', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(word) // Send the word as a JSON string
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to validate word with status: ${response.status}`);
         }
+        const isValid = await response.json(); // The response is expected to be a simple true or false
+
+        console.log("Validation result:", isValid);
+        if (isValid) {
+          if (completedWords.includes(word)) {
+            setErrorMessage(`The word "${word}" has already been found!`);
+          } else {
+            setCompletedWords(prevCompletedWords => [
+              ...prevCompletedWords,
+              word,
+            ]);
+            setErrorMessage("");
+          }
+        }
+      } catch (error) {
+        console.error("Error validating word:", error);
       }
+      // Reset after submitting the word
       setClickedLetters("");
       setClickedIndices([]);
       setClickedCells(new Array(letters.length).fill(false));
     } else {
-      // Make sure letter clicked is adjacent or diagonal
-      if (clickedIndices.length > 0) {
-        const [prevRowIndex, prevColIndex] = [
-          Math.floor(clickedIndices[clickedIndices.length - 1] / 4),
-          clickedIndices[clickedIndices.length - 1] % 4,
-        ];
-        const [currRowIndex, currColIndex] = [Math.floor(index / 4), index % 4];
-
-        const rowDifference = Math.abs(currRowIndex - prevRowIndex);
-        const colDifference = Math.abs(currColIndex - prevColIndex);
-
-        if (
-          (rowDifference <= 1 && colDifference <= 1) ||
-          (rowDifference === 1 && colDifference === 1)
-        ) {
-          // Letters are adjacent or diagonal
-          setClickedLetters((prevLetters) => prevLetters + letter);
-          setClickedIndices((prevClickedIndices) => [
-            ...prevClickedIndices,
-            index,
-          ]);
-          setClickedCells((prevState) => {
-            const newState = [...prevState];
-            newState[index] = !prevState[index];
-            return newState;
-          });
-          setErrorMessage("");
-        } else {
-          // Letters are not adjacent or diagonal
-          setErrorMessage(
-            "Select a letter that is adjacent or diagonal to the previously clicked letter."
-          );
-        }
-      } else {
-        // First clicked letter
-        setClickedLetters((prevLetters) => prevLetters + letter);
-        setClickedIndices((prevClickedIndices) => [
-          ...prevClickedIndices,
-          index,
-        ]);
-        setClickedCells((prevState) => {
-          const newState = [...prevState];
-          newState[index] = !prevState[index];
-          return newState;
-        });
-      }
+      // Handling letter selection for adjacent or diagonal letters
+      handleLetterSelection(letter, index);
     }
   };
+
+const handleLetterSelection = (letter, index) => {
+  // Ensure letter clicked is adjacent or diagonal
+  if (clickedIndices.length > 0) {
+    const prevIndex = clickedIndices[clickedIndices.length - 1];
+    const prevRowIndex = Math.floor(prevIndex / 4);
+    const prevColIndex = prevIndex % 4;
+    const currRowIndex = Math.floor(index / 4);
+    const currColIndex = index % 4;
+
+    const rowDifference = Math.abs(currRowIndex - prevRowIndex);
+    const colDifference = Math.abs(currColIndex - prevColIndex);
+
+    if (rowDifference > 1 || colDifference > 1) {
+      setErrorMessage("Select a letter that is adjacent or diagonal to the previously clicked letter.");
+      return;
+    }
+  }
+
+  setClickedLetters(clickedLetters + letter);
+  setClickedIndices([...clickedIndices, index]);
+  setClickedCells(clickedCells.map((val, idx) => idx === index ? true : val));
+  setErrorMessage("");
+};
 
   const handleLogin = () => {
     if (userId) {
@@ -159,13 +157,21 @@ function App() {
     }
   };
 
-  const toggleGameMode = () => {
-    resetLetters();
-    setGameMode((prevMode) => (prevMode === "timed" ? "untimed" : "timed"));
+  const handleStartGame = async () => {
+    setGameStarted(true);
+    setRemainingTime(60);
   };
 
-  const handleStartGame = () => {
-    setGameStarted(true);
+  const toggleGameMode = async () => {
+    if (gameMode === "timed") {
+      setGameMode("untimed");
+      resetLetters();
+    } else {
+      setGameMode("timed");
+      setRemainingTime(60);
+      setLetters(placeholderLetters);
+      setGameStarted(false);
+    }
   };
 
   return (

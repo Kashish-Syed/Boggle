@@ -27,6 +27,7 @@ builder.Services.AddSingleton<IWord, Word>();
 builder.Services.AddSingleton<IGameSession, GameSession>();
 builder.Services.AddSingleton<IDatabaseGameInfo, DatabaseGameInfo>();
 builder.Services.AddSingleton<IDatabasePlayerInfo, DatabasePlayerInfo>();
+builder.Services.AddSingleton<IDatabaseWordInfo, DatabaseWordInfo>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

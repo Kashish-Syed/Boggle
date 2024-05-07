@@ -18,5 +18,10 @@ namespace BoggleContracts
         /// Gets the ID of a word
         /// </summary>
         int GetWordID(string word);
+
+        /// <summary>
+        /// Returns true if the word is valid
+        /// </summary>
+        bool IsValidWord(string word);
     }
 }

@@ -88,5 +88,25 @@ namespace BoggleAccessors
                 }
             }
         }
+
+        public bool IsValidWord(string word)
+        {
+            word = word.ToLower();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", connection))
+                {
+                    command.Parameters.AddWithValue("@Word", word.ToLower());
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    
+                    if (count > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

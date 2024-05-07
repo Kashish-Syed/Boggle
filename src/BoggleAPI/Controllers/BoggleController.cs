@@ -15,14 +15,14 @@ namespace BoggleAPI.Controllers
         private readonly IDatabasePlayerInfo _playerInfo;
         private readonly IGameDice _gameDice;
 
-        private readonly IWord _word;
+        private readonly IDatabaseWordInfo _wordInfo;
 
-        public BoggleController(IDatabaseGameInfo gameInfo, IDatabasePlayerInfo playerInfo, IGameDice gameDice, IWord word)
+        public BoggleController(IDatabaseGameInfo gameInfo, IDatabasePlayerInfo playerInfo, IGameDice gameDice, IDatabaseWordInfo wordInfo)
         {
             _gameInfo = gameInfo;
             _playerInfo = playerInfo;
             _gameDice = gameDice;
-            _word = word;
+            _wordInfo = wordInfo;
 
         }
 
@@ -45,7 +45,8 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                return Ok(_word.IsInputMatch(word));
+                bool isValidWord = _wordInfo.IsValidWord(word);
+                return Ok(isValidWord);
             }
             catch (Exception ex)
             {
