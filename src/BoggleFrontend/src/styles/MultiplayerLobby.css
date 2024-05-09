@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    transition: 0.2s;
+  }
+  
+  h1 {
+    font-size: 3.2em;
+  }
+  body.light-mode {
+    background-color: rgb(33, 33, 255);
+    color: #333333;
+  }
+  body.dark-mode {
+    background-color: rgb(25, 25, 143);
+    color: white;
+  }
+  
+  #multiplayer-container {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.light-mode #multiplayer-container {
+    background-color: white;
+  }
+  body.dark-mode #multiplayer-container {
+    background-color: rgb(53, 53, 53);
+  }
+  
+  
+  button {
+    padding: 10px 15px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: lightgray;
+    color: black;
+  }
+
+  #ready {
+    width: 100%; 
+    margin-bottom: 20px;
+  }
+
+
+  body.light-mode button {
+    background-color: lightgray;
+    color: black;
+  }
+  body.dark-mode button {
+    background-color: gray;
+    color: white;
+  }
+  
+  button:hover {
+    background-color: lightgray;
+    transform: scale(1.02);
+    transition: 0.2s;
+  }
+  
+  body.light-mode .cell {
+    background-color: rgb(225, 224, 224);
+    color: black;
+  }
+  body.dark-mode .cell {
+    background-color: rgb(107, 107, 107);
+    color: white;
+  }
+  
+  .header {
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    left: 0;
+  }
+  
+  .footer {
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 0;
+  }
+  
+  body.light-mode .header, body.light-mode .footer {
+    background-color: white;
+  }
+  
+  body.dark-mode .header, body.dark-mode .footer {
+    background-color: rgb(53, 53, 53);
+  }
+  
+  a.github-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  

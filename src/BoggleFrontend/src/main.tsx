@@ -8,6 +8,7 @@ import Login from './Login';
 import Profile from './Profile';
 import Signup from './Signup';
 import Multiplayer from './Multiplayer';
+import MultiplayerLobby from './MultiplayerLobby';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -21,6 +22,7 @@ root.render(
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/signup" element={<Signup />}/>
           <Route path="/multiplayer" element={<Multiplayer/>}/>
+          <Route path="/multiplayer-lobby" element={<MultiplayerLobby/>}/>
         </Routes>
       </Router>
     </DarkMode>
