@@ -13,35 +13,35 @@ public interface IDatabasePlayerInfo
     /// Adds a user to the database
     /// </summary>
     /// <returns></returns>
-    public void AddPlayer(string username, string password);
+    Task AddPlayerAsync(string username, string password);
 
     /// <summary>
     /// Adds a user to the database
     /// </summary>
     /// <returns></returns>
-    public string GetUsername(int userId);
+    Task<string> GetUsernameAsync(int userId);
 
     /// <summary>
     /// Removes a user from the database
     /// </summary>
     /// <returns></returns>
-    public void RemovePlayer(string username, string password);
+    Task RemovePlayerAsync(string username, string password);
 
     /// <summary>
     /// Returns userid if the password is authenticated
     /// </summary>
     /// <returns></returns>
-    public int Authenticate(string username, string password);
+    Task<int> AuthenticateAsync(string username, string password);
 
     /// <summary>
     /// Gets all gameids, scores, and whether or not they were the winner
     /// </summary>
     /// <returns></returns>
-    public DataTable GetGames(string username);
+    Task<DataTable> GetGamesAsync(string username);
 
     /// <summary>
     /// gets all words played from the game for the specific user, as well as their point values
     /// </summary>
     /// <returns></returns>
-    public DataTable GetWordsPlayed(string gameCode, string username);
+    Task<DataTable> GetWordsPlayedAsync(string gameCode, string username);
 }

@@ -12,26 +12,26 @@ namespace BoggleContracts
         /// <summary>
         /// Creates a game and returns the gamecode
         /// </summary>
-        string CreateGame();
+        Task<string> CreateGameAsync();
 
         /// <summary>
         /// Deletes a game by its gamecode
         /// </summary>
-        int DeleteGame(string gameCode);
+        Task<int> DeleteGameAsync(string gameCode);
 
         /// <summary>
         /// Returns the gameboard as a char array
         /// </summary>
-        char[] GetBoard(string gameCode);
+        Task<char[]> GetBoardAsync(string gameCode);
 
         /// <summary>
         /// Adds a player to the game
         /// </summary>
-        void AddPlayer(string gameCode, string username);
+        Task AddPlayerAsync(string gameCode, string username);
 
         /// <summary>
         /// Returns the player with the most points
         /// </summary>
-        string GetWinner(string gameCode);
+        Task<string> GetWinnerAsync(string gameCode);
     }
 }

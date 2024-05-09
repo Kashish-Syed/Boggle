@@ -1,119 +1,106 @@
+using BoggleContracts;
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using BoggleContracts;
 
 namespace BoggleAccessors
 {
     public class DatabasePlayerInfo : IDatabasePlayerInfo
     {
-        private readonly string _connectionString = @"Server=localhost\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
+        private readonly SqlConnection _connection;
 
-        public void AddPlayer(string username, string password)
+        public DatabasePlayerInfo(SqlConnection connection)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            _connection = connection;
+        }
+
+        public async Task AddPlayerAsync(string username, string password)
+        {
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", connection))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@Password", password);
-                    command.ExecuteNonQuery();
-                }
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", password);
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public string GetUsername(int userId)
+        public async Task<string> GetUsernameAsync(int userId)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", connection))
-                {
-                    command.Parameters.AddWithValue("@PlayerID", userId);
-                    object result = command.ExecuteScalar();
-                    if (result != null)
-                        return result.ToString();
-                    else
-                        throw new InvalidOperationException("No user found with the specified ID.");
-                }
+                command.Parameters.AddWithValue("@PlayerID", userId);
+                var result = await command.ExecuteScalarAsync();
+                if (result != null)
+                    return result.ToString();
+                else
+                    throw new InvalidOperationException("No user found with the specified ID.");
             }
         }
 
-        public void RemovePlayer(string username, string password)
+        public async Task RemovePlayerAsync(string username, string password)
         {
-            int userId = Authenticate(username, password);
+            int userId = await AuthenticateAsync(username, password);
             if (userId == -1)
                 throw new ArgumentException("Authentication failed. Player not found.");
                 
-            using (var connection = new SqlConnection(_connectionString))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", connection))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@Password", password);
-                    command.ExecuteNonQuery();
-                }
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", password);
+                command.ExecuteNonQuery();
             }
         }
 
-        public int Authenticate(string username, string password)
+        public async Task<int> AuthenticateAsync(string username, string password)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", connection))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@Password", password);
-                    object result = command.ExecuteScalar();
-                    return result != null ? Convert.ToInt32(result) : -1;
-                }
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", password);
+                var result = await command.ExecuteScalarAsync();
+                return result != null ? Convert.ToInt32(result) : -1;
             }
         }
 
-        public DataTable GetGames(string username)
+        public async Task<DataTable> GetGamesAsync(string username)
         {
             DataTable gamesTable = new DataTable();
-            using (var connection = new SqlConnection(_connectionString))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand(
+                "SELECT g.GameCode, gp.TotalScore " +
+                "FROM GamePlayer gp " +
+                "JOIN Player p ON gp.PlayerID = p.PlayerID " +
+                "JOIN Game g ON gp.GameCode = g.GameCode " +
+                "WHERE p.Username = @Username", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand(
-                    "SELECT g.GameCode, gp.TotalScore " +
-                    "FROM GamePlayer gp " +
-                    "JOIN Player p ON gp.PlayerID = p.PlayerID " +
-                    "JOIN Game g ON gp.GameCode = g.GameCode " +
-                    "WHERE p.Username = @Username", connection))
+                command.Parameters.AddWithValue("@Username", username);
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    command.Parameters.AddWithValue("@Username", username);
-                    using (var adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(gamesTable);
-                    }
+                    gamesTable.Load(reader);
                 }
             }
             return gamesTable;
         }
 
-        public DataTable GetWordsPlayed(string gameCode, string username)
+        public async Task<DataTable> GetWordsPlayedAsync(string gameCode, string username)
         {
             DataTable wordsTable = new DataTable();
-            using (var connection = new SqlConnection(_connectionString))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand(
+                "SELECT w.Word, w.Points FROM GameWord gw " +
+                "JOIN Player p ON gw.PlayerID = p.PlayerID " +
+                "JOIN Word w ON gw.WordID = w.WordID " +
+                "WHERE gw.GameCode = @GameCode AND p.Username = @Username", _connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand(
-                    "SELECT w.Word, w.Points FROM GameWord gw " +
-                    "JOIN Player p ON gw.PlayerID = p.PlayerID " +
-                    "JOIN Word w ON gw.WordID = w.WordID " +
-                    "WHERE gw.GameCode = @GameCode AND p.Username = @Username", connection))
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                command.Parameters.AddWithValue("@Username", username);
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    command.Parameters.AddWithValue("@Username", username);
-                    using (var adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(wordsTable);
-                    }
+                    wordsTable.Load(reader);
                 }
             }
             return wordsTable;
