@@ -9,91 +9,81 @@ namespace BoggleAccessors
 {
     public class DatabaseGameInfo : IDatabaseGameInfo
     {
-        private readonly string _connectionString = @"Server=localhost\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
+        private readonly SqlConnection _connection;
 
-        public string CreateGame()
+        public DatabaseGameInfo(SqlConnection connection)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            _connection = connection;
+        }
+
+        public async Task<string> CreateGameAsync()
+        {
+            await connection.OpenAsync();
+            var dice = new GameDice();
+            var gameCode = GenerateGameCode();
+            var board = dice.ShuffleAllDice();
+            var boardString = new string(board);
+
+            using (var command = new SqlCommand("INSERT INTO Game (GameCode, Board) VALUES (@GameCode, @Board)", connection))
             {
-                connection.Open();
-                var dice = new GameDice();
-                var gameCode = GenerateGameCode();
-                var board = dice.ShuffleAllDice();
-                var boardString = new string(board);
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                command.Parameters.AddWithValue("@Board", boardString);
+                await command.ExecuteNonQueryAsync();
+            }
 
-                using (var command = new SqlCommand("INSERT INTO Game (GameCode, Board) VALUES (@GameCode, @Board)", connection))
-                {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    command.Parameters.AddWithValue("@Board", boardString);
-                    command.ExecuteNonQuery();
-                }
+            return gameCode;
+        }
 
-                return gameCode;
+        public async Task<int> DeleteGameAsync(string gameCode)
+        {
+            await connection.OpenAsync();
+            using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", connection))
+            {
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                return await command.ExecuteNonQuery();  // This executes all deletes in one command.
             }
         }
 
-        public int DeleteGame(string gameCode)
+        public Task<char[]> GetBoard(string gameCode)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            await connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", connection))
-                {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    return command.ExecuteNonQuery();  // This executes all deletes in one command.
-                }
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                var boardString = command.ExecuteScalarAsync() as string;
+                return boardString?.ToCharArray();
             }
         }
 
-        public char[] GetBoard(string gameCode)
+        public async Task AddPlayerAsync(string gameCode, string username)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            await connection.OpenAsync();
+            using (var command = new SqlCommand(
+                @"DECLARE @PlayerID INT;
+                SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username;
+                IF @PlayerID IS NOT NULL
+                BEGIN
+                    INSERT INTO GamePlayer (GameCode, PlayerID) VALUES (@GameCode, @PlayerID);
+                END", connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", connection))
-                {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    var boardString = command.ExecuteScalar() as string;
-                    return boardString?.ToCharArray();
-                }
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                command.Parameters.AddWithValue("@Username", username);
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public void AddPlayer(string gameCode, string username)
+        public Task<string> GetWinnerAsync(string gameCode)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            await connection.OpenAsync();
+            using (var command = new SqlCommand(
+                @"SELECT TOP 1 p.Username
+                FROM GamePlayer gp
+                JOIN Player p ON gp.PlayerID = p.PlayerID
+                WHERE gp.GameCode = @GameCode
+                ORDER BY gp.TotalScore DESC", connection))
             {
-                connection.Open();
-                using (var command = new SqlCommand(
-                    @"DECLARE @PlayerID INT;
-                    SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username;
-                    IF @PlayerID IS NOT NULL
-                    BEGIN
-                        INSERT INTO GamePlayer (GameCode, PlayerID) VALUES (@GameCode, @PlayerID);
-                    END", connection))
-                {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
-        public string GetWinner(string gameCode)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new SqlCommand(
-                    @"SELECT TOP 1 p.Username
-                    FROM GamePlayer gp
-                    JOIN Player p ON gp.PlayerID = p.PlayerID
-                    WHERE gp.GameCode = @GameCode
-                    ORDER BY gp.TotalScore DESC", connection))
-                {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    return command.ExecuteScalar() as string;
-                }
+                command.Parameters.AddWithValue("@GameCode", gameCode);
+                return await command.ExecuteScalarAsync() as string;
             }
         }
 
