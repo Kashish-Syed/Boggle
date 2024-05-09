@@ -15,15 +15,15 @@ namespace BoggleAccessors
             _connection = connection;
         }
 
-        public void AddWordsToDatabase(string filepath)
+        public async Task AddWordsToDatabase(string filepath)
         {
             try
             {
                 using (StreamReader sr = new StreamReader(filepath))
                 {
-                    connection.Open();
+                    await _connection.OpenAsync();
                     string line;
-                    while ((line = sr.ReadLine()) != null)
+                    while ((line = await sr.ReadLine()) != null)
                     {
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
@@ -37,7 +37,7 @@ namespace BoggleAccessors
                                     {
                                         command.Parameters.AddWithValue("@Word", line.ToLower());
                                         command.Parameters.AddWithValue("@Points", points);
-                                        command.ExecuteNonQuery();
+                                        await command.ExecuteNonQueryAsync();
                                     }
                                 }
                                 catch (SqlException ex)
@@ -66,25 +66,25 @@ namespace BoggleAccessors
             }
         }
 
-        public int GetWordID(string word)
+        public async Task<int> GetWordID(string word)
         {
-            connection.Open();
+            await _connection.OpenAsync();
             using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", connection))
             {
                 command.Parameters.AddWithValue("@Word", word);
-                object result = command.ExecuteScalar();
+                object result = await command.ExecuteScalarAsync();
                 return result != null ? Convert.ToInt32(result) : -1;
             }
         }
 
-        public bool IsValidWord(string word)
+        public async Task<bool> IsValidWord(string word)
         {
             word = word.ToLower();
-            connection.Open();
+            await _connection.OpenAsync();
             using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", connection))
             {
                 command.Parameters.AddWithValue("@Word", word.ToLower());
-                int count = Convert.ToInt32(command.ExecuteScalar());
+                int count = Convert.ToInt32(command.ExecuteScalarAsync());
                     
                 if (count > 0) {
                     return true;
