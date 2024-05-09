@@ -18,7 +18,7 @@ namespace BoggleAccessors
             _word = word;
         }
 
-        public async Task AddWordsToDatabase(string filepath)
+        public async Task AddWordsToDatabaseAsync(string filepath)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task<int> GetWordID(string word)
+        public async Task<int> GetWordIDAsync(string word)
         {
             await _connection.OpenAsync();
             using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", connection))
@@ -80,7 +80,7 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task<bool> IsValidWord(string word)
+        public async Task<bool> IsValidWordAsync(string word)
         {
             word = word.ToLower();
             await _connection.OpenAsync();

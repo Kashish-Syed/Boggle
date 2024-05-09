@@ -12,16 +12,16 @@ namespace BoggleContracts
         /// <summary>
         /// Adds all words to database. Input file should have one word per line
         /// </summary>
-        void AddWordsToDatabase(string filepath);
+        Task AddWordsToDatabaseAsync(string filepath);
 
         /// <summary>
         /// Gets the ID of a word
         /// </summary>
-        int GetWordID(string word);
+        Task<int> GetWordIDAsync(string word);
 
         /// <summary>
         /// Returns true if the word is valid
         /// </summary>
-        bool IsValidWord(string word);
+        Task<bool> IsValidWordAsync(string word);
     }
 }
