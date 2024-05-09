@@ -14,24 +14,24 @@ namespace BoggleAccessors
             _connection = connection;
         }
 
-        public void AddPlayer(string username, string password)
+        public async Task AddPlayerAsync(string username, string password)
         {
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public string GetUsername(int userId)
+        public async Task<string> GetUsernameAsync(int userId)
         {
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", connection))
             {
                 command.Parameters.AddWithValue("@PlayerID", userId);
-                object result = command.ExecuteScalar();
+                var result = await command.ExecuteScalarAsync();
                 if (result != null)
                     return result.ToString();
                 else
@@ -39,13 +39,13 @@ namespace BoggleAccessors
             }
         }
 
-        public void RemovePlayer(string username, string password)
+        public async Task RemovePlayerAsync(string username, string password)
         {
-            int userId = Authenticate(username, password);
+            int userId = await AuthenticateAsync(username, password);
             if (userId == -1)
                 throw new ArgumentException("Authentication failed. Player not found.");
                 
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
@@ -54,22 +54,22 @@ namespace BoggleAccessors
             }
         }
 
-        public int Authenticate(string username, string password)
+        public await Task<int> Authenticate(string username, string password)
         {
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
-                object result = command.ExecuteScalar();
+                var result = await command.ExecuteScalarAsync();
                 return result != null ? Convert.ToInt32(result) : -1;
             }
         }
 
-        public DataTable GetGames(string username)
+        public async Task<DataTable> GetGamesAsync(string username)
         {
             DataTable gamesTable = new DataTable();
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT g.GameCode, gp.TotalScore " +
                 "FROM GamePlayer gp " +
@@ -78,18 +78,18 @@ namespace BoggleAccessors
                 "WHERE p.Username = @Username", connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
-                using (var adapter = new SqlDataAdapter(command))
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    adapter.Fill(gamesTable);
+                    gamesTable.Load(reader);
                 }
             }
             return gamesTable;
         }
 
-        public DataTable GetWordsPlayed(string gameCode, string username)
+        public async Task<DataTable> GetWordsPlayedAsync(string gameCode, string username)
         {
             DataTable wordsTable = new DataTable();
-            connection.Open();
+            await connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT w.Word, w.Points FROM GameWord gw " +
                 "JOIN Player p ON gw.PlayerID = p.PlayerID " +
@@ -98,9 +98,9 @@ namespace BoggleAccessors
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 command.Parameters.AddWithValue("@Username", username);
-                using (var adapter = new SqlDataAdapter(command))
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    adapter.Fill(wordsTable);
+                    wordsTable.Load(reader);
                 }
             }
             return wordsTable;
