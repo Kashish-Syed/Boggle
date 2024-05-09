@@ -53,6 +53,10 @@
     color: #fff; 
     border: 1px solid #333;
   }
+
+  span {
+    font-size: 0.75em;
+  }
   
   button {
     padding: 10px 15px;
@@ -140,4 +144,8 @@
 
   .error-message {
     color: red;
+  }
+
+  body.dark-mode .signup-link{
+    color: hotpink;
   }

@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDarkMode } from './DarkModeContext';
-import './styles/Login.css';
+import './styles/Signup.css';
 
-function Login() {
+function Signup() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [error, setError] = useState('');
     const { darkMode, toggleTheme } = useDarkMode();
 
@@ -20,32 +21,13 @@ function Login() {
       }
     }, [navigate]);
 
-    const handleLogin = async () => {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(password)
-      };
-    
-      try {
-        const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/authenticate`, requestOptions);
-        if (response.ok) {
-          const data = await response.json();
-          localStorage.setItem('userId', data.userId);
-          localStorage.setItem('username', username);
-          navigate('/profile');
-        } else if (response.status === 404) {
-          setError('Invalid username or password');
-        }
-      } catch (error) {
-        console.error('Login failed:', error);
-        setError('Login failed. Please try again.');
-      }
+    const handleSignup = async () => {
+      
     };
 
     const handleKeyPress = (event) => {
       if (event.key === 'Enter') {
-          handleLogin();
+          handleSignup();
       }
     };
   
@@ -56,8 +38,8 @@ function Login() {
           <h2>Boggle</h2>
           <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
-        <div className="login-container">
-            <h2>Login</h2>
+        <div className="signup-container">
+            <h2>Sign Up</h2>
             <input
                 className='username'
                 type="text"
@@ -74,8 +56,16 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handleKeyPress}
             />
-            <button onClick={handleLogin}>Login</button>
-            <span>Don't have an account? Sign up <Link to='/signup' className='signup-link'>here</Link> </span>
+            <input
+              className='password-confirmation'
+              type='password'
+              placeholder='Re-type password'
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <button onClick={handleSignup}>Signup</button>
+            <span>Already have an account? Log in <Link to='/login' className='login-link'>here</Link> </span>
             {error && <div className="error-message">{error}</div>}
         </div>
         <div className="footer">
@@ -87,4 +77,4 @@ function Login() {
     );
   }
   
-  export default Login;
+  export default Signup;
