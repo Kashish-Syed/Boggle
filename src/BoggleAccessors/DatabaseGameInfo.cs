@@ -18,13 +18,13 @@ namespace BoggleAccessors
 
         public async Task<string> CreateGameAsync()
         {
-            await connection.OpenAsync();
+            await _connection.OpenAsync();
             var dice = new GameDice();
             var gameCode = GenerateGameCode();
             var board = dice.ShuffleAllDice();
             var boardString = new string(board);
 
-            using (var command = new SqlCommand("INSERT INTO Game (GameCode, Board) VALUES (@GameCode, @Board)", connection))
+            using (var command = new SqlCommand("INSERT INTO Game (GameCode, Board) VALUES (@GameCode, @Board)", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 command.Parameters.AddWithValue("@Board", boardString);
@@ -36,8 +36,8 @@ namespace BoggleAccessors
 
         public async Task<int> DeleteGameAsync(string gameCode)
         {
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 return await command.ExecuteNonQuery();  // This executes all deletes in one command.
@@ -46,8 +46,8 @@ namespace BoggleAccessors
 
         public Task<char[]> GetBoard(string gameCode)
         {
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 var boardString = command.ExecuteScalarAsync() as string;
@@ -57,7 +57,7 @@ namespace BoggleAccessors
 
         public async Task AddPlayerAsync(string gameCode, string username)
         {
-            await connection.OpenAsync();
+            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 @"DECLARE @PlayerID INT;
                 SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username;
@@ -74,7 +74,7 @@ namespace BoggleAccessors
 
         public Task<string> GetWinnerAsync(string gameCode)
         {
-            await connection.OpenAsync();
+            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 @"SELECT TOP 1 p.Username
                 FROM GamePlayer gp
