@@ -6,6 +6,8 @@ import './styles/index.css';
 import App from './App';
 import Login from './Login';
 import Profile from './Profile';
+import Signup from './Signup';
+import Multiplayer from './Multiplayer';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -17,6 +19,8 @@ root.render(
           <Route path="/" element={<App />} /> 
           <Route path="/login" element={<Login />} /> 
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/signup" element={<Signup />}/>
+          <Route path="/multiplayer" element={<Multiplayer/>}/>
         </Routes>
       </Router>
     </DarkMode>
