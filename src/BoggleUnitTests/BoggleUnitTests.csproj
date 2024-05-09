@@ -22,7 +22,6 @@
     <ProjectReference Include="..\BoggleAccessors\BoggleAccessors.csproj" />
     <ProjectReference Include="..\BoggleContracts\BoggleContracts.csproj" />
     <ProjectReference Include="..\BoggleEngines\BoggleEngines.csproj" />
-    <ProjectReference Include="..\BoggleManagers\BoggleManagers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

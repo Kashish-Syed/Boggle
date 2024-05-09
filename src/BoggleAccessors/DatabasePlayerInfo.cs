@@ -14,20 +14,27 @@ namespace BoggleAccessors
             _connection = connection;
         }
 
-        public async Task AddPlayerAsync(string username, string password)
+        public async Task<bool> AddPlayerAsync(string username, string password)
         {
-            await _connection.OpenAsync();
-            using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", _connection))
+            try
             {
-                command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@Password", password);
-                await command.ExecuteNonQueryAsync();
+                using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", _connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    command.Parameters.AddWithValue("@Password", password);
+                    int affectedRows = await command.ExecuteNonQueryAsync();
+                    return affectedRows == 1; 
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
+
         public async Task<string> GetUsernameAsync(int userId)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", _connection))
             {
                 command.Parameters.AddWithValue("@PlayerID", userId);
@@ -39,24 +46,24 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task RemovePlayerAsync(string username, string password)
+        public async Task<bool> RemovePlayerAsync(string username, string password)
         {
             int userId = await AuthenticateAsync(username, password);
             if (userId == -1)
-                throw new ArgumentException("Authentication failed. Player not found.");
-                
-            await _connection.OpenAsync();
+                return false; 
+
             using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
-                command.ExecuteNonQuery();
+                int affectedRows = await command.ExecuteNonQueryAsync();
+                return affectedRows > 0; 
             }
         }
 
+
         public async Task<int> AuthenticateAsync(string username, string password)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
@@ -69,7 +76,6 @@ namespace BoggleAccessors
         public async Task<DataTable> GetGamesAsync(string username)
         {
             DataTable gamesTable = new DataTable();
-            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT g.GameCode, gp.TotalScore " +
                 "FROM GamePlayer gp " +
@@ -89,7 +95,6 @@ namespace BoggleAccessors
         public async Task<DataTable> GetWordsPlayedAsync(string gameCode, string username)
         {
             DataTable wordsTable = new DataTable();
-            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT w.Word, w.Points FROM GameWord gw " +
                 "JOIN Player p ON gw.PlayerID = p.PlayerID " +

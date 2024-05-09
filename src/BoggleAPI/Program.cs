@@ -40,8 +40,7 @@ builder.Services.AddScoped<IDatabasePlayerInfo>(provider =>
 // Inject IWord here as well
 builder.Services.AddScoped<IDatabaseWordInfo>(provider =>
     new DatabaseWordInfo(
-        new SqlConnection(connectionString),
-        provider.GetRequiredService<IWord>()
+        new SqlConnection(connectionString)
     ));
 
 builder.Services.AddControllers();

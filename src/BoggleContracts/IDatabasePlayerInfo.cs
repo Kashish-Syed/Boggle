@@ -13,7 +13,7 @@ public interface IDatabasePlayerInfo
     /// Adds a user to the database
     /// </summary>
     /// <returns></returns>
-    Task AddPlayerAsync(string username, string password);
+    Task<bool> AddPlayerAsync(string username, string password);
 
     /// <summary>
     /// Adds a user to the database
@@ -25,7 +25,7 @@ public interface IDatabasePlayerInfo
     /// Removes a user from the database
     /// </summary>
     /// <returns></returns>
-    Task RemovePlayerAsync(string username, string password);
+    Task<bool> RemovePlayerAsync(string username, string password);
 
     /// <summary>
     /// Returns userid if the password is authenticated

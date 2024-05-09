@@ -3,19 +3,16 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using BoggleContracts;
-using BoggleEngines;
 
 namespace BoggleAccessors
 {
     public class DatabaseWordInfo : IDatabaseWordInfo
     {
         private readonly SqlConnection _connection;
-        private readonly IWord _word;
 
-        public DatabaseWordInfo(SqlConnection connection, IWord word)
+        public DatabaseWordInfo(SqlConnection connection)
         {
             _connection = connection;
-            _word = word;
         }
 
         public async Task AddWordsToDatabaseAsync(string filepath)
@@ -24,14 +21,41 @@ namespace BoggleAccessors
             {
                 using (StreamReader sr = new StreamReader(filepath))
                 {
-                    await _connection.OpenAsync();
                     string line;
                     while ((line = await sr.ReadLineAsync()) != null)
                     {
+                        int wordLength = line.Length;
+                        int points = 0;
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
-                        {
-                            int points = _word.GetPoints(line);
+                        {   
+                            if (wordLength <= 2)
+                            {
+                                points = 0;
+                                Console.WriteLine("Invalid word");
+                            }
+
+                            if (wordLength == 3 || wordLength == 4)
+                            {
+                                points = 1;
+                            }
+                            else if (wordLength == 5)
+                            {
+                                points = 2;
+                            }
+                            else if (wordLength == 6)
+                            {
+                                points = 3;
+                            }
+                            else if (wordLength == 7)
+                            {
+                                points = 5;
+                            }
+                            else
+                            {
+                                points = 11;
+                            }
+                            
                             if (points > 0)
                             {
                                 try
@@ -45,7 +69,7 @@ namespace BoggleAccessors
                                 }
                                 catch (SqlException ex)
                                 {
-                                    if (ex.Number == 2627) // Handle duplicate primary key error
+                                    if (ex.Number == 2627) 
                                     {
                                         Console.WriteLine("Duplicate word skipped: " + line);
                                     }
@@ -87,7 +111,7 @@ namespace BoggleAccessors
             using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", _connection))
             {
                 command.Parameters.AddWithValue("@Word", word.ToLower());
-                int count = Convert.ToInt32(command.ExecuteScalarAsync());
+                int count = Convert.ToInt32(await command.ExecuteScalarAsync());
                     
                 if (count > 0) {
                     return true;

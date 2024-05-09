@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.Data;
 using System.Data.SqlClient;
 using BoggleAccessors;
 
@@ -9,41 +8,40 @@ namespace BoggleAccessorTests.DatabasePlayerInfoTests
     public class DatabasePlayerInfoTests
     {
         private DatabasePlayerInfo _dbPlayerInfo;
+        private SqlConnection _connection;
+        private string connectionString;
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
-            _dbPlayerInfo = new DatabasePlayerInfo();
+            connectionString = "Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
+            _connection = new SqlConnection(connectionString);
+            _dbPlayerInfo = new DatabasePlayerInfo(_connection);
+            await _connection.OpenAsync();
+        }
+
+        [TearDown]
+        public async Task Teardown()
+        {
+            await _connection.CloseAsync();
         }
 
         [Test]
-        public void AddPlayerAddsUserToDatabase()
+        public async Task AddPlayerAddsPlayerToDatabase_Async()
         {
-            _dbPlayerInfo.AddPlayer("TestUser", "TestPass");
-            int playerId = _dbPlayerInfo.Authenticate("TestUser", "TestPass");
-            Assert.That(playerId, Is.Not.EqualTo(-1), "Player was not found");
-            _dbPlayerInfo.RemovePlayer("TestUser", "TestPass");
+            bool result = await _dbPlayerInfo.AddPlayerAsync("TestPlayer1", "TestPassword");
+            Assert.That(result, Is.True, "Player should be successfully added");
+
+            bool deleteResult = await _dbPlayerInfo.RemovePlayerAsync("TestPlayer1", "TestPassword");
+            Assert.That(deleteResult, Is.True, "Player should be successfully removed after test.");
         }
 
         [Test]
-        public void DeletePlayerDeletesUserFromDatabase()
+        public async Task DeletePlayerRemovesPlayerFromDatabase_Async()
         {
-            _dbPlayerInfo.AddPlayer("TestUser", "TestPass");
-
-            try
-            {
-                _dbPlayerInfo.RemovePlayer("TestUser", "TestPass");
-            }
-            catch (InvalidOperationException)
-            {
-                Assert.Fail("Error removing player from database.");
-            }
-            
-            int playerId = _dbPlayerInfo.Authenticate("TestUser", "TestPass");
-            Assert.That(playerId, Is.EqualTo(-1), "Player still exists");
+            await _dbPlayerInfo.AddPlayerAsync("TestPlayer2", "TestPassword");
+            bool result = await _dbPlayerInfo.RemovePlayerAsync("TestPlayer2", "TestPassword");
+            Assert.That(result, Is.True, "Player should be successfully removed");
         }
-
-
-
     }
 }

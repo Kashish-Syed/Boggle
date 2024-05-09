@@ -18,7 +18,6 @@ namespace BoggleAccessors
 
         public async Task<string> CreateGameAsync()
         {
-            await _connection.OpenAsync();
             var dice = new GameDice();
             var gameCode = GenerateGameCode();
             var board = dice.ShuffleAllDice();
@@ -36,7 +35,6 @@ namespace BoggleAccessors
 
         public async Task<int> DeleteGameAsync(string gameCode)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
@@ -46,7 +44,6 @@ namespace BoggleAccessors
 
         public async Task<char[]> GetBoardAsync(string gameCode)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
@@ -57,7 +54,6 @@ namespace BoggleAccessors
 
         public async Task AddPlayerAsync(string gameCode, string username)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 @"DECLARE @PlayerID INT;
                 SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username;
@@ -74,7 +70,6 @@ namespace BoggleAccessors
 
         public async Task<string> GetWinnerAsync(string gameCode)
         {
-            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 @"SELECT TOP 1 p.Username
                 FROM GamePlayer gp
