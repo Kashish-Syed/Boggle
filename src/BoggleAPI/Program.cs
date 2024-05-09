@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure connection string
-var connectionString = builder.Configuration.GetConnectionString("Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddCors(options =>
 {
