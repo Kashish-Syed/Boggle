@@ -3,16 +3,19 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using BoggleContracts;
+using BoggleEngines;
 
 namespace BoggleAccessors
 {
     public class DatabaseWordInfo : IDatabaseWordInfo
     {
         private readonly SqlConnection _connection;
+        private readonly IWord _word;
 
-        public DatabaseWordInfo(SqlConnection connection)
+        public DatabaseWordInfo(SqlConnection connection, IWord word)
         {
             _connection = connection;
+            _word = word;
         }
 
         public async Task AddWordsToDatabase(string filepath)
@@ -28,7 +31,7 @@ namespace BoggleAccessors
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
                         {
-                            int points = CalculatePoints(line);
+                            int points = _word.GetPoints(line);
                             if (points > 0)
                             {
                                 try
@@ -92,17 +95,6 @@ namespace BoggleAccessors
                     return false;
                 }
             }
-        }
-
-        private int CalculatePoints(string word)
-        {
-            int wordLength = word.Length;
-            if (wordLength <= 2) return 0;
-            if (wordLength == 3 || wordLength == 4) return 1;
-            if (wordLength == 5) return 2;
-            if (wordLength == 6) return 3;
-            if (wordLength == 7) return 5;
-            return 11;  // 8 or more letters
         }
     }
 }
