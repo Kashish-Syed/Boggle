@@ -1,7 +1,7 @@
+using BoggleContracts;
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using BoggleContracts;
 
 namespace BoggleAccessors
 {
