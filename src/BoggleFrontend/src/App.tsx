@@ -22,7 +22,7 @@ function App() {
   const [gameMode, setGameMode] = useState<string>("timed");
   const [remainingTime, setRemainingTime] = useState<number>(60);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const { darkMode, toggleTheme } = useDarkMode();
+  const { darkMode } = useDarkMode();
   const [userId] = useState(localStorage.getItem('userId'));
 
   const navigate = useNavigate();
@@ -177,9 +177,7 @@ const handleLetterSelection = (letter, index) => {
   return (
     <div className={darkMode ? "dark-mode" : "light-mode"}>
       <div className="header">
-        <button id="color-scheme-switch" onClick={toggleTheme}>
-          {darkMode ? "Light" : "Dark"}
-        </button>
+        <button id="multiplayer" onClick={() => navigate('/multiplayer')}>Multiplayer</button>
         <h2>Boggle</h2>
         <button id="login" onClick={handleLogin}>
           {userId ? 'Profile' : 'Login'}

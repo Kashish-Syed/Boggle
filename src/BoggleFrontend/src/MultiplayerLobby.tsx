@@ -10,7 +10,6 @@ type Player = {
 
 function Multiplayer() {
   const { darkMode, toggleTheme } = useDarkMode();
-  const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]); 
   const [playerName, setPlayerName] = useState(''); 
   const [gameStarted, setGameStarted] = useState(false); 
@@ -18,16 +17,15 @@ function Multiplayer() {
   const [userId] = useState(localStorage.getItem('userId'));
 
   useEffect(() => {
-    const allReady = players.every((player) => player.ready);
-    if (allReady && players.length > 0) {
+    const allReady = players.length > 0 && players.every((player) => player.ready);
+    if (allReady && !gameStarted && players.length >= 2) {
       startGame();
     }
-  }, [players]);
+  }, [players, gameStarted]);
 
   const startGame = () => {
-    // Start the game
     setGameStarted(true);
-    // Add logic to navigate to the game page or perform any other actions
+    navigate('/');
   };
 
   const handlePlayerJoin = () => {
@@ -56,9 +54,7 @@ function Multiplayer() {
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <div className="header">
-        <button id="color-scheme-switch" onClick={toggleTheme}>
-          {darkMode ? 'Light' : 'Dark'}
-        </button>
+        <button id="multiplayer" onClick={() => navigate('/multiplayer')}>Multiplayer</button>
         <h2>Boggle</h2>
         <button id="login" onClick={handleLogin}>
           {userId ? 'Profile' : 'Login'}
@@ -66,6 +62,7 @@ function Multiplayer() {
       </div>
       <div id="multiplayer-container">
         <div id="ready">
+          <h3>Game ID:</h3>
           <h3>Players:</h3>
           <ul>
             {players.map((player, index) => (

@@ -34,8 +34,7 @@
     border-radius: 10px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: row;
-    justify-content: space-between; 
+    flex-direction: column;
   }
 
   body.light-mode #multiplayer-container {
@@ -58,7 +57,8 @@
   }
 
   #join_game, #host_game {
-    width: 48%;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
 
