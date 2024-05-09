@@ -26,7 +26,7 @@ namespace BoggleAccessors
                 {
                     await _connection.OpenAsync();
                     string line;
-                    while ((line = await sr.ReadLine()) != null)
+                    while ((line = await sr.ReadLineAsync()) != null)
                     {
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
@@ -36,7 +36,7 @@ namespace BoggleAccessors
                             {
                                 try
                                 {
-                                    using (SqlCommand command = new SqlCommand("INSERT INTO Word (Word, Points) VALUES (@Word, @Points)", connection))
+                                    using (SqlCommand command = new SqlCommand("INSERT INTO Word (Word, Points) VALUES (@Word, @Points)", _connection))
                                     {
                                         command.Parameters.AddWithValue("@Word", line.ToLower());
                                         command.Parameters.AddWithValue("@Points", points);
@@ -72,7 +72,7 @@ namespace BoggleAccessors
         public async Task<int> GetWordIDAsync(string word)
         {
             await _connection.OpenAsync();
-            using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", connection))
+            using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", _connection))
             {
                 command.Parameters.AddWithValue("@Word", word);
                 object result = await command.ExecuteScalarAsync();
@@ -84,7 +84,7 @@ namespace BoggleAccessors
         {
             word = word.ToLower();
             await _connection.OpenAsync();
-            using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", connection))
+            using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", _connection))
             {
                 command.Parameters.AddWithValue("@Word", word.ToLower());
                 int count = Convert.ToInt32(command.ExecuteScalarAsync());

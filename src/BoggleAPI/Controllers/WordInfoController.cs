@@ -18,8 +18,9 @@ namespace BoggleAPI.Controllers
             _wordInfo = wordInfo;
         }
 
+        // returns bool
         [HttpPost("isValidWord")]
-        public async Task<IActionResult<bool>> CheckValidWordAsync([FromBody] string word)
+        public async Task<IActionResult> CheckValidWordAsync([FromBody] string word)
         {
             try
             {

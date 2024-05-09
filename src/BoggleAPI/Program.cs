@@ -1,6 +1,7 @@
-using BoggleEngines;
-using BoggleContracts;
 using BoggleAccessors;
+using BoggleContracts;
+using BoggleEngines;
+using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,12 @@ builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
 builder.Services.AddScoped<IDatabasePlayerInfo>(provider =>
     new DatabasePlayerInfo(new SqlConnection(connectionString)));
 
-builder.Services.AddScoped<IDatabaseWordInfo,>(provider =>
-    new DatabaseWordInfo(new SqlConnection(connectionString)));
+// Inject IWord here as well
+builder.Services.AddScoped<IDatabaseWordInfo>(provider =>
+    new DatabaseWordInfo(
+        new SqlConnection(connectionString),
+        provider.GetRequiredService<IWord>()
+    ));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

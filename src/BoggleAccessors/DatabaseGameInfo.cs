@@ -40,17 +40,17 @@ namespace BoggleAccessors
             using (var command = new SqlCommand("DELETE FROM GameWord WHERE GameCode = @GameCode; DELETE FROM GamePlayer WHERE GameCode = @GameCode; DELETE FROM Game WHERE GameCode = @GameCode;", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
-                return await command.ExecuteNonQuery();  // This executes all deletes in one command.
+                return await command.ExecuteNonQueryAsync();  // This executes all deletes in one command.
             }
         }
 
-        public Task<char[]> GetBoardAsync(string gameCode)
+        public async Task<char[]> GetBoardAsync(string gameCode)
         {
             await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
-                var boardString = command.ExecuteScalarAsync() as string;
+                var boardString = await command.ExecuteScalarAsync() as string;
                 return boardString?.ToCharArray();
             }
         }
@@ -64,7 +64,7 @@ namespace BoggleAccessors
                 IF @PlayerID IS NOT NULL
                 BEGIN
                     INSERT INTO GamePlayer (GameCode, PlayerID) VALUES (@GameCode, @PlayerID);
-                END", connection))
+                END", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 command.Parameters.AddWithValue("@Username", username);
@@ -72,7 +72,7 @@ namespace BoggleAccessors
             }
         }
 
-        public Task<string> GetWinnerAsync(string gameCode)
+        public async Task<string> GetWinnerAsync(string gameCode)
         {
             await _connection.OpenAsync();
             using (var command = new SqlCommand(
@@ -80,7 +80,7 @@ namespace BoggleAccessors
                 FROM GamePlayer gp
                 JOIN Player p ON gp.PlayerID = p.PlayerID
                 WHERE gp.GameCode = @GameCode
-                ORDER BY gp.TotalScore DESC", connection))
+                ORDER BY gp.TotalScore DESC", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 return await command.ExecuteScalarAsync() as string;

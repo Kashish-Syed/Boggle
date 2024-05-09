@@ -48,7 +48,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/{username}/add")]
-        public Task<IActionResult> AddPlayerToRecordAsync(string username, [FromBody] string password)
+        public async Task<IActionResult> AddPlayerToRecordAsync(string username, [FromBody] string password)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/{username}/authenticate")]
-        public Task<IActionResult> GetPlayerAuthenticationAsync(string username, [FromBody] string password)
+        public async Task<IActionResult> GetPlayerAuthenticationAsync(string username, [FromBody] string password)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/getUsername")]
-        public Task<IActionResult> GetPlayerUsernameAsync([FromBody] int userId)
+        public async Task<IActionResult> GetPlayerUsernameAsync([FromBody] int userId)
         {
             if (userId <= 0)
             {
@@ -109,7 +109,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpDelete("player/{username}/delete")]
-        public Task<IActionResult> RemovePlayerAsync(string username, [FromBody] string password)
+        public async Task<IActionResult> RemovePlayerAsync(string username, [FromBody] string password)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpGet("player/{username}/games")]
-        public Task<IActionResult> GetGameRecordsAsync(string username)
+        public async Task<IActionResult> GetGameRecordsAsync(string username)
         {
             try
             {
