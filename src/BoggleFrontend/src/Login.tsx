@@ -52,7 +52,9 @@ function Login() {
     return (
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
         <div className="header">
-          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+        <button id="multiplayer" onClick={() => navigate('/multiplayer')}>
+          Multiplayer
+        </button>
           <h2>Boggle</h2>
           <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
