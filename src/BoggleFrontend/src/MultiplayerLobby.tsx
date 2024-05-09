@@ -11,14 +11,13 @@ type Player = {
 function Multiplayer() {
   const { darkMode, toggleTheme } = useDarkMode();
   const [gameCode, setGameCode] = useState('');
-  const [players, setPlayers] = useState<Player[]>([]); // Explicit type annotation for players
-  const [playerName, setPlayerName] = useState(''); // State for player name
-  const [gameStarted, setGameStarted] = useState(false); // State to track if the game has started
+  const [players, setPlayers] = useState<Player[]>([]); 
+  const [playerName, setPlayerName] = useState(''); 
+  const [gameStarted, setGameStarted] = useState(false); 
   const navigate = useNavigate();
   const [userId] = useState(localStorage.getItem('userId'));
 
   useEffect(() => {
-    // Check if all players are ready when players or their readiness changes
     const allReady = players.every((player) => player.ready);
     if (allReady && players.length > 0) {
       startGame();
