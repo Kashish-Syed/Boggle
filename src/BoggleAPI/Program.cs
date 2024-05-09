@@ -4,6 +4,9 @@ using BoggleAccessors;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure connection string
+var connectionString = builder.Configuration.GetConnectionString("Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;");
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -25,9 +28,16 @@ builder.Services.AddCors(options =>
 builder.Services.AddSingleton<IGameDice, GameDice>();
 builder.Services.AddSingleton<IWord, Word>();
 builder.Services.AddSingleton<IGameSession, GameSession>();
-builder.Services.AddSingleton<IDatabaseGameInfo, DatabaseGameInfo>();
-builder.Services.AddSingleton<IDatabasePlayerInfo, DatabasePlayerInfo>();
-builder.Services.AddSingleton<IDatabaseWordInfo, DatabaseWordInfo>();
+
+// DIs for the database accessors
+builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
+    new DatabaseGameInfo(new SqlConnection(connectionString)));
+
+builder.Services.AddScoped<IDatabasePlayerInfo>(provider =>
+    new DatabasePlayerInfo(new SqlConnection(connectionString)));
+
+builder.Services.AddScoped<IDatabaseWordInfo,>(provider =>
+    new DatabaseWordInfo(new SqlConnection(connectionString)));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
