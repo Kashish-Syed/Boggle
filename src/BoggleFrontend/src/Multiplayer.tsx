@@ -47,19 +47,28 @@ function Multiplayer() {
         <div id="join_game">
           <h2>Join a Game</h2>
           <form onSubmit={handleJoinGame}>
-            <label>Enter Game Code: </label>
+            <label>Host IP: </label>
             <input
               type="text"
+              placeholder="Enter Host's IP"
               value={joinGameCode}
               onChange={(e) => setJoinGameCode(e.target.value)}
             />
+            <br />
+            <label>Host Port: </label>
+            <input
+              type="text"
+              placeholder="Enter Host's port number"
+              value={joinGameCode}
+              onChange={(e) => setJoinGameCode(e.target.value)}
+            />
+            <br />
             <button type="submit">Submit</button>
           </form>
         </div>
         <div id="host_game">
           <h2>Host a Game</h2>
-          <button onClick={handleHostGame}>Generate Code</button>
-          <p>Game Code: {hostGameCode}</p>
+          <button onClick={handleHostGame}>Click to Host Game</button>
         </div>
       </div>
       <div className="footer">
