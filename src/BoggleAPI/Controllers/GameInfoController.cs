@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace BoggleAPI.Controllers
 {
     [ApiController]
-    [Route("api/[gameinfo]")]
+    [Route("api/[controller]")]
     public class GameInfoController : ControllerBase
     {
         private readonly IDatabaseGameInfo _gameInfo;
