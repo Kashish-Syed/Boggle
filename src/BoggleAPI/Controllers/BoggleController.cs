@@ -13,9 +13,9 @@ namespace BoggleAPI.Controllers
     {
         private readonly IDatabaseGameInfo _gameInfo;
         private readonly IDatabasePlayerInfo _playerInfo;
-        private readonly IGameDice _gameDice;
-
         private readonly IDatabaseWordInfo _wordInfo;
+
+        private readonly IGameDice _gameDice;
 
         public BoggleController(IDatabaseGameInfo gameInfo, IDatabasePlayerInfo playerInfo, IGameDice gameDice, IDatabaseWordInfo wordInfo)
         {
@@ -27,7 +27,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpGet("shuffle")]
-        public ActionResult<char[]> GetShuffledDice()
+        public async ActionResult<char[]> GetShuffledDice()
         {
             try
             {
@@ -41,11 +41,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("isValidWord")]
-        public ActionResult<bool> CheckValidWord([FromBody] string word)
+        public async Task<IActionResult<bool>> CheckValidWordAsync([FromBody] string word)
         {
             try
             {
-                bool isValidWord = _wordInfo.IsValidWord(word);
+                bool isValidWord = await _wordInfo.IsValidWordAsync(word);
                 return Ok(isValidWord);
             }
             catch (Exception ex)
@@ -55,11 +55,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("game/createGame")]
-        public ActionResult<string> CreateGame()
+        public async Task<IActionResult<string>> MakeGameAsync()
         {
             try
             {
-                string gameCode = _gameInfo.CreateGame();
+                string gameCode = await _gameInfo.CreateGameAsync();
                 return Ok(gameCode);
             }
             catch (Exception ex)
@@ -69,11 +69,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpGet("game/{gameCode}/getBoard")]
-        public ActionResult<char[]> GetBoard(string gameCode)
+        public async Task<IActionResult<char[]>> MakeBoardAsync(string gameCode)
         {
             try
             {
-                char[] board = _gameInfo.GetBoard(gameCode);
+                char[] board = await _gameInfo.GetBoardAsync(gameCode);
                 return Ok(board);
             }
             catch (Exception ex)
@@ -83,11 +83,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpGet("game/{gameCode}/getWinner")]
-        public ActionResult<string> GetWinner(string gameCode)
+        public Task<IActionResult<string>> FindWinnerAsync(string gameCode)
         {
             try
             {
-                string winner = _gameInfo.GetWinner(gameCode);
+                string winner = await _gameInfo.GetWinnerAsync(gameCode);
                 return Ok(winner);
             }
             catch (Exception ex)
@@ -97,11 +97,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpDelete("game/{gameCode}/delete")]
-        public ActionResult DeleteGame(string gameCode)
+        public async Task<IActionResult> RemoveGameAsync(string gameCode)
         {
             try
             {
-                int result = _gameInfo.DeleteGame(gameCode);
+                int result = await _gameInfo.DeleteGameAsync(gameCode);
                 if(result > 0)
                     return Ok();
                 else
@@ -114,11 +114,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpGet("game/{gameCode}/getWordsPlayed/{username}")]
-        public IActionResult GetWordsPlayed(string gameCode, string username)
+        public async Task<IActionResult> GetPlayerWordsAsync(string gameCode, string username)
         {
             try
             {
-                DataTable words = _playerInfo.GetWordsPlayed(gameCode, username);
+                DataTable words = await _playerInfo.GetWordsPlayedAsync(gameCode, username);
                 string json = JsonConvert.SerializeObject(words, Formatting.Indented);
                 return Ok(json);
             }
@@ -129,11 +129,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("game/{gameCode}/addPlayerToGame/{username}")]
-        public IActionResult AddPlayerToGame(string gameCode, string username)
+        public async Task<IActionResult> AddPlayerToGameAsync(string gameCode, string username)
         {
             try
             {
-                _playerInfo.AddPlayer(gameCode, username);
+                await _playerInfo.AddPlayerAsync(gameCode, username);
                 return Ok("Player added successfully.");
             }
             catch (Exception ex)
@@ -143,11 +143,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/{username}/add")]
-        public ActionResult AddPlayer(string username,[FromBody] string password)
+        public Task<IActionResult> AddPlayerToRecordAsync(string username,[FromBody] string password)
         {
             try
             {
-                _playerInfo.AddPlayer(username, password);
+                await _playerInfo.AddPlayerAsync(username, password);
                 return Ok();
             }
             catch (Exception ex)
@@ -157,11 +157,11 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/{username}/authenticate")]
-        public ActionResult AuthenticatePlayer(string username, [FromBody] string password)
+        public Task<IActionResult> GetPlayerAuthenticationAsync(string username, [FromBody] string password)
         {
             try
             {
-                int userId = _playerInfo.Authenticate(username, password);
+                int userId = await _playerInfo.AuthenticateAsync(username, password);
                 if (userId != -1)
                 {
                     return Ok(new { UserId = userId });
@@ -178,7 +178,7 @@ namespace BoggleAPI.Controllers
         }
 
         [HttpPost("player/getUsername")]
-        public ActionResult GetUsername([FromBody] int userId)
+        public Task<IActionResult> GetPlayerUsernameAsync([FromBody] int userId)
         {
             if (userId <= 0)
             {
@@ -187,7 +187,7 @@ namespace BoggleAPI.Controllers
 
             try
             {
-                string username = _playerInfo.GetUsername(userId);
+                string username = await _playerInfo.GetUsernameAsync(userId);
                 if (string.IsNullOrEmpty(username))
                 {
                     return NotFound("No user found");
@@ -206,11 +206,11 @@ namespace BoggleAPI.Controllers
 
 
         [HttpDelete("player/{username}/delete")] 
-        public ActionResult DeletePlayer(string username, [FromBody] string password)
+        public Task<IActionResult> RemovePlayerAsync(string username, [FromBody] string password)
         {
             try
             {
-                _playerInfo.RemovePlayer(username, password);
+                await _playerInfo.RemovePlayerAsync(username, password);
                 return Ok("Player removed successfully.");
             }
             catch (Exception ex)
@@ -223,11 +223,11 @@ namespace BoggleAPI.Controllers
 
 
         [HttpGet("player/{username}/games")]
-        public IActionResult GetGames(string username)
+        public Task<IActionResult> GetGameRecordsAsync(string username)
         {
             try
             {
-                DataTable games = _playerInfo.GetGames(username);
+                DataTable games = await _playerInfo.GetGamesAsync(username);
                 string json = JsonConvert.SerializeObject(games, Formatting.Indented);
                 return Ok(json);
             }

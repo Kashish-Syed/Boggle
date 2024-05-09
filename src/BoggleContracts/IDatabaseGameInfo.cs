@@ -32,6 +32,6 @@ namespace BoggleContracts
         /// <summary>
         /// Returns the player with the most points
         /// </summary>
-        Task<string> GetWinner(string gameCode);
+        Task<string> GetWinnerAsync(string gameCode);
     }
 }

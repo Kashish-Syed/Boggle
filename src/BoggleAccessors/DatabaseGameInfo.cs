@@ -44,7 +44,7 @@ namespace BoggleAccessors
             }
         }
 
-        public Task<char[]> GetBoard(string gameCode)
+        public Task<char[]> GetBoardAsync(string gameCode)
         {
             await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT Board FROM Game WHERE GameCode = @GameCode", _connection))

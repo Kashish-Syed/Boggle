@@ -54,7 +54,7 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task<int> Authenticate(string username, string password)
+        public async Task<int> AuthenticateAsync(string username, string password)
         {
             await _connection.OpenAsync();
             using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", _connection))
