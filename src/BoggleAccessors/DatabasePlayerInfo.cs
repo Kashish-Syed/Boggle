@@ -16,8 +16,8 @@ namespace BoggleAccessors
 
         public async Task AddPlayerAsync(string username, string password)
         {
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("INSERT INTO Player (Username, Password) VALUES (@Username, @Password)", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
@@ -27,8 +27,8 @@ namespace BoggleAccessors
 
         public async Task<string> GetUsernameAsync(int userId)
         {
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT Username FROM Player WHERE PlayerID = @PlayerID", _connection))
             {
                 command.Parameters.AddWithValue("@PlayerID", userId);
                 var result = await command.ExecuteScalarAsync();
@@ -45,8 +45,8 @@ namespace BoggleAccessors
             if (userId == -1)
                 throw new ArgumentException("Authentication failed. Player not found.");
                 
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
@@ -54,10 +54,10 @@ namespace BoggleAccessors
             }
         }
 
-        public await Task<int> Authenticate(string username, string password)
+        public async Task<int> Authenticate(string username, string password)
         {
-            await connection.OpenAsync();
-            using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", connection))
+            await _connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT PlayerID FROM Player WHERE Username = @Username AND Password = @Password", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 command.Parameters.AddWithValue("@Password", password);
@@ -69,13 +69,13 @@ namespace BoggleAccessors
         public async Task<DataTable> GetGamesAsync(string username)
         {
             DataTable gamesTable = new DataTable();
-            await connection.OpenAsync();
+            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT g.GameCode, gp.TotalScore " +
                 "FROM GamePlayer gp " +
                 "JOIN Player p ON gp.PlayerID = p.PlayerID " +
                 "JOIN Game g ON gp.GameCode = g.GameCode " +
-                "WHERE p.Username = @Username", connection))
+                "WHERE p.Username = @Username", _connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
                 using (var reader = await command.ExecuteReaderAsync())
@@ -89,12 +89,12 @@ namespace BoggleAccessors
         public async Task<DataTable> GetWordsPlayedAsync(string gameCode, string username)
         {
             DataTable wordsTable = new DataTable();
-            await connection.OpenAsync();
+            await _connection.OpenAsync();
             using (var command = new SqlCommand(
                 "SELECT w.Word, w.Points FROM GameWord gw " +
                 "JOIN Player p ON gw.PlayerID = p.PlayerID " +
                 "JOIN Word w ON gw.WordID = w.WordID " +
-                "WHERE gw.GameCode = @GameCode AND p.Username = @Username", connection))
+                "WHERE gw.GameCode = @GameCode AND p.Username = @Username", _connection))
             {
                 command.Parameters.AddWithValue("@GameCode", gameCode);
                 command.Parameters.AddWithValue("@Username", username);
