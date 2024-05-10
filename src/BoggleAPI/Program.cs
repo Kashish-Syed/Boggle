@@ -2,6 +2,7 @@ using BoggleAccessors;
 using BoggleContracts;
 using BoggleEngines;
 using System.Data.SqlClient;
+using BoggleAPI.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddCors(options =>
 
 // Dependency Injections into Boggle Controller
 builder.Services.AddSingleton<IGameDice, GameDice>();
+builder.Services.AddSingleton<IBoggleServer, BoggleServer>();
 
 builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
     new DatabaseGameInfo(connectionString));

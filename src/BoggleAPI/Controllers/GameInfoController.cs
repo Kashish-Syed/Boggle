@@ -12,10 +12,20 @@ namespace BoggleAPI.Controllers
     public class GameInfoController : ControllerBase
     {
         private readonly IDatabaseGameInfo _gameInfo;
+        private readonly IBoggleServer _boggleServer;
 
-        public GameInfoController(IDatabaseGameInfo gameInfo)
+        // would need to refactor this and add it somewhere else later
+        private class GameCreationResult
+        {
+            public string GameCode { get; set; }
+            public int GamePort { get; set; }
+            public string GameIpAddress { get; set; }
+        }
+
+        public GameInfoController(IDatabaseGameInfo gameInfo, IBoggleServer boggleServer)
         {
             _gameInfo = gameInfo;
+            _boggleServer = boggleServer;
         }
 
         // returns string
@@ -24,8 +34,32 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                string gameCode = await _gameInfo.CreateGameAsync();
-                return Ok(gameCode);
+                string gameCode = "11111";
+                //string gameCode = await _gameInfo.CreateGameAsync();
+                Tuple<string, int> gameServerInfo = _boggleServer.StartServer();
+
+                var result = new GameCreationResult
+                {
+                    GameCode = gameCode,
+                    GamePort = gameServerInfo.Item2,
+                    GameIpAddress = gameServerInfo.Item1,
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("game/startGame")]
+        public IActionResult StartMultiplayerGame()
+        {
+            try
+            {
+                _boggleServer.StartGame();
+                return Ok(true);
             }
             catch (Exception ex)
             {
