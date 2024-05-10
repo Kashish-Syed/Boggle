@@ -26,12 +26,12 @@ function App() {
   const [userId] = useState(localStorage.getItem('userId'));
 
   const navigate = useNavigate();
-
+  
   useEffect(() => {
-    if (gameStarted || gameMode !== "timed") {
-      resetLetters();
+    if (gameMode !== "timed") {
+      handleStartGame();
     }
-  }, [gameStarted, gameMode]);
+  }, [gameMode]);
 
   useEffect(() => {
     let timer;
@@ -41,7 +41,6 @@ function App() {
       }, 1000);
     } else if (remainingTime <= 0 && gameMode === "timed") {
       setErrorMessage("Time's up! You can no longer submit words.");
-      setGameStarted(false);
     }
   
     return () => clearInterval(timer);
@@ -49,7 +48,16 @@ function App() {
 
   const resetLetters = async () => {
     if (!gameStarted && gameMode === "timed") return;
-    
+    setClickedLetters("");
+    setCompletedWords([]);
+    setErrorMessage("");
+    setClickedIndices([]);
+    setRemainingTime(60);
+    setLetters(placeholderLetters);
+    setGameStarted(false);
+  };
+
+  const getLetters = async () => {
     try {
       const shuffleResponse = await fetch("http://localhost:5189/api/Boggle/shuffle", {
         method: 'GET',
@@ -59,18 +67,11 @@ function App() {
       });
       if (!shuffleResponse.ok) throw new Error("Failed to get board");
       const data = await shuffleResponse.json();
-
-      setLetters(data);
-      setClickedCells(new Array(data.length).fill(false));
-      setClickedLetters("");
-      setCompletedWords([]);
-      setErrorMessage("");
-      setClickedIndices([]);
-      setRemainingTime(60);
+      return data;
     } catch (error) {
       console.error("Failed to fetch letters: ", error);
     }
-  };
+  }
 
   
   
@@ -121,17 +122,17 @@ function App() {
     }
   };
 
-const handleLetterSelection = (letter, index) => {
-  // Ensure letter clicked is adjacent or diagonal
-  if (clickedIndices.length > 0) {
-    const prevIndex = clickedIndices[clickedIndices.length - 1];
-    const prevRowIndex = Math.floor(prevIndex / 4);
-    const prevColIndex = prevIndex % 4;
-    const currRowIndex = Math.floor(index / 4);
-    const currColIndex = index % 4;
+  const handleLetterSelection = (letter, index) => {
+    // Ensure letter clicked is adjacent or diagonal
+    if (clickedIndices.length > 0) {
+      const prevIndex = clickedIndices[clickedIndices.length - 1];
+      const prevRowIndex = Math.floor(prevIndex / 4);
+      const prevColIndex = prevIndex % 4;
+      const currRowIndex = Math.floor(index / 4);
+      const currColIndex = index % 4;
 
-    const rowDifference = Math.abs(currRowIndex - prevRowIndex);
-    const colDifference = Math.abs(currColIndex - prevColIndex);
+      const rowDifference = Math.abs(currRowIndex - prevRowIndex);
+      const colDifference = Math.abs(currColIndex - prevColIndex);
 
     if (rowDifference > 1 || colDifference > 1) {
       setErrorMessage("Select a letter that is adjacent or diagonal to the previously clicked letter.");
@@ -154,6 +155,9 @@ const handleLetterSelection = (letter, index) => {
   };
 
   const handleStartGame = async () => {
+    const data = await getLetters();
+    setLetters(data);
+    setClickedCells(new Array(data.length).fill(false));
     setGameStarted(true);
     setRemainingTime(60);
   };
@@ -167,6 +171,7 @@ const handleLetterSelection = (letter, index) => {
       setRemainingTime(60);
       setLetters(placeholderLetters);
       setGameStarted(false);
+      resetLetters();
     }
   };
 
