@@ -8,22 +8,13 @@ namespace BoggleAccessorTests.DatabasePlayerInfoTests
     public class DatabasePlayerInfoTests
     {
         private DatabasePlayerInfo _dbPlayerInfo;
-        private SqlConnection _connection;
         private string connectionString;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             connectionString = "Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
-            _connection = new SqlConnection(connectionString);
-            _dbPlayerInfo = new DatabasePlayerInfo(_connection);
-            await _connection.OpenAsync();
-        }
-
-        [TearDown]
-        public async Task Teardown()
-        {
-            await _connection.CloseAsync();
+            _dbPlayerInfo = new DatabasePlayerInfo(connectionString);
         }
 
         [Test]

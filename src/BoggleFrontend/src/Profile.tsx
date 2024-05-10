@@ -20,7 +20,7 @@ function Profile(){
     const getGamesPlayed = async () => {
       if (username) {
         try {
-          const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/games`);
+          const response = await fetch(`http://localhost:5189/api/PlayerInfo/player/${username}/games`);
           if (response.ok) {
             const data: Game[] = await response.json();
             setGames(data); 
@@ -59,28 +59,12 @@ function Profile(){
           <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
       <div className="information-container">
-        <h1>{username || 'Username'}</h1>
-          <h2>Stats</h2>
-          <span>Longest word: SAVIOR</span>
-          <span>Best Gamescore: 42 points</span>
-          <h2>Settings</h2>
-          <span>Game Timer: 3 mins</span>
-          <span>
-          Change Timer:
-            <input
-                  className='game-length'
-                  type="text"
-                  placeholder="3 min"
-                  value={gameLength}
-                  onChange={(e) => setGameLength(e.target.value)}
-                  onKeyDown={handleKeyPress}
-            />
-          </span>
-          <button id="logout" onClick={handleLogout}>Logout</button>
+        <h1 className="usernameView">{username || 'Username'}</h1>
+          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
           <div className="games-list">
           <h2>Games Played</h2>
           {games.length > 0 ? (
-            <ul>
+            <ul className="games">
               {games.map((game, index) => (
                 <li key={index}>
                   {game.GameCode} -  Score: {game.TotalScore}
@@ -91,7 +75,7 @@ function Profile(){
             <p>No games played yet.</p>
           )}
         </div>
-        <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+        <button id="logout" onClick={handleLogout}>Logout</button>
       </div>
       <div className="footer">
           <a href='https://github.com/Kashish-Syed/Boggle' className="github-link">

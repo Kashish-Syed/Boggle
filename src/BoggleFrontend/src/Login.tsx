@@ -28,7 +28,7 @@ function Login() {
       };
     
       try {
-        const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/authenticate`, requestOptions);
+        const response = await fetch(`http://localhost:5189/api/PlayerInfo/player/${username}/authenticate`, requestOptions);
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem('userId', data.userId);

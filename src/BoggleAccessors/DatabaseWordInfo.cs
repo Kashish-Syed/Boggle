@@ -1,124 +1,110 @@
 using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using BoggleContracts;
 
 namespace BoggleAccessors
 {
     public class DatabaseWordInfo : IDatabaseWordInfo
     {
-        private readonly SqlConnection _connection;
+        private readonly string _connectionString;
 
-        public DatabaseWordInfo(SqlConnection connection)
+        public DatabaseWordInfo(string connectionString)
         {
-            _connection = connection;
+            _connectionString = connectionString;
         }
 
         public async Task AddWordsToDatabaseAsync(string filepath)
         {
-            try
+            using (var _connection = new SqlConnection(_connectionString))
             {
+                await _connection.OpenAsync();
                 using (StreamReader sr = new StreamReader(filepath))
                 {
                     string line;
                     while ((line = await sr.ReadLineAsync()) != null)
                     {
-                        int wordLength = line.Length;
-                        int points = 0;
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
-                        {   
-                            if (wordLength <= 2)
-                            {
-                                points = 0;
-                                Console.WriteLine("Invalid word");
-                            }
-
-                            if (wordLength == 3 || wordLength == 4)
-                            {
-                                points = 1;
-                            }
-                            else if (wordLength == 5)
-                            {
-                                points = 2;
-                            }
-                            else if (wordLength == 6)
-                            {
-                                points = 3;
-                            }
-                            else if (wordLength == 7)
-                            {
-                                points = 5;
-                            }
-                            else
-                            {
-                                points = 11;
-                            }
-                            
+                        {
+                            int points = CalculatePoints(line.Length);
                             if (points > 0)
                             {
-                                try
-                                {
-                                    using (SqlCommand command = new SqlCommand("INSERT INTO Word (Word, Points) VALUES (@Word, @Points)", _connection))
-                                    {
-                                        command.Parameters.AddWithValue("@Word", line.ToLower());
-                                        command.Parameters.AddWithValue("@Points", points);
-                                        await command.ExecuteNonQueryAsync();
-                                    }
-                                }
-                                catch (SqlException ex)
-                                {
-                                    if (ex.Number == 2627) 
-                                    {
-                                        Console.WriteLine("Duplicate word skipped: " + line);
-                                    }
-                                    else
-                                    {
-                                        throw;
-                                    }
-                                }
+                                await InsertWordAsync(_connection, line.ToLower(), points);
                             }
                             else
                             {
-                                Console.WriteLine("Invalid word: " + line);
+                                Console.WriteLine($"Invalid word: {line}");
                             }
                         }
                     }
                 }
             }
-            catch (Exception ex)
+        }
+
+        public async Task InsertWordAsync(SqlConnection connection, String word, Int32 points)
+        {
+            try
             {
-                throw new InvalidOperationException($"Failed to add words to the database: {ex.Message}", ex);
+                var query = "INSERT INTO dbo.Word (Word, Points) VALUES (@word, @points)";
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@word", word);
+                    cmd.Parameters.AddWithValue("@points", points);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number != 2627) 
+                {
+                    throw; 
+                }
             }
         }
 
+
         public async Task<int> GetWordIDAsync(string word)
         {
-            await _connection.OpenAsync();
-            using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", _connection))
+            using (var _connection = new SqlConnection(_connectionString))
             {
-                command.Parameters.AddWithValue("@Word", word);
-                object result = await command.ExecuteScalarAsync();
-                return result != null ? Convert.ToInt32(result) : -1;
+                await _connection.OpenAsync();
+                using (SqlCommand command = new SqlCommand("SELECT WordID FROM Word WHERE Word = @Word", _connection))
+                {
+                    command.Parameters.AddWithValue("@Word", word);
+                    object result = await command.ExecuteScalarAsync();
+                    return result != null ? Convert.ToInt32(result) : -1;
+                }
             }
         }
 
         public async Task<bool> IsValidWordAsync(string word)
         {
-            word = word.ToLower();
-            await _connection.OpenAsync();
-            using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", _connection))
+            using (var _connection = new SqlConnection(_connectionString))
             {
-                command.Parameters.AddWithValue("@Word", word.ToLower());
-                int count = Convert.ToInt32(await command.ExecuteScalarAsync());
-                    
-                if (count > 0) {
-                    return true;
-                } else {
-                    return false;
+                await _connection.OpenAsync();
+                using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word WHERE Word = @Word", _connection))
+                {
+                    command.Parameters.AddWithValue("@Word", word);
+                    int count = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    return count > 0;
                 }
             }
+        }
+
+        private int CalculatePoints(int wordLength)
+        {
+            return wordLength switch
+            {
+                <= 2 => 0,
+                3 or 4 => 1,
+                5 => 2,
+                6 => 3,
+                7 => 5,
+                _ => 11,
+            };
         }
     }
 }

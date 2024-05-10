@@ -27,21 +27,15 @@ builder.Services.AddCors(options =>
 
 // Dependency Injections into Boggle Controller
 builder.Services.AddSingleton<IGameDice, GameDice>();
-builder.Services.AddSingleton<IWord, Word>();
-builder.Services.AddSingleton<IGameSession, GameSession>();
 
-// DIs for the database accessors
 builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
-    new DatabaseGameInfo(new SqlConnection(connectionString)));
+    new DatabaseGameInfo(connectionString));
 
 builder.Services.AddScoped<IDatabasePlayerInfo>(provider =>
-    new DatabasePlayerInfo(new SqlConnection(connectionString)));
+    new DatabasePlayerInfo(connectionString));
 
-// Inject IWord here as well
 builder.Services.AddScoped<IDatabaseWordInfo>(provider =>
-    new DatabaseWordInfo(
-        new SqlConnection(connectionString)
-    ));
+    new DatabaseWordInfo(connectionString));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

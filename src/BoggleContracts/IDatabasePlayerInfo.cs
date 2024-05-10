@@ -44,4 +44,16 @@ public interface IDatabasePlayerInfo
     /// </summary>
     /// <returns></returns>
     Task<DataTable> GetWordsPlayedAsync(string gameCode, string username);
+
+    /// <summary>
+    /// adds a record that the player played a word in the given game
+    /// </summary>
+    /// <returns></returns>
+    Task<bool> AddWordPlayedAsync(string gameCode, string username, string word);
+
+    /// <summary>
+    /// gets the id of the username
+    /// </summary>
+    /// <returns></returns>
+    Task<int> GetPlayerIdAsync(string username);
 }

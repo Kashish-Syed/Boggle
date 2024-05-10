@@ -51,20 +51,15 @@ function App() {
     if (!gameStarted && gameMode === "timed") return;
     
     try {
-      const createResponse = await fetch("http://localhost:5189/api/Boggle/game/createGame", {
-        method: 'POST',
+      const shuffleResponse = await fetch("http://localhost:5189/api/Boggle/shuffle", {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      if (!createResponse.ok) throw new Error("Failed to create new game");
-      const gameCode = await createResponse.text();
-      console.log("GameCode: " + gameCode);
-  
-      const boardResponse = await fetch(`http://localhost:5189/api/Boggle/game/${gameCode}/getBoard`);
-      if (!boardResponse.ok) throw new Error("Failed to fetch game board");
-      const data = await boardResponse.json(); 
-  
+      if (!shuffleResponse.ok) throw new Error("Failed to get board");
+      const data = await shuffleResponse.json();
+
       setLetters(data);
       setClickedCells(new Array(data.length).fill(false));
       setClickedLetters("");
@@ -76,6 +71,7 @@ function App() {
       console.error("Failed to fetch letters: ", error);
     }
   };
+
   
   
 
@@ -88,7 +84,7 @@ function App() {
       const word = clickedLetters;
       // API call to validate the word
       try {
-        const response = await fetch('http://localhost:5189/api/Boggle/isValidWord', {
+        const response = await fetch('http://localhost:5189/api/WordInfo/isValidWord', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

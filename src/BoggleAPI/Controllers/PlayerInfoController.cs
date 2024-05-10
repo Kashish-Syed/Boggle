@@ -33,6 +33,28 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        [HttpPost("game/{gameCode}/addWordPlayed/{username}")]
+        public async Task<IActionResult> AddWordPlayedAsync(string gameCode, string username, [FromBody] string word)
+        {
+            try
+            {
+                bool result = await _playerInfo.AddWordPlayedAsync(gameCode, username, word);
+                if (result)
+                {
+                    return Ok("Word added successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to add word.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
         [HttpPost("game/{gameCode}/addPlayerToGame/{username}")]
         public async Task<IActionResult> AddPlayerToGameAsync(string gameCode, string username)
         {

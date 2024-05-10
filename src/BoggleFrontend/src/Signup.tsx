@@ -22,7 +22,30 @@ function Signup() {
     }, [navigate]);
 
     const handleSignup = async () => {
-      
+      if (password !== passwordConfirmation) {
+        setError('Passwords do not match');
+        return;
+      }
+      try {
+        const response = await fetch('http://localhost:5189/api/WordInfo/isValidWord', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(password) 
+        });
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('userId', data.userId);
+          localStorage.setItem('username', username);
+          navigate('/profile');
+        } else {
+          setError('Failed to create account. Please try again.');
+        }
+      } catch (error) {
+        console.error('Signup failed:', error);
+        setError('Signup failed. Please try again.');
+      }
     };
 
     const handleKeyPress = (event) => {

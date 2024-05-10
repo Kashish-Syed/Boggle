@@ -10,22 +10,13 @@ namespace BoggleAccessorTests.DatabaseWordInfoTests
     public class AddWordsToDatabaseTests
     {
         private DatabaseWordInfo _dbWordInfo;
-        private SqlConnection _connection;
         private string connectionString;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             connectionString = "Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
-            _connection = new SqlConnection(connectionString);
-            _dbWordInfo = new DatabaseWordInfo(_connection);
-            await _connection.OpenAsync();
-        }
-
-        [TearDown]
-        public async Task Teardown()
-        {
-            await _connection.CloseAsync();
+            _dbWordInfo = new DatabaseWordInfo(connectionString);
         }
 
         [Test]
