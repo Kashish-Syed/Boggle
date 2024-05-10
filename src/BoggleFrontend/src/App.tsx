@@ -91,6 +91,7 @@ function App() {
           readOnly
           value={completedWords.join(", ")} 
           rows={3} 
+          style={{ resize: "none" }}
         />
         {errorMessage && <h3 className="error-message">{errorMessage}</h3>}
       </div>
