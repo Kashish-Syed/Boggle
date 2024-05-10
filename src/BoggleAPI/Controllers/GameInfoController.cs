@@ -3,6 +3,7 @@ using BoggleContracts;
 using BoggleEngines;
 using System;
 using System.Data;
+using System.Net;
 using Newtonsoft.Json;
 
 namespace BoggleAPI.Controllers
@@ -13,6 +14,7 @@ namespace BoggleAPI.Controllers
     {
         private readonly IDatabaseGameInfo _gameInfo;
         private readonly IBoggleServer _boggleServer;
+        private readonly IBoggleClient _boggleClient;
 
         // would need to refactor this and add it somewhere else later
         private class GameCreationResult
@@ -22,10 +24,11 @@ namespace BoggleAPI.Controllers
             public string GameIpAddress { get; set; }
         }
 
-        public GameInfoController(IDatabaseGameInfo gameInfo, IBoggleServer boggleServer)
+        public GameInfoController(IDatabaseGameInfo gameInfo, IBoggleServer boggleServer, IBoggleClient boggleClient)
         {
             _gameInfo = gameInfo;
             _boggleServer = boggleServer;
+            _boggleClient = boggleClient;
         }
 
         // returns string
@@ -36,16 +39,28 @@ namespace BoggleAPI.Controllers
             {
                 string gameCode = "11111";
                 //string gameCode = await _gameInfo.CreateGameAsync();
-                Tuple<string, int> gameServerInfo = _boggleServer.StartServer();
+                Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer();
+
+                await Task.Delay(2000);
+
+                // test the server, will be removed later
+                await _boggleClient.connectPlayersAsync(gameServerInfo.Item1, gameServerInfo.Item2);
+
+                await Task.Delay(2000);
 
                 var result = new GameCreationResult
                 {
                     GameCode = gameCode,
                     GamePort = gameServerInfo.Item2,
-                    GameIpAddress = gameServerInfo.Item1,
+                    GameIpAddress = gameServerInfo.Item1.ToString(),
                 };
                 // send game code to all clients
                 await _boggleServer.sendMessageToPlayersAsync(gameCode);
+
+                await Task.Delay(2000);
+
+                await _boggleClient.receiveMessagesAsync();
+                
                 return Ok(result);
             }
             catch (Exception ex)

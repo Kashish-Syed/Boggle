@@ -23,7 +23,7 @@ namespace BoggleAPI.Server
         {
         }
 
-        public Tuple<string, int> StartServer()
+        public Tuple<IPAddress, int> StartServer()
         {
             // passing 0 so that any avilable port would be assigned
             _server = new TcpListener(IPAddress.Any, 0);
@@ -37,14 +37,16 @@ namespace BoggleAPI.Server
             IPEndPoint localEndPoint = _server.LocalEndpoint as IPEndPoint;
             // get the assigned port number
             int port = localEndPoint.Port;
-            string ipAddress = localEndPoint.Address.ToString();
+
+            // get local ip, (127.0.0.1)
+            IPAddress ipAddress = IPAddress.Loopback;
 
             Console.WriteLine($"Server started on port {port}");
 
             GetPlayersAsync();
 
             // give both the IpAddress and Port number of the 
-            return new Tuple<string, int>(ipAddress, port);
+            return new Tuple<IPAddress, int>(ipAddress, port);
         }
 
         private async Task GetPlayersAsync()
@@ -52,6 +54,7 @@ namespace BoggleAPI.Server
             // keep track of player count
             int playerCount = 0;
 
+            // max other players that can join is 3
             while (_isRunning && playerCount < 4)
             {
                 TcpClient player = await _server.AcceptTcpClientAsync();
@@ -95,7 +98,6 @@ namespace BoggleAPI.Server
                     tempCount++;
                 }
             }
-
         }
     }
 }
