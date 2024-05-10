@@ -44,7 +44,8 @@ namespace BoggleAPI.Controllers
                     GamePort = gameServerInfo.Item2,
                     GameIpAddress = gameServerInfo.Item1,
                 };
-
+                // send game code to all clients
+                await _boggleServer.sendMessageToPlayersAsync(gameCode);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -17,6 +17,7 @@ namespace BoggleAPI.Server
         private TcpListener _server;
         private bool _isRunning = false;
         private Timer _boggleTimer;
+        private List<TcpClient> _players = new List<TcpClient>();
 
         public BoggleServer()
         {
@@ -40,26 +41,29 @@ namespace BoggleAPI.Server
 
             Console.WriteLine($"Server started on port {port}");
 
-            GetPlayers();
+            GetPlayersAsync();
 
             // give both the IpAddress and Port number of the 
             return new Tuple<string, int>(ipAddress, port);
         }
 
-        private async Task GetPlayers()
+        private async Task GetPlayersAsync()
         {
             // keep track of player count
             int playerCount = 0;
 
-            while (_isRunning && playerCount <= 4)
+            while (_isRunning && playerCount < 4)
             {
                 TcpClient player = await _server.AcceptTcpClientAsync();
+                _players.Add(player);
                 playerCount++;
+                Console.WriteLine($"player {playerCount} connected");
             }
         }
 
         public void StartGame()
         {
+            // change game timer here
             _boggleTimer = new Timer(EndGame, null, 30000, Timeout.Infinite);
             Console.WriteLine("game timer started, you have 30 seconds");
         }
@@ -71,6 +75,27 @@ namespace BoggleAPI.Server
             Console.WriteLine("Game ended and the server is stopped.");
         }
 
-        // could add pause game as well here
+        // send message to all clients
+        public async Task sendMessageToPlayersAsync(string message)
+        {
+            int tempCount = 0;
+            
+            if (_players.Count == 0)
+            {
+                Console.WriteLine("Can't send message b/c no connected clients");
+            } else
+            {
+                byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+
+                foreach (var player in _players)
+                {
+                    await using NetworkStream stream = player.GetStream();
+                    await stream.WriteAsync(messageBuffer);
+                    Console.WriteLine($"message sent to {tempCount}");
+                    tempCount++;
+                }
+            }
+
+        }
     }
 }
