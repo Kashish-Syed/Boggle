@@ -5,11 +5,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-/// 
 namespace BoggleAPI.Server
 {
     public class BoggleServer : IBoggleServer
@@ -25,28 +20,41 @@ namespace BoggleAPI.Server
 
         public Tuple<IPAddress, int> StartServer()
         {
-            // passing 0 so that any avilable port would be assigned
+            // passing 0 so that any available port would be assigned
             _server = new TcpListener(IPAddress.Any, 0);
 
             // start the server
             _server.Start();
 
-            // set stat of ther server to running
+            // set state of the server to running
             _isRunning = true;
 
             IPEndPoint localEndPoint = _server.LocalEndpoint as IPEndPoint;
             // get the assigned port number
             int port = localEndPoint.Port;
 
-            // get local ip, (127.0.0.1)
-            IPAddress ipAddress = IPAddress.Loopback;
+            // get local IP address 
+            IPAddress localIP = GetLocalIPAddress();
 
-            Console.WriteLine($"Server started on port {port}");
+            Console.WriteLine($"Server started on IP {localIP} and port {port}");
 
             GetPlayersAsync();
 
-            // give both the IpAddress and Port number of the 
-            return new Tuple<IPAddress, int>(ipAddress, port);
+            // return both the IpAddress and Port number of the server
+            return new Tuple<IPAddress, int>(localIP, port);
+        }
+
+        private IPAddress GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork) // IPv4
+                {
+                    return ip;
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
         private async Task GetPlayersAsync()
@@ -68,7 +76,7 @@ namespace BoggleAPI.Server
         {
             // change game timer here
             _boggleTimer = new Timer(EndGame, null, 30000, Timeout.Infinite);
-            Console.WriteLine("game timer started, you have 30 seconds");
+            Console.WriteLine("Game timer started, you have 30 seconds");
         }
 
         public void EndGame(object state)
@@ -82,11 +90,12 @@ namespace BoggleAPI.Server
         public async Task sendMessageToPlayersAsync(string message)
         {
             int tempCount = 0;
-            
+
             if (_players.Count == 0)
             {
-                Console.WriteLine("Can't send message b/c no connected clients");
-            } else
+                Console.WriteLine("Can't send message because no connected clients");
+            }
+            else
             {
                 byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
 
@@ -94,7 +103,7 @@ namespace BoggleAPI.Server
                 {
                     await using NetworkStream stream = player.GetStream();
                     await stream.WriteAsync(messageBuffer);
-                    Console.WriteLine($"message sent to {tempCount}");
+                    Console.WriteLine($"Message sent to player {tempCount}");
                     tempCount++;
                 }
             }

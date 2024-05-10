@@ -37,8 +37,8 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                string gameCode = "11111";
-                //string gameCode = await _gameInfo.CreateGameAsync();
+                // string gameCode = "11111";
+                string gameCode = await _gameInfo.CreateGameAsync();
                 Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer();
 
                 await Task.Delay(2000);
