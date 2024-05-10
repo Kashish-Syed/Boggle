@@ -7,9 +7,8 @@ namespace BoggleAccessorTests.DatabaseGameInfoTests
     [TestFixture]
     public class DatabaseGameInfoTests
     {
-        private DatabaseGameInfo _dbGameInfo;
-
         private string connectionString;
+        private DatabaseGameInfo _dbGameInfo;
 
         [SetUp]
         public void Setup()
@@ -43,6 +42,14 @@ namespace BoggleAccessorTests.DatabaseGameInfoTests
             Assert.That(retrievedBoard, Is.EqualTo(expectedBoard), "Retrieved board did not match stored board");
 
             await _dbGameInfo.DeleteGameAsync(gameCode);
+        }
+
+        [Test]
+        public async Task DeleteGameDeletesGame_Async()
+        {
+            string gameCode = await _dbGameInfo.CreateGameAsync();
+            int deleteResult = await _dbGameInfo.DeleteGameAsync(gameCode);
+            Assert.That(deleteResult, Is.EqualTo(1), "Game was not deleted");
         }
     }
 }

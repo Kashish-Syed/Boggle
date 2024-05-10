@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Data.SqlClient;
+using System.Data;
 using BoggleAccessors;
 
 namespace BoggleAccessorTests.DatabasePlayerInfoTests
@@ -33,6 +34,19 @@ namespace BoggleAccessorTests.DatabasePlayerInfoTests
             await _dbPlayerInfo.AddPlayerAsync("TestPlayer2", "TestPassword");
             bool result = await _dbPlayerInfo.RemovePlayerAsync("TestPlayer2", "TestPassword");
             Assert.That(result, Is.True, "Player should be successfully removed");
+        }
+
+        [Test]
+        public async Task AuthenticateReturnsCorrectPlayerId_Async()
+        {
+            string username = "TestUser";
+            string password = "TestPass";
+
+            await _dbPlayerInfo.AddPlayerAsync(username, password);
+            int playerId = await _dbPlayerInfo.AuthenticateAsync(username, password);
+            Assert.That(playerId, Is.Not.EqualTo(-1), "Player was not found");
+
+            await _dbPlayerInfo.RemovePlayerAsync(username, password);
         }
     }
 }
