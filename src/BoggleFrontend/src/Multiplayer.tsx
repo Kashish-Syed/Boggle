@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { useDarkMode } from './DarkModeContext';
-import { connectToTcp } from './TcpConnect';
 import './styles/Multiplayer.css';
 import { connect } from '../../../../AppData/Local/Microsoft/TypeScript/5.2/node_modules/undici-types/api';
 
@@ -25,31 +24,33 @@ function Multiplayer() {
 
   const handleJoinGame = (event) => {
       event.preventDefault();
+      // connect to the web socket server
       const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
+
       var portNum = Number(joinPort);
 
       ws.onopen = () => {
-          console.log('WebSocket connection established');
+          console.log('made connection to ws relay server');
           const tcpDetails = {
               type: 'join',
               tcpIp: joinIp,
               tcpPort: portNum
           };
           ws.send(JSON.stringify(tcpDetails));
+          navigate(`/multiplayer-lobby`);
       };
 
       ws.onmessage = (event) => {
-          console.log('Message from server:', event.data);
+          console.log('message from server:', event.data);
       };
 
       ws.onerror = (error) => {
-          console.error('WebSocket error:', error);
+          console.error('websocket error:', error);
       };
 
       ws.onclose = () => {
-          console.log('WebSocket connection closed');
+          console.log('ws connection closed');
       };
-
     };
 
     //const handleJoinGame = (event) => {
