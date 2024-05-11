@@ -1,5 +1,6 @@
 ﻿using BoggleContracts;
 using System;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -14,12 +15,13 @@ namespace BoggleAPI.Client
 {
     public class BoggleClient : IBoggleClient
     {
-        private List<TcpClient> _players = new List<TcpClient>();
+        private ConcurrentBag<TcpClient> _players;
 
         public async Task connectPlayersAsync(IPAddress ipAddress, int port)
         {
             int numPlayers = 2;
             var ipEndPoint = new IPEndPoint(ipAddress, port);
+            _players = new ConcurrentBag<TcpClient>();
 
             for (int i = 0; i < numPlayers; i++)
             {
@@ -31,18 +33,24 @@ namespace BoggleAPI.Client
 
         public async Task receiveMessagesAsync()
         {
-            int tempCount = 0;
-            foreach (var player in _players)
+            int tempCount = 1;
+            try
             {
-                await using NetworkStream stream = player.GetStream();
+                foreach (var player in _players)
+                {
+                    await using NetworkStream stream = player.GetStream();
 
-                var messageBuffer = new byte[1_024];
-                int receivedMessage = await stream.ReadAsync(messageBuffer);
+                    var messageBuffer = new byte[1_024];
+                    int receivedMessage = await stream.ReadAsync(messageBuffer);
 
-                var message = Encoding.UTF8.GetString(messageBuffer, 0, receivedMessage);
-                Console.WriteLine($"client {tempCount} received gamecode: {message}");
-                tempCount++;
-                player.Close();
+                    var message = Encoding.UTF8.GetString(messageBuffer, 0, receivedMessage);
+                    Console.WriteLine($"client {tempCount} received gamecode: {message}");
+                    tempCount++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"receive message async: {ex.Message}");
             }
         }
     }

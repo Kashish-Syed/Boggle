@@ -1,5 +1,6 @@
 ﻿using BoggleContracts;
 using System;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,8 +12,10 @@ namespace BoggleAPI.Server
     {
         private TcpListener _server;
         private bool _isRunning = false;
+        private bool _receivingPlayers = false;
+        private CancellationTokenSource _cancellationTokenSource;
         private Timer _boggleTimer;
-        private List<TcpClient> _players = new List<TcpClient>();
+        private ConcurrentBag<TcpClient> _players = new ConcurrentBag<TcpClient>();
 
         public BoggleServer()
         {
@@ -21,27 +24,37 @@ namespace BoggleAPI.Server
         public Tuple<IPAddress, int> StartServer()
         {
             // passing 0 so that any available port would be assigned
-            _server = new TcpListener(IPAddress.Any, 0);
+            _server = new TcpListener(IPAddress.Any, 1337);
+            _cancellationTokenSource = new CancellationTokenSource();
 
-            // start the server
-            _server.Start();
+            try
+            {
+                // start the server
+                _server.Start();
 
-            // set state of the server to running
-            _isRunning = true;
+                // set state of the server to running
+                _isRunning = true;
+                _receivingPlayers = true;
 
-            IPEndPoint localEndPoint = _server.LocalEndpoint as IPEndPoint;
-            // get the assigned port number
-            int port = localEndPoint.Port;
+                IPEndPoint localEndPoint = _server.LocalEndpoint as IPEndPoint;
+                // get the assigned port number
+                int port = localEndPoint.Port;
 
-            // get local IP address 
-            IPAddress localIP = GetLocalIPAddress();
+                // get local IP address 
+                IPAddress localIP = GetLocalIPAddress();
 
-            Console.WriteLine($"Server started on IP {localIP} and port {port}");
+                Console.WriteLine($"Server started on IP {localIP} and port {port}");
 
-            GetPlayersAsync();
+                GetPlayersAsync(_cancellationTokenSource.Token);
 
-            // return both the IpAddress and Port number of the server
-            return new Tuple<IPAddress, int>(localIP, port);
+                // return both the IpAddress and Port number of the server
+                return new Tuple<IPAddress, int>(localIP, port);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"server start: {ex.Message}");
+                return new Tuple<IPAddress, int>(IPAddress.Any, 1337);
+            }
         }
 
         private IPAddress GetLocalIPAddress()
@@ -57,39 +70,73 @@ namespace BoggleAPI.Server
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
-        private async Task GetPlayersAsync()
+        private async Task GetPlayersAsync(CancellationToken cancellationToken)
         {
             // keep track of player count
-            int playerCount = 0;
+            int playerCount = 1;
 
-            // max other players that can join is 3
-            while (_isRunning && playerCount < 4)
+            try
             {
-                TcpClient player = await _server.AcceptTcpClientAsync();
-                _players.Add(player);
-                playerCount++;
-                Console.WriteLine($"player {playerCount} connected");
+                // max other players that can join is 3
+                while (_isRunning && _receivingPlayers && playerCount < 4)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine("game started, no more players can join");
+                        break;
+                    }
+                    TcpClient player = await _server.AcceptTcpClientAsync(cancellationToken);
+                    _players.Add(player);
+                    Console.WriteLine($"player {playerCount} connected");
+                    playerCount++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetPlayersAsync: {ex.Message}");
             }
         }
 
         public void StartGame()
         {
             // change game timer here
-            _boggleTimer = new Timer(EndGame, null, 30000, Timeout.Infinite);
+            _receivingPlayers = false;
+            _cancellationTokenSource.Cancel();
+
+            _boggleTimer = new Timer(EndGame, null, 10000, Timeout.Infinite);
             Console.WriteLine("Game timer started, you have 30 seconds");
         }
 
         public void EndGame(object state)
         {
-            _isRunning = false;
-            _server?.Stop();
-            Console.WriteLine("Game ended and the server is stopped.");
+            try
+            {
+                _isRunning = false;
+                foreach (var player in _players)
+                {
+                    if (player.Connected)
+                    {
+                        NetworkStream stream = player.GetStream();
+                        stream.Close();
+                        player.Close();
+                    }
+                }
+                _server?.Stop();
+                _server?.Dispose();
+                
+                _players = new ConcurrentBag<TcpClient>();
+                Console.WriteLine("Game ended and the server is stopped.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"EndGame: {ex.Message}");
+            }
         }
 
         // send message to all clients
         public async Task sendMessageToPlayersAsync(string message)
         {
-            int tempCount = 0;
+            int tempCount = 1;
 
             if (_players.Count == 0)
             {
@@ -101,10 +148,15 @@ namespace BoggleAPI.Server
 
                 foreach (var player in _players)
                 {
-                    await using NetworkStream stream = player.GetStream();
-                    await stream.WriteAsync(messageBuffer);
-                    Console.WriteLine($"Message sent to player {tempCount}");
-                    tempCount++;
+                    if (player.Connected)
+                    {
+                        await using (NetworkStream stream = player.GetStream())
+                        {
+                            await stream.WriteAsync(messageBuffer);
+                            Console.WriteLine($"Message sent to player {tempCount}");
+                            tempCount++;
+                        }
+                    }
                 }
             }
         }

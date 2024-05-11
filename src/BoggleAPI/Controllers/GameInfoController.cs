@@ -41,12 +41,12 @@ namespace BoggleAPI.Controllers
                 string gameCode = await _gameInfo.CreateGameAsync();
                 Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer();
 
-                await Task.Delay(2000);
+                await Task.Delay(1000);
 
                 // test the server, will be removed later
                 await _boggleClient.connectPlayersAsync(gameServerInfo.Item1, gameServerInfo.Item2);
 
-                await Task.Delay(2000);
+                await Task.Delay(1000);
 
                 var result = new GameCreationResult
                 {
