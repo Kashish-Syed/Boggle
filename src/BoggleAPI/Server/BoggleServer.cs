@@ -21,7 +21,7 @@ namespace BoggleAPI.Server
         {
         }
 
-        public Tuple<IPAddress, int> StartServer()
+        public Tuple<IPAddress, int> StartServer(string gameCode)
         {
             // passing 0 so that any available port would be assigned
             _server = new TcpListener(IPAddress.Any, 1337);
@@ -45,7 +45,7 @@ namespace BoggleAPI.Server
 
                 Console.WriteLine($"Server started on IP {localIP} and port {port}");
 
-                GetPlayersAsync(_cancellationTokenSource.Token);
+                GetPlayersAsync(gameCode, _cancellationTokenSource.Token);
 
                 // return both the IpAddress and Port number of the server
                 return new Tuple<IPAddress, int>(localIP, port);
@@ -70,7 +70,7 @@ namespace BoggleAPI.Server
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
-        private async Task GetPlayersAsync(CancellationToken cancellationToken)
+        private async Task GetPlayersAsync(string gameCode, CancellationToken cancellationToken)
         {
             // keep track of player count
             int playerCount = 1;
@@ -87,7 +87,9 @@ namespace BoggleAPI.Server
                     }
                     TcpClient player = await _server.AcceptTcpClientAsync(cancellationToken);
                     _players.Add(player);
+                    // send the gameCode to players as soon as they connect
                     Console.WriteLine($"player {playerCount} connected");
+                    sendMessageToPlayerAsync(player, gameCode, playerCount);
                     playerCount++;
                 }
             }
@@ -112,13 +114,16 @@ namespace BoggleAPI.Server
             try
             {
                 _isRunning = false;
-                foreach (var player in _players)
+                if (_players.Count != 0)
                 {
-                    if (player.Connected)
+                    foreach (var player in _players)
                     {
-                        NetworkStream stream = player.GetStream();
-                        stream.Close();
-                        player.Close();
+                        if (player.Connected)
+                        {
+                            NetworkStream stream = player.GetStream();
+                            stream.Close();
+                            player.Close();
+                        }
                     }
                 }
                 _server?.Stop();
@@ -130,6 +135,21 @@ namespace BoggleAPI.Server
             catch (Exception ex)
             {
                 Console.WriteLine($"EndGame: {ex.Message}");
+            }
+        }
+
+        // send message to a single client
+        private async Task sendMessageToPlayerAsync(TcpClient player, string message, int playerCount)
+        {
+            byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+
+            if (player.Connected)
+            {
+                await using (NetworkStream stream = player.GetStream())
+                {
+                    await stream.WriteAsync(messageBuffer);
+                    Console.WriteLine($"Message sent to player {playerCount}");
+                }
             }
         }
 

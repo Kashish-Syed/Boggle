@@ -2,27 +2,67 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { useDarkMode } from './DarkModeContext';
+import { connectToTcp } from './TcpConnect';
 import './styles/Multiplayer.css';
+import { connect } from '../../../../AppData/Local/Microsoft/TypeScript/5.2/node_modules/undici-types/api';
+
+Modal.setAppElement('body');
+const WS_PORT = 8080; 
+
 
 function Multiplayer() {
   const { darkMode } = useDarkMode();
   const navigate = useNavigate();
   const [userId] = useState(localStorage.getItem('userId'));
-    const [hostIpAddress, setHostIpAddress] = useState('');
-    const [hostPort, setHostPort] = useState('');
+  const [hostIpAddress, setHostIpAddress] = useState('');
+  const [hostPort, setHostPort] = useState('');
   const [hostGameCode, setHostGameCode] = useState('');
-    const [openPopup, setOpenPopup] = useState(false);
-    const [error, setError] = useState('');
+  const [joinPort, setJoinPort] = useState('');
+  const [joinIp, setJoinIp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [error, setError] = useState('');
 
-  //const handleJoinGame = (event) => {
-  //  event.preventDefault();
-  //  console.log(`Joining game with code: ${joinGameCode}`);
-  //  if (joinGameCode.trim() !== '') {
-  //    navigate(`/multiplayer-lobby`);
-  //  }
-  //};
+  const handleJoinGame = (event) => {
+      event.preventDefault();
+      const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
+      var portNum = Number(joinPort);
+
+      ws.onopen = () => {
+          console.log('WebSocket connection established');
+          const tcpDetails = {
+              type: 'join',
+              tcpIp: joinIp,
+              tcpPort: portNum
+          };
+          ws.send(JSON.stringify(tcpDetails));
+      };
+
+      ws.onmessage = (event) => {
+          console.log('Message from server:', event.data);
+      };
+
+      ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+      };
+
+      ws.onclose = () => {
+          console.log('WebSocket connection closed');
+      };
+
+    };
+
+    //const handleJoinGame = (event) => {
+    //    event.preventDefault();
+    //    console.log(`Joining game with code: ${joinGameCode}`);
+    //    if (joinGameCode.trim() !== '') {
+    //        navigate(`/multiplayer-lobby`);
+    //    }
+    //};
 
     const handleHostGame = async () => {
+        setOpenPopup(true);
+        setLoading(true);
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -30,12 +70,12 @@ function Multiplayer() {
         };
       try {
           const response = await fetch(`http://localhost:5189/api/GameInfo/game/createGame`, requestOptions);
+          setLoading(false);
           if (response.ok) {
               const data = await response.json();
               setHostIpAddress(data.gameIpAddress);
               setHostPort(data.gamePort);
               setHostGameCode(data.gameCode);
-              setOpenPopup(true);
           }
       }
       catch (error) {
@@ -70,42 +110,52 @@ function Multiplayer() {
       <div id="multiplayer-container">
         <div id="join_game">
           <h2>Join a Game</h2>
-          <form>
+          <form onSubmit={handleJoinGame}>
             <label>Host IP: </label>
             <input
               type="text"
               placeholder="Enter Host's IP"
-              //value={joinGameCode}
-              //onChange={(e) => setJoinGameCode(e.target.value)}
+              value={joinIp}
+              onChange={(e) => setJoinIp(e.target.value)}
             />
             <br />
             <label>Host Port: </label>
             <input
               type="text"
               placeholder="Enter Host's port number"
-              //value={joinGameCode}
-              //onChange={(e) => setJoinGameCode(e.target.value)}
+              value={joinPort}
+              onChange={(e) => setJoinPort(e.target.value)}
             />
             <br />
             <button type="submit">Submit</button>
           </form>
-        </div>
+              </div>
         <div id="host_game">
           <h2>Host a Game</h2>
           <button onClick={handleHostGame}>Click to Host Game</button>
-        </div>
-              {openPopup && (
-                  <div className="pop-up">
-                      <div className="pop-up-content">
-                          <span className='close' onClick={closePopup}>&times;</span>
-                          <p>Game Session Info</p>
-                          <p>Host IP: {hostIpAddress}</p>
-                          <p>Port Number: {hostPort}</p>
-                          <p>Game Code: {hostGameCode}</p>
-                          <button className='close-button' onClick={closePopup}>Done</button>
-                      </div>
-                  </div>
-              )}
+            {openPopup && (
+                <Modal
+                    isOpen={true}
+                    onRequestClose={closePopup}
+                    contentLabel="Game Session Info"
+                    className="modal"
+                    overlayClassName="overlay"
+                >
+                    {loading ? (
+                        <div className="spinner"></div>
+                    ) : (
+                        <div className="pop-up-content">
+                            <span className='close' onClick={closePopup}>&times;</span>
+                            <p>Game Session Info</p>
+                            <p>Host IP: {hostIpAddress}</p>
+                            <p>Port Number: {hostPort}</p>
+                            <p>Game Code: {hostGameCode}</p>
+                            <button className='close-button' onClick={closePopup}>Done</button>
+                        </div>
+                    )}
+                </Modal>
+                  )}
+              </div>
       </div>
       <div className="footer">
         <a href="https://github.com/Kashish-Syed/Boggle" className="github-link">

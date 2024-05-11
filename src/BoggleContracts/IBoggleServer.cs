@@ -13,7 +13,7 @@ namespace BoggleContracts
         /// <summary>
         /// starts the game server
         /// </summary>
-        Tuple<IPAddress, int> StartServer();
+        Tuple<IPAddress, int> StartServer(string gameCode);
 
         /// <summary>
         /// Returns the gameboard as a char array

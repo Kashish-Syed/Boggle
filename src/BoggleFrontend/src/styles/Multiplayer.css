@@ -78,6 +78,26 @@ button:hover {
   transition: 0.2s;
 }
 
+.spinner {
+    border: 4px solid rgba(0,0,0,.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 body.light-mode .cell {
   background-color: rgb(225, 224, 224);
   color: black;

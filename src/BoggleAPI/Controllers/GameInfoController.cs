@@ -39,14 +39,14 @@ namespace BoggleAPI.Controllers
             {
                 // string gameCode = "11111";
                 string gameCode = await _gameInfo.CreateGameAsync();
-                Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer();
+                Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer(gameCode);
 
                 await Task.Delay(1000);
 
                 // test the server, will be removed later
-                await _boggleClient.connectPlayersAsync(gameServerInfo.Item1, gameServerInfo.Item2);
+                //await _boggleClient.connectPlayersAsync(gameServerInfo.Item1, gameServerInfo.Item2);
 
-                await Task.Delay(1000);
+                //await Task.Delay(1000);
 
                 var result = new GameCreationResult
                 {
@@ -55,11 +55,11 @@ namespace BoggleAPI.Controllers
                     GameIpAddress = gameServerInfo.Item1.ToString(),
                 };
                 // send game code to all clients
-                await _boggleServer.sendMessageToPlayersAsync(gameCode);
+                // await _boggleServer.sendMessageToPlayersAsync(gameCode);
 
                 await Task.Delay(2000);
 
-                await _boggleClient.receiveMessagesAsync();
+                //await _boggleClient.receiveMessagesAsync();
                 
                 return Ok(result);
             }
@@ -75,6 +75,20 @@ namespace BoggleAPI.Controllers
             try
             {
                 _boggleServer.StartGame();
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("game/endGame")]
+        public IActionResult EndMUltiplayerGame()
+        {
+            try
+            {
+                _boggleServer.EndGame(null);
                 return Ok(true);
             }
             catch (Exception ex)
