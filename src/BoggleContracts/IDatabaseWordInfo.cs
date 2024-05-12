@@ -20,6 +20,7 @@ namespace BoggleContracts
         /// <summary>
         /// Adds all words to database. Input file should have one word per line
         /// </summary>
+        /// 
         Task AddWordsToDatabaseAsync(string filepath);
 
         /// <summary>

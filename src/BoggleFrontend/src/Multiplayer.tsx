@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { useDarkMode } from './DarkModeContext';
+import { WS_PORT } from "./Constants";
 import './styles/Multiplayer.css';
 import { connect } from '../../../../AppData/Local/Microsoft/TypeScript/5.2/node_modules/undici-types/api';
 
 Modal.setAppElement('body');
-const WS_PORT = 8080; 
-
 
 function Multiplayer() {
   const { darkMode } = useDarkMode();
@@ -52,14 +51,6 @@ function Multiplayer() {
           console.log('ws connection closed');
       };
     };
-
-    //const handleJoinGame = (event) => {
-    //    event.preventDefault();
-    //    console.log(`Joining game with code: ${joinGameCode}`);
-    //    if (joinGameCode.trim() !== '') {
-    //        navigate(`/multiplayer-lobby`);
-    //    }
-    //};
 
     const handleHostGame = async () => {
         setOpenPopup(true);

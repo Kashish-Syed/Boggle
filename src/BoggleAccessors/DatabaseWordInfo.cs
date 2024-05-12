@@ -24,6 +24,7 @@ namespace BoggleAccessors
             _connectionString = connectionString;
         }
 
+        /// <inheritdoc />
         public async Task AddWordsToDatabaseAsync(string filepath)
         {
             using (var _connection = new SqlConnection(_connectionString))
@@ -52,6 +53,7 @@ namespace BoggleAccessors
             }
         }
 
+        /// <inheritdoc />
         public async Task InsertWordAsync(SqlConnection connection, String word, Int32 points)
         {
             try
@@ -74,6 +76,7 @@ namespace BoggleAccessors
         }
 
 
+        /// <inheritdoc />
         public async Task<int> GetWordIDAsync(string word)
         {
             using (var _connection = new SqlConnection(_connectionString))
@@ -88,6 +91,7 @@ namespace BoggleAccessors
             }
         }
 
+        /// <inheritdoc />
         public async Task<bool> IsValidWordAsync(string word)
         {
             using (var _connection = new SqlConnection(_connectionString))
@@ -102,7 +106,12 @@ namespace BoggleAccessors
             }
         }
 
-        private int CalculatePoints(int wordLength)
+        /// <summary>
+        /// Calculates the score of the word based on its length.
+        /// </summary>
+        /// <param name="wordLength"></param>
+        /// <returns></returns>
+        private static int CalculatePoints(int wordLength)
         {
             return wordLength switch
             {

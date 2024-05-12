@@ -23,6 +23,7 @@ namespace BoggleAccessors
             _connectionString = connectionString;
         }
 
+        /// <inheritdoc />
         public async Task<string> CreateGameAsync()
         {
             var dice = new GameDice();
@@ -43,6 +44,7 @@ namespace BoggleAccessors
             return gameCode;
         }
 
+        /// <inheritdoc />
         public async Task<int> DeleteGameAsync(string gameCode)
         {
             using (var _connection = new SqlConnection(_connectionString))
@@ -56,7 +58,8 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task<char[]> GetBoardAsync(string gameCode)
+        /// <inheritdoc />
+        public async Task<char[]?> GetBoardAsync(string gameCode)
         {
             using (var _connection = new SqlConnection(_connectionString))
             {
@@ -70,6 +73,7 @@ namespace BoggleAccessors
             }
         }
 
+        /// <inheritdoc />
         public async Task AddPlayerAsync(string gameCode, string username)
         {
             using (var _connection = new SqlConnection(_connectionString))
@@ -90,7 +94,8 @@ namespace BoggleAccessors
             }
         }
 
-        public async Task<string> GetWinnerAsync(string gameCode)
+        /// <inheritdoc />
+        public async Task<string?> GetWinnerAsync(string gameCode)
         {
             using (var _connection = new SqlConnection(_connectionString))
             {
@@ -108,6 +113,10 @@ namespace BoggleAccessors
             }
         }
 
+        /// <summary>
+        /// Generate a 5 character game code.
+        /// </summary>
+        /// <returns></returns>
         private string GenerateGameCode()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
