@@ -26,6 +26,10 @@ namespace BoggleAPI.Controllers
             _gameDice = gameDice;
         }
 
+        /// <summary>
+        /// API Endpoint for shuffling the dice.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("shuffle")]
         public ActionResult<char[]> GetShuffledDice()
         {

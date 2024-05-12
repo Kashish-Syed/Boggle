@@ -6,18 +6,16 @@
 // Description: Accessor class for interating with Word data in the SQL database.
 // ----------------------------------------------------------------------------------------------------
 
-using System;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using BoggleContracts;
+using BoggleEngines;
+using System.Data.SqlClient;
 
 namespace BoggleAccessors
 {
     public class DatabaseWordInfo : IDatabaseWordInfo
     {
         private readonly string _connectionString;
+        WordScore wordScore = new WordScore();
 
         public DatabaseWordInfo(string connectionString)
         {
@@ -38,7 +36,7 @@ namespace BoggleAccessors
                         line = line.Trim();
                         if (!string.IsNullOrEmpty(line) && line.All(char.IsLetter))
                         {
-                            int points = CalculatePoints(line.Length);
+                            int points = wordScore.CalculatePoints(line.Length);
                             if (points > 0)
                             {
                                 await InsertWordAsync(_connection, line.ToLower(), points);
@@ -104,24 +102,6 @@ namespace BoggleAccessors
                     return count > 0;
                 }
             }
-        }
-
-        /// <summary>
-        /// Calculates the score of the word based on its length.
-        /// </summary>
-        /// <param name="wordLength"></param>
-        /// <returns></returns>
-        private static int CalculatePoints(int wordLength)
-        {
-            return wordLength switch
-            {
-                <= 2 => 0,
-                3 or 4 => 1,
-                5 => 2,
-                6 => 3,
-                7 => 5,
-                _ => 11,
-            };
         }
     }
 }

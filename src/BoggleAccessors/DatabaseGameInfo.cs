@@ -6,12 +6,9 @@
 // Description: Accessor class for interating with Game data in the SQL database.
 // ----------------------------------------------------------------------------------------------------
 
-using System;
-using System.Data.SqlClient;
 using BoggleContracts;
 using BoggleEngines;
-using System.Linq;
-using Microsoft.VisualBasic;
+using System.Data.SqlClient;
 
 namespace BoggleAccessors
 {

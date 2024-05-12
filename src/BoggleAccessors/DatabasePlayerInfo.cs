@@ -7,12 +7,9 @@
 // ----------------------------------------------------------------------------------------------------
 
 using BoggleContracts;
-using System;
+using BoggleEngines;
 using System.Data;
 using System.Data.SqlClient;
-using BoggleAccessors;
-using BoggleEngines;
-using NUnit.Framework.Constraints;
 
 namespace BoggleAccessors
 {
@@ -91,6 +88,7 @@ namespace BoggleAccessors
             {
                 return -1;
             }
+
             using (var _connection = new SqlConnection(_connectionString))
             {
                 await _connection.OpenAsync();
