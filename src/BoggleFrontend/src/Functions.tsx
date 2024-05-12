@@ -238,6 +238,7 @@ export function toggleGameMode(
       setRemainingTime(60);
       setLetters(placeholderLetters);
       setGameStarted(false);
+      setCompletedWords([]);
       resetLetters(
         false,
         "timed",
