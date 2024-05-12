@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: DatabaseGameInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Accessor class for interating with Game data in the SQL database.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Data.SqlClient;
 using BoggleContracts;

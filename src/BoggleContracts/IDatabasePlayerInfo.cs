@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IDatabasePlayerInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Inetrface for the DatabasePlayerInfo.cs class.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;

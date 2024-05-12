@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IBoggleClient.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Interface for BoggleClient.cs class.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;

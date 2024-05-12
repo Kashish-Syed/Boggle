@@ -87,7 +87,13 @@ function Multiplayer() {
 
     const closePopup = () => {
         setOpenPopup(false);
-    }
+    };
+
+    //const async startGame = () => {
+    //    setLoading(true);
+    //    const response = await fetch(`http://localhost:5189/api/GameInfo/game/createGame`);
+    //    setLoading(false);
+    //};
 
   const handleLogin = () => {
     if (userId) {
@@ -151,7 +157,7 @@ function Multiplayer() {
                             <p>Host IP: {hostIpAddress}</p>
                             <p>Port Number: {hostPort}</p>
                             <p>Game Code: {hostGameCode}</p>
-                            <button className='close-button' onClick={closePopup}>Done</button>
+                            <button className='close-button' onClick={closePopup}>Start Game</button>
                         </div>
                     )}
                 </Modal>

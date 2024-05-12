@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IDatabaseGameInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Interface for the DatabaseGameInfo.cs class.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: PlayerInfoController.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Controller for providing API endpoints for accessing and managing player information.
+// ----------------------------------------------------------------------------------------------------
+
+using Microsoft.AspNetCore.Mvc;
 using BoggleContracts;
 using BoggleEngines;
 using System;

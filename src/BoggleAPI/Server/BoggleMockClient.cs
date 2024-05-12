@@ -1,4 +1,12 @@
-﻿using BoggleContracts;
+﻿// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: BoggleMockClient.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Class for mocking the the client connection to the server.
+// ----------------------------------------------------------------------------------------------------
+
+using BoggleContracts;
 using System;
 using System.Collections.Concurrent;
 using System.Net;
@@ -7,10 +15,6 @@ using System.Text;
 using System.Threading;
 
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-/// 
 namespace BoggleAPI.Client
 {
     public class BoggleClient : IBoggleClient

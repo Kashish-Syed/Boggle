@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: GameInfoController.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Controller class for providing API endpoints for managing the game session.
+// ----------------------------------------------------------------------------------------------------
+
+using Microsoft.AspNetCore.Mvc;
 using BoggleContracts;
 using BoggleEngines;
 using System;
@@ -37,16 +45,10 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                // string gameCode = "11111";
                 string gameCode = await _gameInfo.CreateGameAsync();
                 Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer(gameCode);
 
                 await Task.Delay(1000);
-
-                // test the server, will be removed later
-                //await _boggleClient.connectPlayersAsync(gameServerInfo.Item1, gameServerInfo.Item2);
-
-                //await Task.Delay(1000);
 
                 var result = new GameCreationResult
                 {
@@ -54,12 +56,8 @@ namespace BoggleAPI.Controllers
                     GamePort = gameServerInfo.Item2,
                     GameIpAddress = gameServerInfo.Item1.ToString(),
                 };
-                // send game code to all clients
-                // await _boggleServer.sendMessageToPlayersAsync(gameCode);
 
                 await Task.Delay(2000);
-
-                //await _boggleClient.receiveMessagesAsync();
                 
                 return Ok(result);
             }

@@ -1,4 +1,12 @@
-﻿using BoggleContracts;
+﻿// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: BoggleServer.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Class to handle the Boggle server for multiplayer.
+// ----------------------------------------------------------------------------------------------------
+
+using BoggleContracts;
 using System;
 using System.Collections.Concurrent;
 using System.Net;

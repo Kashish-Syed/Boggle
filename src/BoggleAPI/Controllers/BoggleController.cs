@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: BoggleController.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Provides API endpoint for game setup.
+// ----------------------------------------------------------------------------------------------------
+
 using Microsoft.AspNetCore.Mvc;
 using BoggleContracts;
 using BoggleEngines;

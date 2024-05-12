@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: DatabaseWordInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Accessor class for interating with Word data in the SQL database.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Data.SqlClient;
 using System.IO;

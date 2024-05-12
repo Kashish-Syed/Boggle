@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IDatabaseWordInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Interface for the DatabaseWordInfo.cs class.
+// ----------------------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;

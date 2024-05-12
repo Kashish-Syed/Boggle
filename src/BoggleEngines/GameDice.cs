@@ -1,4 +1,12 @@
-﻿using BoggleContracts;
+﻿// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: GameDice.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Class for managing dice for the Boggle game.
+// ----------------------------------------------------------------------------------------------------
+
+using BoggleContracts;
 
 namespace BoggleEngines
 {

@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: Program.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Project startup file
+// ----------------------------------------------------------------------------------------------------
+
 using BoggleAccessors;
 using BoggleContracts;
 using BoggleEngines;
@@ -27,11 +35,12 @@ builder.Services.AddCors(options =>
     );
 });
 
-// Dependency Injections into Boggle Controller
+// Dependency Injections into Boggle Controller.
 builder.Services.AddSingleton<IGameDice, GameDice>();
 builder.Services.AddSingleton<IBoggleServer, BoggleServer>();
 builder.Services.AddSingleton<IBoggleClient, BoggleClient>();
 
+// Scoped to ensure that the database connectioo closes.
 builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
     new DatabaseGameInfo(connectionString));
 
