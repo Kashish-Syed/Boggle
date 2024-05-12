@@ -38,7 +38,7 @@ Start by getting the prerequisites and cloning the repo:
 	```
 
 ## Backend
-The backend was implement in C# and .NET 8.0 and it's made up of the following class libraries:
+The backend was implemented in C# and .NET 8.0 and it's made up of the following class libraries:
 * `/src/BoggleAccessors`: Class library for accessing the database.
 * `/src/BoggleAPI`: Class library for controllers with API endpoints and the TCP server.
 * `/src/BoggleContracts`: Class library for storing the class interfaces.
@@ -75,11 +75,21 @@ To run the backend:
 	```
 
 **Terminal view after dotnet run: **
-<img src="./resources/terminalapi.png" alt="drawing" width="200" height="100"/>
 
+<img src="./resources/terminalapi.png" alt="terminal-view" width="200" height="100"/>
 
+Finally, go to <http://localhost:5189/swagger/index.html>, to view the Swagger API interface:
+
+<img src="./resources/swaggerapi.png" alt="" width="250"/>
+
+Congrats! The backend is now running. :)
 
 ## Frontend
+The frontend was built with the following build tools and frameworks:
+
+* [![Vite][Vite.js]][https://vitejs.dev/]
+* [![React][React.js]][https://reactjs.org/]
+* [![TypeScript][TypeScript]][https://www.typescriptlang.org/]
 
 ## Server (Optional)
 
