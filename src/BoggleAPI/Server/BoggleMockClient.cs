@@ -21,6 +21,7 @@ namespace BoggleAPI.Client
     {
         private ConcurrentBag<TcpClient> _players;
 
+        /// <inheritdoc />
         public async Task connectPlayersAsync(IPAddress ipAddress, int port)
         {
             int numPlayers = 2;
@@ -35,6 +36,7 @@ namespace BoggleAPI.Client
             }
         }
 
+        /// <inheritdoc />
         public async Task receiveMessagesAsync()
         {
             int tempCount = 1;

@@ -26,7 +26,13 @@ namespace BoggleAPI.Controllers
             _wordInfo = wordInfo;
         }
 
-        // returns bool
+        
+        /// <summary>
+        /// API Endpoint to check if the word is valid based on the word list
+        /// in the database.
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         [HttpPost("isValidWord")]
         public async Task<IActionResult> CheckValidWordAsync([FromBody] string word)
         {

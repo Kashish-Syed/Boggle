@@ -25,10 +25,7 @@ namespace BoggleAPI.Server
         private Timer _boggleTimer;
         private ConcurrentBag<TcpClient> _players = new ConcurrentBag<TcpClient>();
 
-        public BoggleServer()
-        {
-        }
-
+        /// <inheritdoc />
         public Tuple<IPAddress, int> StartServer(string gameCode)
         {
             // passing 0 so that any available port would be assigned
@@ -78,35 +75,7 @@ namespace BoggleAPI.Server
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
-        private async Task GetPlayersAsync(string gameCode, CancellationToken cancellationToken)
-        {
-            // keep track of player count
-            int playerCount = 1;
-
-            try
-            {
-                // max other players that can join is 3
-                while (_isRunning && _receivingPlayers && playerCount < 4)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        Console.WriteLine("game started, no more players can join");
-                        break;
-                    }
-                    TcpClient player = await _server.AcceptTcpClientAsync(cancellationToken);
-                    _players.Add(player);
-                    // send the gameCode to players as soon as they connect
-                    Console.WriteLine($"player {playerCount} connected");
-                    sendMessageToPlayerAsync(player, gameCode, playerCount);
-                    playerCount++;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"GetPlayersAsync: {ex.Message}");
-            }
-        }
-
+        /// <inheritdoc />
         public void StartGame()
         {
             // change game timer here
@@ -117,6 +86,7 @@ namespace BoggleAPI.Server
             Console.WriteLine("Game timer started, you have 30 seconds");
         }
 
+        /// <inheritdoc />
         public void EndGame(object state)
         {
             try
@@ -146,22 +116,7 @@ namespace BoggleAPI.Server
             }
         }
 
-        // send message to a single client
-        private async Task sendMessageToPlayerAsync(TcpClient player, string message, int playerCount)
-        {
-            byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-
-            if (player.Connected)
-            {
-                await using (NetworkStream stream = player.GetStream())
-                {
-                    await stream.WriteAsync(messageBuffer);
-                    Console.WriteLine($"Message sent to player {playerCount}");
-                }
-            }
-        }
-
-        // send message to all clients
+        /// <inheritdoc />
         public async Task sendMessageToPlayersAsync(string message)
         {
             int tempCount = 1;
@@ -185,6 +140,62 @@ namespace BoggleAPI.Server
                             tempCount++;
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Start accepting players on the sever
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task GetPlayersAsync(string gameCode, CancellationToken cancellationToken)
+        {
+            // keep track of player count
+            int playerCount = 1;
+
+            try
+            {
+                // max other players that can join is 3
+                while (_isRunning && _receivingPlayers && playerCount < 4)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine("game started, no more players can join");
+                        break;
+                    }
+                    TcpClient player = await _server.AcceptTcpClientAsync(cancellationToken);
+                    _players.Add(player);
+                    // send the gameCode to players as soon as they connect
+                    Console.WriteLine($"player {playerCount} connected");
+                    sendMessageToPlayerAsync(player, gameCode, playerCount);
+                    playerCount++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetPlayersAsync: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Function to send a message to a single player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="message"></param>
+        /// <param name="playerCount"></param>
+        /// <returns></returns>
+        private async Task sendMessageToPlayerAsync(TcpClient player, string message, int playerCount)
+        {
+            byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+
+            if (player.Connected)
+            {
+                await using (NetworkStream stream = player.GetStream())
+                {
+                    await stream.WriteAsync(messageBuffer);
+                    Console.WriteLine($"Message sent to player {playerCount}");
                 }
             }
         }

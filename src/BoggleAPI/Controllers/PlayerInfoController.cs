@@ -26,6 +26,13 @@ namespace BoggleAPI.Controllers
             _playerInfo = playerInfo;
         }
 
+        /// <summary>
+        /// Makes a GET API endpoint for getting the words in a certain game the player played
+        /// by their username.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpGet("game/{gameCode}/getWordsPlayed/{username}")]
         public async Task<IActionResult> GetPlayerWordsAsync(string gameCode, string username)
         {
@@ -41,6 +48,13 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds words played by the player using their username and game code.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <param name="username"></param>
+        /// <param name="word"></param>
+        /// <returns></returns>
         [HttpPost("game/{gameCode}/addWordPlayed/{username}")]
         public async Task<IActionResult> AddWordPlayedAsync(string gameCode, string username, [FromBody] string word)
         {
@@ -62,7 +76,12 @@ namespace BoggleAPI.Controllers
             }
         }
 
-
+        /// <summary>
+        /// API POST endpoint to add players to a game using their username and the game code.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpPost("game/{gameCode}/addPlayerToGame/{username}")]
         public async Task<IActionResult> AddPlayerToGameAsync(string gameCode, string username)
         {
@@ -77,6 +96,12 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// POST API endpoint to add player to a record using their username and password.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost("player/{username}/add")]
         public async Task<IActionResult> AddPlayerToRecordAsync(string username, [FromBody] string password)
         {
@@ -91,6 +116,12 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// POST API endpoint that authenticates a player for login.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost("player/{username}/authenticate")]
         public async Task<IActionResult> GetPlayerAuthenticationAsync(string username, [FromBody] string password)
         {
@@ -112,6 +143,11 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the player username by userId.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpPost("player/getUsername")]
         public async Task<IActionResult> GetPlayerUsernameAsync([FromBody] int userId)
         {
@@ -138,6 +174,12 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// API Delete endpoint for removing a player.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpDelete("player/{username}/delete")]
         public async Task<IActionResult> RemovePlayerAsync(string username, [FromBody] string password)
         {
@@ -154,6 +196,11 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// API GET endpoint for getting the user records by username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpGet("player/{username}/games")]
         public async Task<IActionResult> GetGameRecordsAsync(string username)
         {

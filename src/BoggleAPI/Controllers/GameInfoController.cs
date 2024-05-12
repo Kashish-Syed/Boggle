@@ -9,6 +9,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BoggleContracts;
 using BoggleEngines;
+using BoggleAPI.Models;
 using System;
 using System.Data;
 using System.Net;
@@ -24,14 +25,6 @@ namespace BoggleAPI.Controllers
         private readonly IBoggleServer _boggleServer;
         private readonly IBoggleClient _boggleClient;
 
-        // would need to refactor this and add it somewhere else later
-        private class GameCreationResult
-        {
-            public string GameCode { get; set; }
-            public int GamePort { get; set; }
-            public string GameIpAddress { get; set; }
-        }
-
         public GameInfoController(IDatabaseGameInfo gameInfo, IBoggleServer boggleServer, IBoggleClient boggleClient)
         {
             _gameInfo = gameInfo;
@@ -39,7 +32,10 @@ namespace BoggleAPI.Controllers
             _boggleClient = boggleClient;
         }
 
-        // returns string
+        /// <summary>
+        /// API Endpoint for creating a new game.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("game/createGame")]
         public async Task<IActionResult> MakeGameAsync()
         {
@@ -67,35 +63,11 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        [HttpGet("game/startGame")]
-        public IActionResult StartMultiplayerGame()
-        {
-            try
-            {
-                _boggleServer.StartGame();
-                return Ok(true);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
-
-        [HttpGet("game/endGame")]
-        public IActionResult EndMUltiplayerGame()
-        {
-            try
-            {
-                _boggleServer.EndGame(null);
-                return Ok(true);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
-
-        // returns char[]
+        /// <summary>
+        /// API endpoint for creating a new game board.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <returns></returns>
         [HttpGet("game/{gameCode}/getBoard")]
         public async Task<IActionResult> MakeBoardAsync(string gameCode)
         {
@@ -110,7 +82,11 @@ namespace BoggleAPI.Controllers
             }
         }
 
-        // returns string
+        /// <summary>
+        /// API endpoint for getting a winner of game identified by the game code.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <returns></returns>
         [HttpGet("game/{gameCode}/getWinner")]
         public async Task<IActionResult> FindWinnerAsync(string gameCode)
         {
@@ -125,6 +101,11 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// API endpoint for deleting a game record.
+        /// </summary>
+        /// <param name="gameCode"></param>
+        /// <returns></returns>
         [HttpDelete("game/{gameCode}/delete")]
         public async Task<IActionResult> RemoveGameAsync(string gameCode)
         {

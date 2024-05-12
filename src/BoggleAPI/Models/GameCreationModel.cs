@@ -19,10 +19,19 @@ namespace BoggleAPI.Models
 {
     public class GameCreationResult
     {
+        /// <summary>
+        /// The 5 character alphanumeric unique game code.
+        /// </summary>
         public string GameCode { get; set; }
 
+        /// <summary>
+        /// The port on which the Tcp game server was started
+        /// </summary>
         public int GamePort { get; set; }
 
+        /// <summary>
+        /// The Ip Address on which the game was started.
+        /// </summary>
         public string GameIpAddress { get; set; }
     }
 }

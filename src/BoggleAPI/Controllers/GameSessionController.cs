@@ -27,6 +27,10 @@ namespace BoggleAPI.Controllers
             _boggleServer = boggleServer;
         }
 
+        /// <summary>
+        /// API GET endpoint for starting the multiplayer game by starting the game timer.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("session/startGame")]
         public IActionResult StartMultiplayerGame()
         {
@@ -41,6 +45,10 @@ namespace BoggleAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// API GET endpoint for ending the game by closing the TCP Listener.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("session/endGame")]
         public IActionResult EndMUltiplayerGame()
         {
