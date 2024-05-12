@@ -11,6 +11,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using BoggleAccessors;
+using BoggleEngines;
+using NUnit.Framework.Constraints;
 
 namespace BoggleAccessors
 {
@@ -18,6 +20,7 @@ namespace BoggleAccessors
     {
         private readonly string _connectionString;
         DatabaseWordInfo dbWordInfo;
+        Validation validation = new Validation();
 
         public DatabasePlayerInfo(string connectionString)
         {
@@ -81,9 +84,13 @@ namespace BoggleAccessors
         }
 
         /// <inheritdoc />
-        /// have to add security h
         public async Task<int> AuthenticateAsync(string username, string password)
         {
+            // client facing API, validate the inputs for security
+            if (!validation.validateUsername(username) || !validation.validatePassword(password))
+            {
+                return -1;
+            }
             using (var _connection = new SqlConnection(_connectionString))
             {
                 await _connection.OpenAsync();

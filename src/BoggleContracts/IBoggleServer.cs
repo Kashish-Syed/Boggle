@@ -6,36 +6,35 @@
 // Description: Interface for the BoggleServer.cs class.
 // ----------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoggleContracts
 {
     public interface IBoggleServer
     {
         /// <summary>
-        /// Starts the game server. 
+        /// Starts the TCP game listener (server).
         /// </summary>
+        /// <param name="gameCode"></param>
+        /// <returns>A tuple that contains the Ip Address and port number on which server was started.</returns>
         Tuple<IPAddress, int> StartServer(string gameCode);
 
         /// <summary>
-        /// Returns the gameboard as a char array.
+        /// Starts the game and its timer.
         /// </summary>
         void StartGame();
 
         /// <summary>
-        /// Ends the given game.
+        /// Ends the game by closing the server.
         /// </summary>
+        /// <param name="state"></param>
         public void EndGame(object state);
 
         /// <summary>
-        /// Sends a message to all players.
+        /// Sends message to all players
         /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         Task sendMessageToPlayersAsync(string message);
     }
 }

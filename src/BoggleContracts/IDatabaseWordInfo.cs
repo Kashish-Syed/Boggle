@@ -6,13 +6,6 @@
 // Description: Interface for the DatabaseWordInfo.cs class.
 // ----------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BoggleContracts
 {
     public interface IDatabaseWordInfo
@@ -20,17 +13,22 @@ namespace BoggleContracts
         /// <summary>
         /// Adds all words to database. Input file should have one word per line
         /// </summary>
-        /// 
+        /// <param name="filepath"></param>
+        /// <returns></returns>
         Task AddWordsToDatabaseAsync(string filepath);
 
         /// <summary>
-        /// Gets the ID of a word
+        /// Gets the ID of a word.
         /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         Task<int> GetWordIDAsync(string word);
 
         /// <summary>
-        /// Returns true if the word is valid
+        /// Returns true if the word is valid.
         /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         Task<bool> IsValidWordAsync(string word);
     }
 }

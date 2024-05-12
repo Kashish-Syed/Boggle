@@ -6,27 +6,26 @@
 // Description: Interface for BoggleClient.cs class.
 // ----------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoggleContracts
 {
     public interface IBoggleClient
     {
         /// <summary>
-        /// connects to the server
+        /// Connects the client to the server when the client provides the Ip Adress and the
+        /// port of the server they want to connect to.
         /// </summary>
+        /// <param name="ipAddress"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
         Task connectPlayersAsync(IPAddress ipAddress, int port);
 
 
         /// <summary>
-        /// receives messages
+        /// Function to enable the client to receive messages from the server. 
         /// </summary>
+        /// <returns></returns>
         Task receiveMessagesAsync();
     }
 }
