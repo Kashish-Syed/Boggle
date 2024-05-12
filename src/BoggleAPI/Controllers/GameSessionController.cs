@@ -20,6 +20,13 @@ namespace BoggleAPI.Controllers
     [Route("api/[controller]")]
     public class GameSessionController : ControllerBase
     {
+        private readonly IBoggleServer _boggleServer;
+
+        public GameSessionController(IBoggleServer boggleServer)
+        {
+            _boggleServer = boggleServer;
+        }
+
         [HttpGet("session/startGame")]
         public IActionResult StartMultiplayerGame()
         {
