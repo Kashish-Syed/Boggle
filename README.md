@@ -16,7 +16,6 @@
 * [Testing](#testing)
 
 ## Made By
-This project was made by:
 * Dawson McGahan: [Zepherian04](https://github.com/Zepherian04)
 * Kashish Syed: [Kashish-Syed](https://github.com/Kashish-Syed)
 * Loc Nguyen: [locnugwin](https://github.com/locnugwin)
