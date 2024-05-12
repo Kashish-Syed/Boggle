@@ -15,6 +15,7 @@ namespace BoggleAccessors
     public class DatabaseGameInfo : IDatabaseGameInfo
     {
         private readonly string _connectionString;
+        GameCodeGenerator generator = new GameCodeGenerator();
         public DatabaseGameInfo(string connectionString)
         {
             _connectionString = connectionString;
@@ -24,7 +25,7 @@ namespace BoggleAccessors
         public async Task<string> CreateGameAsync()
         {
             var dice = new GameDice();
-            var gameCode = GenerateGameCode();
+            var gameCode = generator.GenerateGameCode();
             var board = dice.ShuffleAllDice();
             var boardString = new string(board);
 
@@ -108,18 +109,6 @@ namespace BoggleAccessors
                     return await command.ExecuteScalarAsync() as string;
                 }
             }
-        }
-
-        /// <summary>
-        /// Generate a 5 character game code.
-        /// </summary>
-        /// <returns></returns>
-        private string GenerateGameCode()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, 6)
-                                        .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
