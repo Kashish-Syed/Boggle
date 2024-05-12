@@ -1,8 +1,9 @@
 [![Run App Boggle](https://github.com/Kashish-Syed/Boggle/actions/workflows/run-app.yml/badge.svg)](https://github.com/Kashish-Syed/Boggle/actions/workflows/run-app.yml)
 
-# Boggle
+# CS361 Group 1 Project: Boggle
 
 ## Table of Contents
+* [Made By](#made-by)
 * [Overview](#overview)
 	* [Webpage](#webpage)
 * [Getting Started](#getting-started)
@@ -13,7 +14,15 @@
 * [Server (Optional)](#server-optional)
 * [Usage](#usage)
 * [Testing](#testing)
-* [Acknowledgements](#acknowledgements)
+
+## Made By
+This project was made by:
+* Dawson McGahan: [Zepherian04](https://github.com/Zepherian04)
+* Kashish Syed: [Kashish-Syed](https://github.com/Kashish-Syed)
+* Loc Nguyen: [locnugwin](https://github.com/locnugwin)
+* Marie Victoria Zhussupova: [Phychee](https://github.com/phychee)
+* Walker Lee: [walkerlee03](https://github.com/walkerlee03)
+* Zaiden De La O: [BigZ5709](https://github.com/BigZ5709)
 
 ## Overview
 A word game where each player searches the assortment of letters for words of three letters or more. 
@@ -131,10 +140,6 @@ the `Boggle\resources\database.sql` script.
 
 You are now all set to use the database!
 
-
-## Server (Optional)
-
-
 ## Usage
 The Boggle game could be played in 3 ways:
 1. As a single player without the timer.
@@ -160,12 +165,3 @@ The player with the highest score wins.
 
 ## Testing
 The project was tested extensively using unit tests. To run them:
-
-## Acknowledgements
-This project was made by:
-* Dawson McGahan: [Zepherian04](https://github.com/Zepherian04)
-* Kashish Syed: [Kashish-Syed](https://github.com/Kashish-Syed)
-* Loc Nguyen: [locnugwin](https://github.com/locnugwin)
-* Marie Victoria Zhussupova: [Phychee](https://github.com/phychee)
-* Walker Lee: [walkerlee03](https://github.com/walkerlee03)
-* Zaiden De La O: [BigZ5709](https://github.com/BigZ5709)
