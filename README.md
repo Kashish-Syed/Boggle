@@ -139,7 +139,7 @@ You are now all set to use the database!
 The Boggle game could be played in 3 ways:
 1. As a single player without the timer.
 2. As a single player with a timer (default)
-3. In multiplayer mode with other players (you will have to sign up to enable this feature).
+3. In multiplayer mode with other players (future functionality).
 
 The objective of the game is to find as many words as you can in the shortest
 amount of time on the 16 randomly shuffled die. The longer the word the better the
