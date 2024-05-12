@@ -66,7 +66,7 @@ namespace BoggleAccessors
             }
             catch (SqlException ex)
             {
-                if (ex.Number != 2627) 
+                if (ex.Number != DatabaseSQLErrorConstants.DuplicateKeyError) 
                 {
                     throw; 
                 }
