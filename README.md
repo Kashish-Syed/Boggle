@@ -76,26 +76,61 @@ To run the backend:
 
 **Terminal view after dotnet run: **
 
-<img src="./resources/terminalapi.png" alt="terminal-view" width="200" height="100"/>
+<img src="./resources/terminalapi.png" alt="terminal-view" width="400"/>
 
 Finally, go to <http://localhost:5189/swagger/index.html>, to view the Swagger API interface:
 
-<img src="./resources/swaggerapi.png" alt="" width="250"/>
+<img src="./resources/swaggerapi.png" alt="swagger api page" width="400"/>
 
 Congrats! The backend is now running. :)
 
 ## Frontend
 The frontend was built with the following build tools and frameworks:
 
-* [![Vite][Vite.js]][https://vitejs.dev/]
-* [![React][React.js]][https://reactjs.org/]
-* [![TypeScript][TypeScript]][https://www.typescriptlang.org/]
+* Vite <https://vitejs.dev/>
+* React <https://react.dev/>
+* TypeScript <https://www.typescriptlang.org/>
+
+To run the frontend, make sure that the backend is running first. Next, follow these steps:
+
+1. Install Node.js if you don't have it: <https://nodejs.org/en>
+2. Next, go to `Boggle\src\BoggleFrontend`, open the terminal and run the following command:
+```sh
+npm run dev
+```
+3. This should open the following screen in the terminal:
+<img src="./resources/frontendrun.png" alt="" width="400"/>
+4. Finally you can go the local host link shown in the terminal 
+(<http://localhost:5176/> in this case) to view the Boggle webpage.
 
 ## Server (Optional)
 
+
 ## Usage
+The Boggle game could be played in 3 ways:
+1. As a single player without the timer.
+2. As a single player with a timer (default)
+3. In multiplayer mode with other players (you will have to sign up to enable this feature).
+
+The objective of the game is to find as many words as you can in the shortest
+amount of time on the 16 randomly shuffled die. The longer the word the better the
+score.
+
+The scoring for the words is as follows:
+
+| Word Length   | Score         |
+| ------------- |:-------------:|
+| 2 or less     | 0             |
+| 3 or 4        | 1             |
+| 5             | 2             |
+| 6             | 3             |
+| 7             | 5             |
+| 8 or more     | 11            |
+
+The player with the highest score wins.
 
 ## Testing
+The project was tested extensively using unit tests. To run them:
 
 ## Acknowledgements
 This project was made by:
