@@ -103,6 +103,35 @@ npm run dev
 4. Finally you can go the local host link shown in the terminal 
 (<http://localhost:5176/> in this case) to view the Boggle webpage.
 
+## Database
+The project uses a local, relational SQL database and is a big part of the project.
+To build and the database use these steps:
+
+*Connecting to the SQL Server*
+1. Install Microstft SQL Server Express: <https://www.microsoft.com/en-gb/download/details.aspx?id=101064>
+2. Install Microsoft SQL Server Management Studio (SSMS): <https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16>
+3. One SQL Express is installed you will see a pop-up window, there click on the "Connect Now" button.
+4. This will open a CLI that displays the the following command `sqlcmd -S USER\SQLEXPRESS -E` where
+`USER\SQLEXPRESS` is the name of your server. 
+5. Open SSMS, you will see a pop-up box to connect to the SQLServer. In the `Server Name` box paste
+the name of the server.
+6. Next click `Options >>` button at the bottom and then on the `Additonal Conditon Parameters` tab on the
+bottom.
+7. Paste the following `TrustServerCertificate=True` in the dialog box. This enables the connection to the server,
+but bypasses some security so use carefully.
+8. Finally click `Connect` on the bottom, this should establish the connection.
+
+*Building the Database*
+1. Once you are connected in SSMS, right-click on `Databases` in Object Explorer.
+2. Select `New database` and name it `boggle`.
+3. When the DB is created, double click on its name under `Databases` and select `New Query`.
+4. Once the new tab open, go to the `File` tab, then `Open` -> `File` and select 
+the `Boggle\resources\database.sql` script.
+5. Run the query with the script. This will create the database and fill it with data.
+
+You are now all set to use the database!
+
+
 ## Server (Optional)
 
 
