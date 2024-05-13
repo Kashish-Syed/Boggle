@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./styles/App.css";
 import { useDarkMode } from "./DarkModeContext";
-
-function formatTime(seconds: number): string {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  const formattedMinutes = String(minutes).padStart(2, "0");
-  const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-  return `${formattedMinutes}:${formattedSeconds}`;
-}
+import { placeholderLetters} from "./Constants";
+import { useNavigate } from "react-router-dom";
+import * as Functions from "./Functions";
 
 function App() {
-  const placeholderLetters = Array(16).fill("X"); // Assuming a 4x4 board
   const [letters, setLetters] = useState(placeholderLetters);
   const [clickedCells, setClickedCells] = useState<Array<boolean>>([]);
   const [clickedLetters, setClickedLetters] = useState<string>("");
@@ -24,162 +17,85 @@ function App() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const { darkMode, toggleTheme } = useDarkMode();
   const [userId] = useState(localStorage.getItem('userId'));
-
+  
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (gameStarted || gameMode !== "timed") {
-      resetLetters();
+    if (gameMode !== "timed") {
+      Functions.handleStartGame(Functions.getLetters, setLetters, setClickedCells, setGameStarted, setRemainingTime);
     }
-  }, [gameStarted, gameMode]);
+  }, [gameMode]);
 
   useEffect(() => {
     let timer;
     if (gameStarted && gameMode === "timed" && remainingTime > 0) {
       timer = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 1);
+        setRemainingTime(prevTime => prevTime - 1);
       }, 1000);
-    } else if (remainingTime <= 0 && gameMode === "timed") {
+    } else if (remainingTime <= 0 && gameMode === "timed" && gameStarted) {
       setErrorMessage("Time's up! You can no longer submit words.");
       setGameStarted(false);
+  
+      const username = localStorage.getItem('username');
+      const gameCode = localStorage.getItem('gameCode');
+  
+      if (username && gameCode) {
+        fetch(`http://localhost:5189/api/PlayerInfo/game/${gameCode}/addPlayerToGame/${username}`, {
+          method: 'POST',
+          headers: {
+            'accept': '*/*'
+          }
+        }).then(response => {
+          if (response.ok) {
+            console.log('Player added to game successfully.');
+
+            // After adding player, submit each word
+            completedWords.forEach(word => {
+              submitWord(word, gameCode, username);
+            });
+          } else {
+            throw new Error(`Failed to add player to game with status: ${response.status}`);
+          }
+        }).catch(error => {
+          console.error('Error ending timed game:', error);
+        });
+      }
     }
   
     return () => clearInterval(timer);
-  }, [gameStarted, remainingTime, gameMode]);
-
-  const resetLetters = async () => {
-    if (!gameStarted && gameMode === "timed") return;
-    
+  }, [gameStarted, remainingTime, gameMode, setRemainingTime, setErrorMessage, setGameStarted, completedWords]);
+  
+  const submitWord = async (word, gameCode, username) => {
     try {
-      const createResponse = await fetch("http://localhost:5189/api/Boggle/game/createGame", {
+      const response = await fetch(`http://localhost:5189/api/PlayerInfo/game/${gameCode}/addWordPlayed/${username}`, {
         method: 'POST',
         headers: {
+          'accept': '*/*',
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(word)
       });
-      if (!createResponse.ok) throw new Error("Failed to create new game");
-      const gameCode = await createResponse.text();
-      console.log("GameCode: " + gameCode);
   
-      const boardResponse = await fetch(`http://localhost:5189/api/Boggle/game/${gameCode}/getBoard`);
-      if (!boardResponse.ok) throw new Error("Failed to fetch game board");
-      const data = await boardResponse.json(); 
-  
-      setLetters(data);
-      setClickedCells(new Array(data.length).fill(false));
-      setClickedLetters("");
-      setCompletedWords([]);
-      setErrorMessage("");
-      setClickedIndices([]);
-      setRemainingTime(60);
-    } catch (error) {
-      console.error("Failed to fetch letters: ", error);
-    }
-  };
-  
-  
-
-  const handleClick = async (letter: string, index: number) => {
-    if ((gameMode === "timed" && !gameStarted) || remainingTime <= 0) {
-      return;
-    }
-
-    if (clickedIndices.includes(index)) {
-      const word = clickedLetters;
-      // API call to validate the word
-      try {
-        const response = await fetch('http://localhost:5189/api/Boggle/isValidWord', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(word) // Send the word as a JSON string
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to validate word with status: ${response.status}`);
-        }
-        const isValid = await response.json(); // The response is expected to be a simple true or false
-
-        console.log("Validation result:", isValid);
-        if (isValid) {
-          if (completedWords.includes(word)) {
-            setErrorMessage(`The word "${word}" has already been found!`);
-          } else {
-            setCompletedWords(prevCompletedWords => [
-              ...prevCompletedWords,
-              word,
-            ]);
-            setErrorMessage("");
-          }
-        }
-      } catch (error) {
-        console.error("Error validating word:", error);
+      if (!response.ok) {
+        throw new Error(`Failed to submit word: ${response.status}`);
       }
-      // Reset after submitting the word
-      setClickedLetters("");
-      setClickedIndices([]);
-      setClickedCells(new Array(letters.length).fill(false));
-    } else {
-      // Handling letter selection for adjacent or diagonal letters
-      handleLetterSelection(letter, index);
+  
+      console.log(`Word ${word} added successfully for game ${gameCode}.`);
+    } catch (error) {
+      console.error(`Error submitting word '${word}':`, error);
     }
   };
+  
 
-const handleLetterSelection = (letter, index) => {
-  // Ensure letter clicked is adjacent or diagonal
-  if (clickedIndices.length > 0) {
-    const prevIndex = clickedIndices[clickedIndices.length - 1];
-    const prevRowIndex = Math.floor(prevIndex / 4);
-    const prevColIndex = prevIndex % 4;
-    const currRowIndex = Math.floor(index / 4);
-    const currColIndex = index % 4;
-
-    const rowDifference = Math.abs(currRowIndex - prevRowIndex);
-    const colDifference = Math.abs(currColIndex - prevColIndex);
-
-    if (rowDifference > 1 || colDifference > 1) {
-      setErrorMessage("Select a letter that is adjacent or diagonal to the previously clicked letter.");
-      return;
-    }
-  }
-
-  setClickedLetters(clickedLetters + letter);
-  setClickedIndices([...clickedIndices, index]);
-  setClickedCells(clickedCells.map((val, idx) => idx === index ? true : val));
-  setErrorMessage("");
-};
 
   const handleLogin = () => {
-    if (userId) {
-      navigate('/profile');
-    } else {
-      navigate('/login');
-    }
-  };
-
-  const handleStartGame = async () => {
-    setGameStarted(true);
-    setRemainingTime(60);
-  };
-
-  const toggleGameMode = async () => {
-    if (gameMode === "timed") {
-      setGameMode("untimed");
-      resetLetters();
-    } else {
-      setGameMode("timed");
-      setRemainingTime(60);
-      setLetters(placeholderLetters);
-      setGameStarted(false);
-    }
+    Functions.handleLogin(userId, navigate);
   };
 
   return (
     <div className={darkMode ? "dark-mode" : "light-mode"}>
       <div className="header">
-        <button id="color-scheme-switch" onClick={toggleTheme}>
-          {darkMode ? "Light" : "Dark"}
-        </button>
+        <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
         <h2>Boggle</h2>
         <button id="login" onClick={handleLogin}>
           {userId ? 'Profile' : 'Login'}
@@ -195,37 +111,39 @@ const handleLetterSelection = (letter, index) => {
               key={index}
               className="cell"
               id={clickedCells[index] ? "two" : "one"}
-              onClick={() => handleClick(letter, index)}
+              onClick={() => Functions.handleClick(letter, index, gameMode, gameStarted, remainingTime, clickedIndices, clickedLetters, completedWords, letters, setClickedLetters, setCompletedWords, setErrorMessage, setClickedIndices, setClickedCells, Functions.handleLetterSelection, clickedCells, errorMessage)}
             >
               {letter}
             </div>
           ))}
         </div>
         <div className="button-container">
-          <button id="gamemode-button" onClick={toggleGameMode}>
+          <button id="gamemode-button" onClick={() => Functions.toggleGameMode(gameMode, setGameMode, setRemainingTime, placeholderLetters, setLetters, setGameStarted, Functions.resetLetters, setClickedLetters, setCompletedWords, setErrorMessage, setClickedIndices)}>
             {gameMode === "timed" ? "Untimed" : "Timed"}
           </button>
           {gameMode === "timed" && (
-            <button id="start-button" onClick={handleStartGame}>
+            <button id="start-button" onClick={() => Functions.handleStartGame(Functions.getLetters, setLetters, setClickedCells, setGameStarted, setRemainingTime)}>
               Start Game
             </button>
           )}
-          <button id="reset-button" onClick={resetLetters}>
+          <button id="reset-button" onClick={() => Functions.resetLetters(gameStarted, gameMode, placeholderLetters, setClickedLetters, setCompletedWords, setErrorMessage, setClickedIndices, setRemainingTime, setLetters, setGameStarted)}>
             Reset
           </button>
         </div>
         {gameMode === "timed" && (
-          <div id="timer">{formatTime(remainingTime)}</div>
+          <div id="timer">{Functions.formatTime(remainingTime)}</div>
         )}
         <div id="word-list">
-          <h2>Words Found</h2>
-          <ul id="words-found">
-            {completedWords.map((word, index) => (
-              <li key={index}>{word}</li>
-            ))}
-          </ul>
-          {errorMessage && <h3 className="error-message">{errorMessage}</h3>}
-        </div>
+        <h2>Words Found</h2>
+        <textarea
+          id="words-found"
+          readOnly
+          value={completedWords.join(", ")} 
+          rows={3} 
+          style={{ resize: "none" }}
+        />
+        {errorMessage && <h3 className="error-message">{errorMessage}</h3>}
+      </div>
       </div>
       <div className="footer">
         <a

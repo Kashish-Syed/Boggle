@@ -1,28 +1,34 @@
 using NUnit.Framework;
-using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Threading.Tasks;
 using BoggleAccessors;
 
 namespace BoggleAccessorTests.DatabaseWordInfoTests
 {
     [TestFixture]
-    public class AddWordsToDatabase
+    public class AddWordsToDatabaseTests
     {
         private DatabaseWordInfo _dbWordInfo;
+        private string connectionString;
 
         [SetUp]
         public void Setup()
         {
-            _dbWordInfo = new DatabaseWordInfo();
+            connectionString = "Server=localhost\\SQLEXPRESS;Database=boggle;Trusted_Connection=True;";
+            _dbWordInfo = new DatabaseWordInfo(connectionString);
         }
 
         [Test]
-        public void AddWordsToDatabaseTest()
-        {   
+        public async Task AddWordsToDatabaseTestAsync()
+        {
             string filePath = @"..\..\..\..\..\resources\words.txt";
-            _dbWordInfo.AddWordsToDatabase(filePath);
-            Assert.DoesNotThrow(() => _dbWordInfo.AddWordsToDatabase(filePath),
-                "Method should not throw any exceptions when adding words successfully.");
+            if (!File.Exists(filePath))
+            {
+                Assert.Fail("File path does not exist: " + filePath);
+            }
+
+            await _dbWordInfo.AddWordsToDatabaseAsync(filePath);
         }
     }
 }

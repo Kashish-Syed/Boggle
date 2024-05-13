@@ -10,10 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/ws": "^8.5.10",
     "axios": "^1.6.8",
+    "buffer": "^6.0.3",
+    "isomorphic-ws": "^5.0.0",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.0"
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.23.0",
+    "ws": "^7.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

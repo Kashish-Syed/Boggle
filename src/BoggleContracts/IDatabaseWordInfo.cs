@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IDatabaseWordInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Interface for the DatabaseWordInfo.cs class.
+// ----------------------------------------------------------------------------------------------------
 
 namespace BoggleContracts
 {
@@ -12,16 +13,22 @@ namespace BoggleContracts
         /// <summary>
         /// Adds all words to database. Input file should have one word per line
         /// </summary>
-        void AddWordsToDatabase(string filepath);
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        Task AddWordsToDatabaseAsync(string filepath);
 
         /// <summary>
-        /// Gets the ID of a word
+        /// Gets the ID of a word.
         /// </summary>
-        int GetWordID(string word);
+        /// <param name="word"></param>
+        /// <returns></returns>
+        Task<int> GetWordIDAsync(string word);
 
         /// <summary>
-        /// Returns true if the word is valid
+        /// Returns true if the word is valid.
         /// </summary>
-        bool IsValidWord(string word);
+        /// <param name="word"></param>
+        /// <returns></returns>
+        Task<bool> IsValidWordAsync(string word);
     }
 }

@@ -1,8 +1,22 @@
-using BoggleEngines;
-using BoggleContracts;
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: Program.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Project startup file
+// ----------------------------------------------------------------------------------------------------
+
 using BoggleAccessors;
+using BoggleContracts;
+using BoggleEngines;
+using System.Data.SqlClient;
+using BoggleAPI.Server;
+using BoggleAPI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddCors(options =>
 {
@@ -21,13 +35,20 @@ builder.Services.AddCors(options =>
     );
 });
 
-// Dependency Injections into Boggle Controller
+// Dependency Injections into Boggle Controller.
 builder.Services.AddSingleton<IGameDice, GameDice>();
-builder.Services.AddSingleton<IWord, Word>();
-builder.Services.AddSingleton<IGameSession, GameSession>();
-builder.Services.AddSingleton<IDatabaseGameInfo, DatabaseGameInfo>();
-builder.Services.AddSingleton<IDatabasePlayerInfo, DatabasePlayerInfo>();
-builder.Services.AddSingleton<IDatabaseWordInfo, DatabaseWordInfo>();
+builder.Services.AddSingleton<IBoggleServer, BoggleServer>();
+builder.Services.AddSingleton<IBoggleClient, BoggleClient>();
+
+// Scoped to ensure that the database connectioo closes.
+builder.Services.AddScoped<IDatabaseGameInfo>(provider =>
+    new DatabaseGameInfo(connectionString));
+
+builder.Services.AddScoped<IDatabasePlayerInfo>(provider =>
+    new DatabasePlayerInfo(connectionString));
+
+builder.Services.AddScoped<IDatabaseWordInfo>(provider =>
+    new DatabaseWordInfo(connectionString));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

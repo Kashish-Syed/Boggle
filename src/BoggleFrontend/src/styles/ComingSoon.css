@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    transition: 0.2s;
+  }
+  
+  body.light-mode .header, body.light-mode .footer,
+  body.dark-mode .header, body.dark-mode .footer {
+    background-color: #333;
+    color: white;
+  }
+  
+  body.light-mode {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  body.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+  }
+  
+  .coming-soon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    background-color: lightgray;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background-color: gray;
+    transform: scale(1.05);
+  }
+  
+  a.github-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  a.github-link img {
+    height: 25px;
+    margin-right: 5px;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

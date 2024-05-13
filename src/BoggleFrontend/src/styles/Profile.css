@@ -133,3 +133,21 @@ a.github-link {
 .error-message {
   color: red;
 }
+
+.games-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.games {
+  list-style-type: none;
+  padding: 0; 
+  margin: 0;
+  text-align: center; 
+}
+
+.usernameView {
+  text-align: center; 
+}

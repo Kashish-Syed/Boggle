@@ -1,47 +1,76 @@
-using System;
-using System.Collections.Generic;
+// ----------------------------------------------------------------------------------------------------
+// Project: Boggle
+// Class: IDatabasePlayerInfo.cs
+// GitHub: https://github.com/Kashish-Syed/Boggle
+//
+// Description: Inetrface for the DatabasePlayerInfo.cs class.
+// ----------------------------------------------------------------------------------------------------
+
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoggleContracts;
 
 public interface IDatabasePlayerInfo
 {
     /// <summary>
-    /// Adds a user to the database
+    /// Adds the user to the database
     /// </summary>
-    /// <returns></returns>
-    public void AddPlayer(string username, string password);
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns>True if user was addedd sucessfully</returns>
+    Task<bool> AddPlayerAsync(string username, string password);
 
     /// <summary>
-    /// Adds a user to the database
+    /// Gets the user by their username.
     /// </summary>
+    /// <param name="userId"></param>
     /// <returns></returns>
-    public string GetUsername(int userId);
+    Task<string?> GetUsernameAsync(int userId);
 
     /// <summary>
-    /// Removes a user from the database
+    /// Removes the user from the database.
     /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
     /// <returns></returns>
-    public void RemovePlayer(string username, string password);
+    Task<bool> RemovePlayerAsync(string username, string password);
 
     /// <summary>
-    /// Returns userid if the password is authenticated
+    /// Returns UserId if the password is authenticated.
     /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
     /// <returns></returns>
-    public int Authenticate(string username, string password);
+    Task<int> AuthenticateAsync(string username, string password);
 
     /// <summary>
-    /// Gets all gameids, scores, and whether or not they were the winner
+    /// Gets all gameids, scores, and whether or not they were the winner.
     /// </summary>
+    /// <param name="username"></param>
     /// <returns></returns>
-    public DataTable GetGames(string username);
+    Task<DataTable> GetGamesAsync(string username);
 
     /// <summary>
-    /// gets all words played from the game for the specific user, as well as their point values
+    /// Gets all words played from the game for the specific user, as well as their point values.
     /// </summary>
+    /// <param name="gameCode"></param>
+    /// <param name="username"></param>
     /// <returns></returns>
-    public DataTable GetWordsPlayed(string gameCode, string username);
+    Task<DataTable> GetWordsPlayedAsync(string gameCode, string username);
+
+    /// <summary>
+    /// Adds a record that the player played a word in the given game.
+    /// </summary>
+    /// <param name="gameCode"></param>
+    /// <param name="username"></param>
+    /// <param name="word"></param>
+    /// <returns></returns>
+    Task<bool> AddWordPlayedAsync(string gameCode, string username, string word);
+
+    /// <summary>
+    /// Gets the id of the username.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    Task<int> GetPlayerIdAsync(string username);
 }

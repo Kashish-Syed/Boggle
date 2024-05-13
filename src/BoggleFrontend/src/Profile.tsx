@@ -20,7 +20,7 @@ function Profile(){
     const getGamesPlayed = async () => {
       if (username) {
         try {
-          const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/games`);
+          const response = await fetch(`http://localhost:5189/api/PlayerInfo/player/${username}/games`);
           if (response.ok) {
             const data: Game[] = await response.json();
             setGames(data); 
@@ -54,43 +54,28 @@ function Profile(){
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <div className="header">
-          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+          <button id="multiplayer" onClick={() => navigate('/multiplayer')}>Multiplayer</button>
           <h2>Boggle</h2>
           <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
       <div className="information-container">
-      <h1>{username || 'Username'}</h1>
-        <h2>Stats</h2>
-        <span>Longest word: SAVIOR</span>
-        <span>Best Gamescore: 42 points</span>
-        <h2>Settings</h2>
-        <span>Game Timer: 3 mins</span>
-        <span>
-        Change Timer:
-          <input
-                className='game-length'
-                type="text"
-                placeholder="3 min"
-                value={gameLength}
-                onChange={(e) => setGameLength(e.target.value)}
-                onKeyDown={handleKeyPress}
-          />
-        </span>
+        <h1 className="usernameView">{username || 'Username'}</h1>
+          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+          <div className="games-list">
+          <h2>Games Played</h2>
+          {games.length > 0 ? (
+            <ul className="games">
+              {games.map((game, index) => (
+                <li key={index}>
+                  {game.GameCode} -  Score: {game.TotalScore}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No games played yet.</p>
+          )}
+        </div>
         <button id="logout" onClick={handleLogout}>Logout</button>
-        <div className="games-list">
-        <h2>Games Played</h2>
-        {games.length > 0 ? (
-          <ul>
-            {games.map((game, index) => (
-              <li key={index}>
-                {game.GameCode} -  Score: {game.TotalScore}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No games played yet.</p>
-        )}
-      </div>
       </div>
       <div className="footer">
           <a href='https://github.com/Kashish-Syed/Boggle' className="github-link">

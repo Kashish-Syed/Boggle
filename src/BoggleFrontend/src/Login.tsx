@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDarkMode } from './DarkModeContext';
 import './styles/Login.css';
 
@@ -28,7 +28,7 @@ function Login() {
       };
     
       try {
-        const response = await fetch(`http://localhost:5189/api/Boggle/player/${username}/authenticate`, requestOptions);
+        const response = await fetch(`http://localhost:5189/api/PlayerInfo/player/${username}/authenticate`, requestOptions);
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem('userId', data.userId);
@@ -52,7 +52,9 @@ function Login() {
     return (
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
         <div className="header">
-          <button id="color-scheme-switch" onClick={toggleTheme}>{darkMode ? "Light" : "Dark"}</button>
+        <button id="multiplayer" onClick={() => navigate('/multiplayer')}>
+          Multiplayer
+        </button>
           <h2>Boggle</h2>
           <button id="game" onClick={() => navigate('/')}>Game</button>
         </div>
@@ -75,6 +77,7 @@ function Login() {
                 onKeyDown={handleKeyPress}
             />
             <button onClick={handleLogin}>Login</button>
+            <span>Don't have an account? Sign up <Link to='/signup' className='signup-link'>here</Link> </span>
             {error && <div className="error-message">{error}</div>}
         </div>
         <div className="footer">
