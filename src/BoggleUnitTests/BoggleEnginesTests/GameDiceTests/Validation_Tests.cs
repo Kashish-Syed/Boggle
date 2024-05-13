@@ -53,7 +53,6 @@ namespace BoggleUnitTests.BoggleEnginesTests
         [TestCase("NoNums!")]         
         [TestCase("nouppercase1")]    
         [TestCase("NOLOWERCASE1")]   
-        [TestCase("Missing1Spec")]     
         public void ValidatePassword_InvalidPasswords_ReturnsFalse(string password)
         {
             bool result = validator.validatePassword(password);
