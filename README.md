@@ -164,3 +164,6 @@ The player with the highest score wins.
 
 ## Testing
 The project was tested extensively using unit tests. To run them:
+```sh
+dotnet run
+```
