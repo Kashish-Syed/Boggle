@@ -42,20 +42,7 @@ namespace BoggleAPI.Controllers
             try
             {
                 string gameCode = await _gameInfo.CreateGameAsync();
-                Tuple<IPAddress, int> gameServerInfo = _boggleServer.StartServer(gameCode);
-
-                await Task.Delay(1000);
-
-                var result = new GameCreationResult
-                {
-                    GameCode = gameCode,
-                    GamePort = gameServerInfo.Item2,
-                    GameIpAddress = gameServerInfo.Item1.ToString(),
-                };
-
-                await Task.Delay(2000);
-                
-                return Ok(result);
+                return Ok(gameCode);
             }
             catch (Exception ex)
             {

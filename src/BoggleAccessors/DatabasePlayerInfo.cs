@@ -63,22 +63,29 @@ namespace BoggleAccessors
         /// <inheritdoc />
         public async Task<bool> RemovePlayerAsync(string username, string password)
         {
-            int userId = await AuthenticateAsync(username, password);
-            if (userId == -1)
-                return false; 
-
             using (var _connection = new SqlConnection(_connectionString))
             {
                 await _connection.OpenAsync();
-                using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", _connection))
+                try
                 {
-                    command.Parameters.Add("@Username", SqlDbType.VarChar, 255).Value = username;
-                    command.Parameters.AddWithValue("@Password", password);
-                    int affectedRows = await command.ExecuteNonQueryAsync();
-                    return affectedRows > 0; 
+                    using (var command = new SqlCommand("DELETE FROM Player WHERE Username = @Username AND Password = @Password", _connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        command.Parameters.AddWithValue("@Password", password);
+                        int affectedRows = await command.ExecuteNonQueryAsync();
+                        Console.WriteLine($"Rows affected: {affectedRows}");
+                        return affectedRows > 0;
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine($"SQL Error during RemovePlayerAsync: {ex.Message}");
+                    return false;
                 }
             }
         }
+
+
 
         /// <inheritdoc />
         public async Task<int> AuthenticateAsync(string username, string password)
@@ -157,16 +164,62 @@ namespace BoggleAccessors
             using (var _connection = new SqlConnection(_connectionString))
             {
                 await _connection.OpenAsync();
-                using (var command = new SqlCommand("INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES (@GameCode, @PlayerID, @WordID)", _connection))
+
+                using (var transaction = _connection.BeginTransaction())
                 {
-                    command.Parameters.AddWithValue("@GameCode", gameCode);
-                    command.Parameters.AddWithValue("@PlayerID", playerId);
-                    command.Parameters.AddWithValue("@WordID", wordId);
-                    int affectedRows = await command.ExecuteNonQueryAsync();
-                    return affectedRows == 1;
+                    try
+                    {
+                        using (var insertCommand = new SqlCommand("INSERT INTO GameWord (GameCode, PlayerID, WordID) VALUES (@GameCode, @PlayerID, @WordID)", _connection, transaction))
+                        {
+                            insertCommand.Parameters.AddWithValue("@GameCode", gameCode);
+                            insertCommand.Parameters.AddWithValue("@PlayerID", playerId);
+                            insertCommand.Parameters.AddWithValue("@WordID", wordId);
+                            int affectedRows = await insertCommand.ExecuteNonQueryAsync();
+                            if (affectedRows == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        using (var pointCommand = new SqlCommand("SELECT Points FROM Word WHERE WordID = @WordID", _connection, transaction))
+                        {
+                            pointCommand.Parameters.AddWithValue("@WordID", wordId);
+                            object result = await pointCommand.ExecuteScalarAsync();
+                            
+                            if (result != null)
+                            {
+                                int points = Convert.ToInt32(result); 
+
+                                using (var updateScoreCommand = new SqlCommand("UPDATE GamePlayer SET TotalScore = TotalScore + @Points WHERE GameCode = @GameCode AND PlayerID = @PlayerID", _connection, transaction))
+                                {
+                                    updateScoreCommand.Parameters.AddWithValue("@Points", points);
+                                    updateScoreCommand.Parameters.AddWithValue("@GameCode", gameCode);
+                                    updateScoreCommand.Parameters.AddWithValue("@PlayerID", playerId);
+                                    await updateScoreCommand.ExecuteNonQueryAsync();
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("No points found for the given WordID.");
+                                transaction.Rollback(); 
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"An error occurred: {ex.Message}");
+                        return false;
+                    }
                 }
             }
         }
+
 
         /// <inheritdoc />
         public async Task<int> GetPlayerIdAsync(string username)

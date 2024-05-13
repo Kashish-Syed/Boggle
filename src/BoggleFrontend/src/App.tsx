@@ -30,14 +30,63 @@ function App() {
     let timer;
     if (gameStarted && gameMode === "timed" && remainingTime > 0) {
       timer = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 1);
+        setRemainingTime(prevTime => prevTime - 1);
       }, 1000);
-    } else if (remainingTime <= 0 && gameMode === "timed") {
+    } else if (remainingTime <= 0 && gameMode === "timed" && gameStarted) {
       setErrorMessage("Time's up! You can no longer submit words.");
+      setGameStarted(false);
+  
+      const username = localStorage.getItem('username');
+      const gameCode = localStorage.getItem('gameCode');
+  
+      if (username && gameCode) {
+        fetch(`http://localhost:5189/api/PlayerInfo/game/${gameCode}/addPlayerToGame/${username}`, {
+          method: 'POST',
+          headers: {
+            'accept': '*/*'
+          }
+        }).then(response => {
+          if (response.ok) {
+            console.log('Player added to game successfully.');
+
+            // After adding player, submit each word
+            completedWords.forEach(word => {
+              submitWord(word, gameCode, username);
+            });
+          } else {
+            throw new Error(`Failed to add player to game with status: ${response.status}`);
+          }
+        }).catch(error => {
+          console.error('Error ending timed game:', error);
+        });
+      }
     }
   
     return () => clearInterval(timer);
-  }, [gameStarted, remainingTime, gameMode]);
+  }, [gameStarted, remainingTime, gameMode, setRemainingTime, setErrorMessage, setGameStarted, completedWords]);
+  
+  const submitWord = async (word, gameCode, username) => {
+    try {
+      const response = await fetch(`http://localhost:5189/api/PlayerInfo/game/${gameCode}/addWordPlayed/${username}`, {
+        method: 'POST',
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(word)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to submit word: ${response.status}`);
+      }
+  
+      console.log(`Word ${word} added successfully for game ${gameCode}.`);
+    } catch (error) {
+      console.error(`Error submitting word '${word}':`, error);
+    }
+  };
+  
+
 
   const handleLogin = () => {
     Functions.handleLogin(userId, navigate);

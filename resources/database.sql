@@ -47,9 +47,9 @@ CREATE TABLE GamePlayer (
 );
 go
 
-INSERT INTO Player (Username, Password) VALUES ('Alice123', 'password1');
-INSERT INTO Player (Username, Password) VALUES ('Bob234', 'password2');
-INSERT INTO Player (Username, Password) VALUES ('Charlie345', 'password3');
+INSERT INTO Player (Username, Password) VALUES ('Alice123', 'Password1');
+INSERT INTO Player (Username, Password) VALUES ('Bob234', 'Password2');
+INSERT INTO Player (Username, Password) VALUES ('Charlie345', 'Password3');
 
 INSERT INTO Game (GameCode, Board) VALUES ('ABC123', 'ABCDEFGHIJKLMNO');
 INSERT INTO Game (GameCode, Board) VALUES ('XYZ789', 'PQRSTUVWXYZABC');
@@ -76,7 +76,7 @@ INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES ('XYZ789', 3, 8);
 
 
 
-INSERT INTO Player (Username, Password) VALUES ('admin', 'password');
+INSERT INTO Player (Username, Password) VALUES ('admin', 'Passw0rd!');
 
 INSERT INTO Game (GameCode, Board) VALUES ('GAME1', 'ABCDEFGHIJKLMNOP');
 INSERT INTO Game (GameCode, Board) VALUES ('GAME2', 'QRSTUVWXYZABCDEF');

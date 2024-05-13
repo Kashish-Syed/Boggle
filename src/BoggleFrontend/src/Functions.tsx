@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 export function formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -33,19 +35,29 @@ export async function resetLetters(
     }
   }
   
-export async function getLetters() {
+  export async function getLetters() {
     try {
-      const shuffleResponse = await fetch("http://localhost:5189/api/Boggle/shuffle", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (!shuffleResponse.ok) throw new Error("Failed to get board");
-      const data = await shuffleResponse.json();
-      return data;
+        const createGameResponse = await fetch('http://localhost:5189/api/GameInfo/game/createGame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!createGameResponse.ok) throw new Error("Failed to create game");
+        const gameCode = await createGameResponse.text();
+        localStorage.setItem('gameCode', gameCode);
+
+        const getBoardResponse = await fetch(`http://localhost:5189/api/GameInfo/game/${gameCode}/getBoard`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!getBoardResponse.ok) throw new Error("Failed to get board");
+        const board = await getBoardResponse.json();
+        return board;
     } catch (error) {
-      console.error("Failed to fetch letters: ", error);
+        console.error("Failed to fetch letters: ", error);
     }
 }
   

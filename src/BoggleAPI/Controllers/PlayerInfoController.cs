@@ -20,9 +20,11 @@ namespace BoggleAPI.Controllers
     public class PlayerInfoController : ControllerBase
     {
         private readonly IDatabasePlayerInfo _playerInfo;
+        private readonly IDatabaseGameInfo _gameInfo;
 
-        public PlayerInfoController(IDatabasePlayerInfo playerInfo)
+        public PlayerInfoController(IDatabasePlayerInfo playerInfo, IDatabaseGameInfo gameInfo)
         {
+            _gameInfo = gameInfo;
             _playerInfo = playerInfo;
         }
 
@@ -87,7 +89,7 @@ namespace BoggleAPI.Controllers
         {
             try
             {
-                await _playerInfo.AddPlayerAsync(gameCode, username);
+                await _gameInfo.AddPlayerAsync(gameCode, username);
                 return Ok("Player added successfully.");
             }
             catch (Exception ex)

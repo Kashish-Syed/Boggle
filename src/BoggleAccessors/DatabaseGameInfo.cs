@@ -82,7 +82,7 @@ namespace BoggleAccessors
                     SELECT @PlayerID = PlayerID FROM Player WHERE Username = @Username;
                     IF @PlayerID IS NOT NULL
                     BEGIN
-                        INSERT INTO GamePlayer (GameCode, PlayerID) VALUES (@GameCode, @PlayerID);
+                        INSERT INTO GamePlayer (GameCode, PlayerID, TotalScore) VALUES (@GameCode, @PlayerID, 0);
                     END", _connection))
                 {
                     command.Parameters.AddWithValue("@GameCode", gameCode);

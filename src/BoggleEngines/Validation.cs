@@ -12,25 +12,33 @@ using System.Text.RegularExpressions;
 namespace BoggleEngines
 {
     public class Validation : IValidation
+{
+    /// <inheritdoc />
+    public bool validateUsername(string username)
     {
-        /// <inheritdoc />
-        public bool validateUsername(string username)
+        if (string.IsNullOrEmpty(username))
         {
-            if (!Regex.IsMatch(username, @"^[a-zA-Z .'/s]{1,40}$"))
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
-        /// <inheritdoc />
-        public bool validatePassword(string password) 
+        return Regex.IsMatch(username, @"^[a-zA-Z0-9_.'\s]{1,40}$");
+    }
+
+
+    /// <inheritdoc />
+    public bool validatePassword(string password) 
+    {
+        if (password == null)
         {
-            if (!Regex.IsMatch(password, @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$"))
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
-     }
+
+        if (!Regex.IsMatch(password, @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,30}$"))
+        {
+            return false;
+        }
+        return true;
+    }
+}
+
 }
